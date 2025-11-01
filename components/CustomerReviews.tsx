@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { Star, Quote, CheckCircle, ThumbsUp, Heart, Zap } from 'lucide-react';
 import { useState } from 'react';
@@ -149,18 +150,20 @@ const ReviewCard = ({ review, index }: { review: any; index: number }) => {
   );
 };
 
+import SectionBlend from './SectionBlend';
+
 export default function CustomerReviews() {
   return (
     <section className="py-32 bg-black relative overflow-hidden">
-      {/* Sharp geometric background */}
+      {/* Jet Black Background */}
+      <div className="absolute inset-0 bg-black"></div>
+      
+      {/* Section blending for smooth transitions */}
       <div className="absolute inset-0">
-        <div className="absolute top-32 left-32 w-24 h-24 border-l-2 border-t-2 border-white/10"></div>
-        <div className="absolute bottom-32 right-32 w-24 h-24 border-r-2 border-b-2 border-white/10"></div>
-        <div className="absolute top-1/2 left-1/4 w-1 h-16 bg-gradient-to-b from-primary-400/20 to-transparent"></div>
-        <div className="absolute top-1/3 right-1/4 w-16 h-1 bg-gradient-to-r from-primary-400/20 to-transparent"></div>
+        <SectionBlend position="both" height="xl" intensity="medium" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

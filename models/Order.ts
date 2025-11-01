@@ -1,0 +1,170 @@
+import mongoose from 'mongoose';
+
+const OrderItemSchema = new mongoose.Schema({
+  productId: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  variant: {
+    type: String,
+    required: false,
+  },
+});
+
+const AddressSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  address1: {
+    type: String,
+    required: true,
+  },
+  address2: {
+    type: String,
+    required: false,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  zipCode: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+});
+
+const PaymentSchema = new mongoose.Schema({
+  cardNumber: {
+    type: String,
+    required: true,
+    // Store only last 4 digits for security
+    set: (value: string) => '**** **** **** ' + value.slice(-4),
+  },
+  cardholderName: {
+    type: String,
+    required: true,
+  },
+  paymentMethod: {
+    type: String,
+    default: 'Credit Card',
+  },
+  transactionId: {
+    type: String,
+    required: false,
+  },
+});
+
+const OrderSchema = new mongoose.Schema({
+  orderNumber: {
+    type: String,
+    unique: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  items: [OrderItemSchema],
+  shippingAddress: {
+    type: AddressSchema,
+    required: true,
+  },
+  billingAddress: {
+    type: AddressSchema,
+    required: false,
+  },
+  payment: {
+    type: PaymentSchema,
+    required: true,
+  },
+  subtotal: {
+    type: Number,
+    required: true,
+  },
+  tax: {
+    type: Number,
+    required: true,
+  },
+  shipping: {
+    type: Number,
+    default: 0,
+  },
+  total: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'],
+    default: 'pending',
+  },
+  trackingNumber: {
+    type: String,
+    required: false,
+  },
+  notes: {
+    type: String,
+    required: false,
+  },
+}, {
+  timestamps: true,
+});
+
+// Generate order number before saving
+OrderSchema.pre('save', function(next) {
+  if (!this.orderNumber) {
+    const timestamp = Date.now().toString();
+    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    this.orderNumber = `AG${timestamp.slice(-6)}${random}`;
+  }
+  next();
+});
+
+// Ensure orderNumber is always generated
+OrderSchema.pre('validate', function(next) {
+  if (!this.orderNumber) {
+    const timestamp = Date.now().toString();
+    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    this.orderNumber = `AG${timestamp.slice(-6)}${random}`;
+  }
+  next();
+});
+
+export default mongoose.models.Order || mongoose.model('Order', OrderSchema);

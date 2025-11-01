@@ -2,13 +2,17 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, ShoppingCart, User, ChevronDown } from 'lucide-react';
+import { Menu, X, ShoppingCart, User, ChevronDown, Heart } from 'lucide-react';
 import AuthModal from './AuthModal';
 import UserProfileDropdown from './UserProfileDropdown';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 
 export default function Navbar() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, isLoading: authLoading } = useAuth();
+  const { itemCount, isLoading } = useCart();
+  const { wishlistCount } = useWishlist();
   const [isOpen, setIsOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
@@ -24,8 +28,8 @@ export default function Navbar() {
                 <div className="w-6 h-6 bg-black transform rotate-45"></div>
               </div>
               <div>
-                <div className="text-xl font-bold text-white tracking-tight">SHILAJIT</div>
-                <div className="text-xs text-primary-400 uppercase tracking-[0.2em]">Premium</div>
+                <div className="text-xl font-bold text-white tracking-tight">AGNISHILA</div>
+                <div className="text-xs text-primary-400 uppercase tracking-[0.2em]">The Fire Within</div>
               </div>
             </Link>
           </div>
@@ -53,11 +57,26 @@ export default function Navbar() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-6">
-            <button className="text-white hover:text-primary-400 transition-colors p-2 border border-white/20 hover:border-primary-400/50">
-              <ShoppingCart size={18} />
-            </button>
+            <Link href="/wishlist" className="relative text-white hover:text-primary-400 transition-colors p-2 border border-white/20 hover:border-primary-400/50">
+              <Heart size={18} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
+            <Link href="/cart" className="relative text-white hover:text-primary-400 transition-colors p-2 border border-white/20 hover:border-primary-400/50">
+              <ShoppingCart size={18} className={isLoading ? 'animate-pulse' : ''} />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
             
-            {isAuthenticated && user ? (
+            {authLoading ? (
+              <div className="animate-pulse bg-white/20 h-8 w-20"></div>
+            ) : isAuthenticated && user ? (
               <UserProfileDropdown user={user} onLogout={logout} />
             ) : (
               <>
@@ -134,6 +153,36 @@ export default function Navbar() {
             >
               Contact
             </Link>
+            <Link
+              href="/wishlist"
+              className="flex items-center justify-between px-4 py-3 text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm border-l-2 border-transparent hover:border-primary-400"
+              onClick={() => setIsOpen(false)}
+            >
+              <span>Wishlist</span>
+              <div className="flex items-center space-x-2">
+                <Heart size={18} />
+                {wishlistCount > 0 && (
+                  <span className="bg-primary-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {wishlistCount}
+                  </span>
+                )}
+              </div>
+            </Link>
+            <Link
+              href="/cart"
+              className="flex items-center justify-between px-4 py-3 text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm border-l-2 border-transparent hover:border-primary-400"
+              onClick={() => setIsOpen(false)}
+            >
+              <span>Cart</span>
+              <div className="flex items-center space-x-2">
+                <ShoppingCart size={18} />
+                {itemCount > 0 && (
+                  <span className="bg-primary-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
+              </div>
+            </Link>
             <div className="pt-4 border-t border-white/20 space-y-3">
               {isAuthenticated && user ? (
                 <>
@@ -142,8 +191,8 @@ export default function Navbar() {
                     <div className="text-gray-400 text-sm">{user.email}</div>
                   </div>
                   <button
-                    onClick={() => {
-                      logout();
+                    onClick={async () => {
+                      await logout();
                       setIsOpen(false);
                     }}
                     className="block w-full bg-red-600/20 text-red-400 px-4 py-3 font-bold uppercase tracking-wider text-sm text-center border border-red-600/30 hover:bg-red-600/30 transition-colors"

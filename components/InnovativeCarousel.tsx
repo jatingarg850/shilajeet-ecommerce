@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Zap, Shield, Award, Leaf, Mountain, Microscope } from 'lucide-react';
+import SectionBlend from './SectionBlend';
 
 const benefits = [
   {
@@ -85,8 +87,17 @@ export default function InnovativeCarousel() {
   };
 
   return (
-    <section className="py-24 bg-black overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-black overflow-hidden relative">
+      {/* Jet Black Background */}
+      <div className="absolute inset-0 bg-black"></div>
+      
+      {/* Section blending for smooth transitions */}
+      <div className="absolute inset-0">
+        <SectionBlend position="both" height="xl" intensity="medium" />
+      </div>
+      
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}

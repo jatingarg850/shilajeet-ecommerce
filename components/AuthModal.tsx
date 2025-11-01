@@ -9,10 +9,11 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialMode?: 'login' | 'signup';
+  onSuccess?: () => void;
 }
 
-export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalProps) {
-  const { login } = useAuth();
+export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSuccess }: AuthModalProps) {
+  const { login, register } = useAuth();
   const [mode, setMode] = useState<'login' | 'signup'>(initialMode);
   const [formData, setFormData] = useState({
     email: '',
@@ -25,6 +26,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(1);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setMode(initialMode);
@@ -32,31 +34,57 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Create user object
-    const userData = {
-      id: '1',
-      name: mode === 'signup' ? `${formData.firstName} ${formData.lastName}` : 'John Doe',
-      email: formData.email,
-      initials: mode === 'signup' 
-        ? `${formData.firstName[0]}${formData.lastName[0]}`.toUpperCase()
-        : 'JD'
-    };
-    
-    // Login the user
-    login(userData);
-    
-    setIsLoading(false);
-    onClose();
+
+    try {
+      if (mode === 'login') {
+        const success = await login(formData.email, formData.password);
+        if (success) {
+          onClose();
+          if (onSuccess) onSuccess();
+        } else {
+          setError('Invalid email or password');
+        }
+      } else {
+        // Validate signup form
+        if (formData.password !== formData.confirmPassword) {
+          setError('Passwords do not match');
+          setIsLoading(false);
+          return;
+        }
+
+        if (formData.password.length < 6) {
+          setError('Password must be at least 6 characters long');
+          setIsLoading(false);
+          return;
+        }
+
+        const success = await register({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (success) {
+          onClose();
+          if (onSuccess) onSuccess();
+        } else {
+          setError('Registration failed. Please try again.');
+        }
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const switchMode = () => {
     setMode(mode === 'login' ? 'signup' : 'login');
     setStep(1);
+    setError('');
     setFormData({
       email: '',
       password: '',
@@ -365,6 +393,17 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
                           </motion.div>
                         )}
                       </AnimatePresence>
+
+                      {/* Error Message */}
+                      {error && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="bg-red-600/20 border border-red-600/30 p-3 text-center"
+                        >
+                          <p className="text-red-400 text-sm font-medium">{error}</p>
+                        </motion.div>
+                      )}
 
                       {/* Action Buttons */}
                       <div className="space-y-4 pt-4">

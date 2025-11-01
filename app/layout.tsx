@@ -3,12 +3,14 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { CartProvider } from '@/contexts/CartContext'
+import { WishlistProvider } from '@/contexts/WishlistContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Shilajit Co. - Unlock Ancient Power',
-  description: 'Premium Himalayan Shilajit supplements for enhanced vitality and wellness',
+  title: 'Agnishila - The Fire Within',
+  description: 'Premium Himalayan wellness products to awaken your inner fire. Shilajit, Ashwagandha gummies and more.',
 }
 
 export default function RootLayout({
@@ -19,9 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <Providers>{children}</Providers>
-        </AuthProvider>
+        <Providers>
+          <AuthProvider>
+            <CartProvider>
+              <WishlistProvider>
+                {children}
+              </WishlistProvider>
+            </CartProvider>
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   )

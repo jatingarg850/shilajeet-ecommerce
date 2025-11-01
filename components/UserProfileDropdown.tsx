@@ -22,7 +22,7 @@ interface UserProfileDropdownProps {
     avatar?: string;
     initials: string;
   };
-  onLogout: () => void;
+  onLogout: () => Promise<void>;
 }
 
 export default function UserProfileDropdown({ user, onLogout }: UserProfileDropdownProps) {
@@ -45,45 +45,43 @@ export default function UserProfileDropdown({ user, onLogout }: UserProfileDropd
       icon: <User size={16} />,
       label: 'My Profile',
       description: 'Manage your account settings',
-      action: () => console.log('Profile clicked')
+      action: () => window.location.href = '/profile'
     },
     {
       icon: <Package size={16} />,
       label: 'My Orders',
       description: 'Track your order status',
-      action: () => console.log('Orders clicked'),
-      badge: '3'
+      action: () => window.location.href = '/orders'
     },
     {
       icon: <MapPin size={16} />,
       label: 'Addresses',
       description: 'Manage shipping addresses',
-      action: () => console.log('Addresses clicked')
+      action: () => window.location.href = '/addresses'
     },
     {
       icon: <CreditCard size={16} />,
       label: 'Payment Methods',
       description: 'Manage payment options',
-      action: () => console.log('Payment clicked')
+      action: () => window.location.href = '/payment-methods'
     },
     {
       icon: <Heart size={16} />,
       label: 'Wishlist',
       description: 'Your saved products',
-      action: () => console.log('Wishlist clicked'),
-      badge: '7'
+      action: () => window.location.href = '/wishlist'
     },
     {
       icon: <Bell size={16} />,
       label: 'Notifications',
       description: 'Manage your preferences',
-      action: () => console.log('Notifications clicked')
+      action: () => window.location.href = '/notifications'
     },
     {
       icon: <Settings size={16} />,
       label: 'Account Settings',
       description: 'Privacy and security',
-      action: () => console.log('Settings clicked')
+      action: () => window.location.href = '/profile'
     }
   ];
 
@@ -203,8 +201,8 @@ export default function UserProfileDropdown({ user, onLogout }: UserProfileDropd
             {/* Footer */}
             <div className="border-t border-white/10 p-4">
               <motion.button
-                onClick={() => {
-                  onLogout();
+                onClick={async () => {
+                  await onLogout();
                   setIsOpen(false);
                 }}
                 whileHover={{ scale: 1.02 }}

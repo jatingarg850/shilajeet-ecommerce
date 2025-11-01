@@ -1,56 +1,65 @@
 'use client';
 
+import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { ShoppingCart, Star, Sparkles, Award, Zap } from 'lucide-react';
+import { ShoppingCart, Sparkles, Award, Zap, Heart } from 'lucide-react';
 import { useState } from 'react';
+import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
+import SectionBlend from './SectionBlend';
 
 const products = [
   {
-    id: 1,
-    name: 'Shilajit Resin',
-    price: 89.99,
-    originalPrice: 119.99,
-    image: '/images/image-removebg-preview.png',
+    id: 'agnishila-gold-shilajit-resin',
+    name: 'Agnishila Gold Shilajit Resin',
+    price: 2499,
+    originalPrice: 3499,
+    image: '/images/agnishila-gold-resin.jpg',
     rating: 4.9,
-    reviews: 234,
-    description: 'Pure Himalayan Shilajit resin for maximum potency and absorption',
+    reviews: 1247,
+    description: 'Premium Himalayan Shilajit resin with 24K gold flakes for ultimate vitality',
     badge: 'BESTSELLER',
     badgeColor: 'from-red-500 to-pink-500',
     icon: <Award className="w-5 h-5" />,
-    features: ['100% Pure', 'Lab Tested', 'Premium Grade']
+    features: ['24K Gold Infused', '100% Pure', 'Lab Tested']
   },
   {
-    id: 2,
-    name: 'Shilajit Capsules',
-    price: 59.99,
-    originalPrice: 79.99,
-    image: '/images/image-removebg-preview.png',
+    id: 'agnishila-shilajit-gummies',
+    name: 'Agnishila Shilajit Gummies',
+    price: 1299,
+    originalPrice: 1799,
+    image: '/images/agnishila-shilajit-gummies.jpg',
     rating: 4.8,
-    reviews: 189,
-    description: 'Convenient capsule form for daily supplementation on the go',
+    reviews: 892,
+    description: 'Delicious and convenient Shilajit gummies for daily wellness',
     badge: 'POPULAR',
     badgeColor: 'from-blue-500 to-cyan-500',
     icon: <Zap className="w-5 h-5" />,
-    features: ['Easy Dosage', 'Travel Friendly', 'Fast Acting']
+    features: ['Natural Flavors', 'Easy Dosage', 'Travel Friendly']
   },
   {
-    id: 3,
-    name: 'Shilajit Powder',
-    price: 69.99,
-    originalPrice: 89.99,
-    image: '/images/image-removebg-preview.png',
+    id: 'agnishila-ashwagandha-gummies',
+    name: 'Agnishila Ashwagandha Gummies',
+    price: 999,
+    originalPrice: 1399,
+    image: '/images/agnishila-ashwagandha-gummies.jpg',
     rating: 4.7,
-    reviews: 156,
-    description: 'Fine powder blend perfect for mixing with beverages',
+    reviews: 654,
+    description: 'Premium Ashwagandha gummies for stress relief and adaptogenic support',
     badge: 'NEW',
     badgeColor: 'from-green-500 to-emerald-500',
     icon: <Sparkles className="w-5 h-5" />,
-    features: ['Versatile', 'Quick Mix', 'Pure Extract']
+    features: ['KSM-66 Ashwagandha', 'Stress Relief', 'Natural Taste']
   }
 ];
 
 const ProductCard = ({ product, index }: { product: any; index: number }) => {
+  const { addItem } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [isHovered, setIsHovered] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -63,6 +72,44 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
     const centerY = rect.top + rect.height / 2;
     mouseX.set(event.clientX - centerX);
     mouseY.set(event.clientY - centerY);
+  };
+
+  const handleAddToCart = async () => {
+    setIsAdding(true);
+    
+    addItem({
+      id: product.id.toString(),
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
+
+    // Show feedback animation
+    setTimeout(() => {
+      setIsAdding(false);
+    }, 1000);
+  };
+
+  const handleWishlistToggle = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setIsWishlistLoading(true);
+    
+    const productData = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    };
+
+    if (isInWishlist(product.id)) {
+      await removeFromWishlist(product.id);
+    } else {
+      await addToWishlist(productData);
+    }
+    
+    setIsWishlistLoading(false);
   };
 
   return (
@@ -90,7 +137,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         className="relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu"
       >
         {/* Sharp corner accent */}
-        <div className="absolute top-0 right-0 w-0 h-0 border-l-[24px] border-l-transparent border-t-[24px] border-t-primary-400/30 group-hover:border-t-primary-400/50 transition-all duration-300"></div>
+        <div className="absolute top-0 right-0 w-0 h-0 border-l-[24px] border-l-transparent border-t-[24px] border-t-gold-500/30 group-hover:border-t-gold-400/50 transition-all duration-300"></div>
 
         {/* Badge */}
         <motion.div
@@ -99,10 +146,30 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           transition={{ delay: index * 0.15 + 0.5, type: "spring", stiffness: 200 }}
           className="absolute top-4 left-4 z-20"
         >
-          <div className="bg-primary-400 text-black px-3 py-1 text-xs font-bold uppercase tracking-wide">
+          <div className="bg-gold-gradient text-black px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-gold">
             {product.badge}
           </div>
         </motion.div>
+
+        {/* Wishlist Heart Icon */}
+        <motion.button
+          onClick={handleWishlistToggle}
+          disabled={isWishlistLoading}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: index * 0.15 + 0.7, type: "spring", stiffness: 200 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute top-4 right-4 z-20 p-2 bg-black/50 backdrop-blur-sm border border-white/20 hover:border-gold-400/50 transition-all duration-300 disabled:opacity-50"
+        >
+          <Heart 
+            className={`w-5 h-5 transition-all duration-300 ${
+              isInWishlist(product.id) 
+                ? 'fill-red-500 text-red-500' 
+                : 'text-white hover:text-red-500'
+            }`}
+          />
+        </motion.button>
 
         {/* Product image section */}
         <div className="relative h-72 overflow-hidden bg-jet-900">
@@ -131,7 +198,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             <div className="flex items-center space-x-2">
               <div className="flex space-x-1">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="w-1 h-4 bg-primary-400"></div>
+                  <div key={i} className="w-1 h-4 bg-gold-gradient"></div>
                 ))}
               </div>
               <span className="text-white font-bold text-sm">{product.rating}</span>
@@ -139,9 +206,9 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
 
             <div className="text-right">
               <div className="flex items-center space-x-2">
-                <span className="text-gray-500 text-sm line-through">${product.originalPrice}</span>
-                <span className="text-2xl font-bold text-primary-400 tracking-tight">
-                  ${product.price}
+                <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
+                <span className="text-2xl font-bold text-gold-gradient tracking-tight">
+                  ₹{product.price}
                 </span>
               </div>
             </div>
@@ -150,7 +217,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           {/* Product name */}
           <div className="flex items-center space-x-3">
             <motion.div
-              className="text-primary-400"
+              className="text-gold-gradient"
               animate={{ rotate: isHovered ? 360 : 0 }}
               transition={{ duration: 0.6 }}
             >
@@ -172,32 +239,48 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.15 + 1 + i * 0.1 }}
-                className="text-xs bg-primary-400/10 text-primary-300 px-3 py-1 border border-primary-400/20 uppercase tracking-wider font-medium"
+                className="text-xs bg-gold-500/10 text-gold-300 px-3 py-1 border border-gold-500/20 uppercase tracking-wider font-medium"
               >
                 {feature}
               </motion.span>
             ))}
           </div>
 
-          {/* Add to cart button */}
-          <motion.button
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full bg-primary-400 hover:bg-primary-500 text-black py-4 px-6 font-bold flex items-center justify-center space-x-3 transition-all duration-300 uppercase tracking-wider"
-          >
-            <motion.div
-              animate={{ rotate: isHovered ? 360 : 0 }}
-              transition={{ duration: 0.6 }}
+          {/* Product Actions */}
+          <div className="flex space-x-2">
+            <Link 
+              href={`/products/${product.id}`}
+              className="flex-1 bg-jet-800 hover:bg-jet-700 text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm border border-white/20 hover:border-gold-400/50"
             >
-              <ShoppingCart size={18} />
-            </motion.div>
-            <span>Add to Cart</span>
-          </motion.button>
+              <span>View Details</span>
+            </Link>
+            <motion.button
+              onClick={handleAddToCart}
+              disabled={isAdding}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex-1 bg-gold-gradient hover:bg-gold-shine text-black py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-gold"
+            >
+              <motion.div
+                animate={{ 
+                  rotate: isHovered ? 360 : 0,
+                  scale: isAdding ? [1, 1.2, 1] : 1
+                }}
+                transition={{ 
+                  rotate: { duration: 0.6 },
+                  scale: { duration: 0.3, repeat: isAdding ? 2 : 0 }
+                }}
+              >
+                <ShoppingCart size={16} />
+              </motion.div>
+              <span>{isAdding ? 'Added!' : 'Add to Cart'}</span>
+            </motion.button>
+          </div>
         </div>
 
         {/* Hover overlay */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-primary-400/5 via-transparent to-primary-600/5 pointer-events-none"
+          className="absolute inset-0 bg-gradient-to-br from-gold-400/5 via-transparent to-gold-600/5 pointer-events-none"
           animate={{
             opacity: isHovered ? 1 : 0,
           }}
@@ -210,14 +293,64 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
 
 export default function FeaturedProducts() {
   return (
-    <section className="py-24 bg-jet-950 relative overflow-hidden">
-      {/* Background elements */}
+    <section className="relative overflow-hidden">
+      {/* Seamless background continuation */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-32 h-32 border border-primary-400/10 rotate-45"></div>
-        <div className="absolute bottom-20 right-20 w-24 h-24 border border-primary-300/10 rotate-12"></div>
+        <Image
+          src="/bg/vd.jpg"
+          alt="Rocky Background"
+          fill
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+            zIndex: 0
+          }}
+          quality={90}
+        />
+        
+        {/* Section blending - same as HeroSection pattern */}
+        <SectionBlend position="both" height="xl" intensity="medium" />
+        
+        {/* Main section overlay */}
+        <div className="absolute inset-0 bg-black/30 z-5"></div>
+      </div>
+      
+      {/* Content with proper spacing */}
+      <div className="relative z-30 py-24">
+      
+      {/* Rocky background elements */}
+      <div className="absolute inset-0 z-20">
+        {/* Rocky texture overlay */}
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.1) 2px, transparent 4px),
+            radial-gradient(circle at 80% 70%, rgba(101, 67, 33, 0.08) 1px, transparent 3px),
+            radial-gradient(circle at 40% 80%, rgba(160, 82, 45, 0.06) 1px, transparent 2px)
+          `,
+          backgroundSize: '100px 100px, 150px 150px, 80px 80px'
+        }}></div>
+        
+        {/* Gold mineral veins */}
+        <div className="absolute top-20 left-20 w-32 h-32 border border-gold-400/10 rotate-45" style={{
+          background: 'linear-gradient(45deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
+          boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)'
+        }}></div>
+        <div className="absolute bottom-20 right-20 w-24 h-24 border border-gold-300/10 rotate-12" style={{
+          background: 'linear-gradient(-45deg, rgba(184, 148, 31, 0.1) 0%, transparent 50%)',
+          boxShadow: '0 0 15px rgba(184, 148, 31, 0.1)'
+        }}></div>
+        
+        {/* Additional rock formations */}
+        <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-stone-800/20 rotate-45 border border-stone-600/10"></div>
+        <div className="absolute bottom-1/3 left-1/4 w-20 h-20 bg-stone-700/20 rotate-12 border border-stone-500/10"></div>
+        
+        {/* Scattered rock particles */}
+        <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-gold-400/30 rounded-full"></div>
+        <div className="absolute top-2/3 right-1/3 w-1 h-1 bg-amber-500/40 rounded-full"></div>
+        <div className="absolute bottom-1/2 left-2/3 w-3 h-3 bg-stone-600/20 rounded-full"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -252,28 +385,31 @@ export default function FeaturedProducts() {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            className="group relative bg-transparent border-2 border-primary-400 text-primary-400 hover:text-dark-950 px-10 py-4 rounded-xl font-bold transition-all duration-300 overflow-hidden"
-          >
-            <motion.div
-              className="absolute inset-0 bg-primary-400"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: "0%" }}
-              transition={{ duration: 0.3 }}
-            />
-            <span className="relative z-10 flex items-center space-x-2">
-              <span>View All Products</span>
+          <Link href="/products">
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative bg-transparent border-gold-gradient text-gold-gradient hover:text-black px-10 py-4 font-bold transition-all duration-300 overflow-hidden uppercase tracking-wider"
+            >
               <motion.div
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                →
-              </motion.div>
-            </span>
-          </motion.button>
+                className="absolute inset-0 bg-gold-gradient"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "0%" }}
+                transition={{ duration: 0.3 }}
+              />
+              <span className="relative z-10 flex items-center space-x-2">
+                <span>View All Products</span>
+                <motion.div
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  →
+                </motion.div>
+              </span>
+            </motion.button>
+          </Link>
         </motion.div>
+        </div>
       </div>
     </section>
   );
