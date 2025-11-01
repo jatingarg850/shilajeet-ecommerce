@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -38,7 +38,7 @@ interface OrderConfirmation {
   };
 }
 
-export default function OrderConfirmationPage() {
+function OrderConfirmationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [orderData, setOrderData] = useState<OrderConfirmation | null>(null);
@@ -468,5 +468,29 @@ export default function OrderConfirmationPage() {
 
       <Footer />
     </main>
+  );
+}
+
+export default function OrderConfirmationPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-black">
+        <Navbar />
+        <div className="pt-32 pb-20 flex items-center justify-center">
+          <div className="text-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              className="w-20 h-20 border-4 border-primary-400 border-t-transparent rounded-full mx-auto mb-6"
+            />
+            <h1 className="text-3xl font-bold text-white mb-4">Loading...</h1>
+            <p className="text-gray-400 text-lg">Please wait</p>
+          </div>
+        </div>
+        <Footer />
+      </main>
+    }>
+      <OrderConfirmationContent />
+    </Suspense>
   );
 }

@@ -40,7 +40,13 @@ export default function UserProfileDropdown({ user, onLogout }: UserProfileDropd
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const menuItems = [
+  const menuItems: Array<{
+    icon: React.ReactElement;
+    label: string;
+    description: string;
+    action: () => void;
+    badge?: string;
+  }> = [
     {
       icon: <User size={16} />,
       label: 'My Profile',
@@ -75,7 +81,8 @@ export default function UserProfileDropdown({ user, onLogout }: UserProfileDropd
       icon: <Bell size={16} />,
       label: 'Notifications',
       description: 'Manage your preferences',
-      action: () => window.location.href = '/notifications'
+      action: () => window.location.href = '/notifications',
+      badge: 'New'
     },
     {
       icon: <Settings size={16} />,

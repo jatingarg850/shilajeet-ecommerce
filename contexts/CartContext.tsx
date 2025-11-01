@@ -76,7 +76,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     }
     
     case 'CLEAR_CART':
-      return { items: [], total: 0, itemCount: 0 };
+      return { items: [], total: 0, itemCount: 0, isLoading: false };
     
     case 'LOAD_CART':
       return calculateTotals({ ...state, items: action.payload });
