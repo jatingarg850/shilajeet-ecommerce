@@ -15,7 +15,7 @@ const products = [
     name: 'Agnishila Gold Shilajit Resin',
     price: 2499,
     originalPrice: 3499,
-    image: '/images/agnishila-gold-resin.jpg',
+    image: '/images/image-removebg-preview.png',
     rating: 4.9,
     reviews: 1247,
     description: 'Premium Himalayan Shilajit resin with 24K gold flakes for ultimate vitality',
@@ -29,7 +29,7 @@ const products = [
     name: 'Agnishila Shilajit Gummies',
     price: 1299,
     originalPrice: 1799,
-    image: '/images/agnishila-shilajit-gummies.jpg',
+    image: '/images/image-removebg-preview (1).png',
     rating: 4.8,
     reviews: 892,
     description: 'Delicious and convenient Shilajit gummies for daily wellness',
@@ -43,7 +43,7 @@ const products = [
     name: 'Agnishila Ashwagandha Gummies',
     price: 999,
     originalPrice: 1399,
-    image: '/images/agnishila-ashwagandha-gummies.jpg',
+    image: '/images/image.png',
     rating: 4.7,
     reviews: 654,
     description: 'Premium Ashwagandha gummies for stress relief and adaptogenic support',
@@ -179,15 +179,21 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.4 }}
           >
-            <motion.img
-              src={product.image}
-              alt={product.name}
-              className="w-48 h-48 object-contain drop-shadow-2xl"
+            <motion.div
               animate={{
                 y: isHovered ? -10 : 0,
               }}
               transition={{ duration: 0.4 }}
-            />
+            >
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={192}
+                height={192}
+                className="object-contain drop-shadow-2xl"
+                priority={index === 0}
+              />
+            </motion.div>
           </motion.div>
         </div>
 

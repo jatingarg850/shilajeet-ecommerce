@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SectionBlend from '@/components/SectionBlend';
@@ -29,7 +30,7 @@ const products = [
         name: 'Agnishila Gold Shilajit Resin',
         price: 2499,
         originalPrice: 3499,
-        image: '/images/agnishila-gold-resin.jpg',
+        image: '/images/image-removebg-preview.png',
         rating: 4.9,
         reviews: 1247,
         description: 'Premium Himalayan Shilajit resin with 24K gold flakes. The ultimate vitality booster for peak performance.',
@@ -45,7 +46,7 @@ const products = [
         name: 'Agnishila Shilajit Gummies',
         price: 1299,
         originalPrice: 1799,
-        image: '/images/agnishila-shilajit-gummies.jpg',
+        image: '/images/image-removebg-preview (1).png',
         rating: 4.8,
         reviews: 892,
         description: 'Delicious and convenient Shilajit gummies for daily wellness. Perfect for busy lifestyles.',
@@ -61,7 +62,7 @@ const products = [
         name: 'Agnishila Ashwagandha Gummies',
         price: 999,
         originalPrice: 1399,
-        image: '/images/agnishila-ashwagandha-gummies.jpg',
+        image: '/images/image.png',
         rating: 4.7,
         reviews: 654,
         description: 'Premium Ashwagandha gummies for stress relief and adaptogenic support. Naturally delicious.',
@@ -292,9 +293,14 @@ export default function ProductDetailPage() {
                             <div className="absolute top-0 right-0 w-0 h-0 border-l-[30px] border-l-transparent border-t-[30px] border-t-primary-400/30"></div>
 
                             <div className="aspect-square bg-jet-800 flex items-center justify-center">
-                                <div className="w-64 h-64 bg-primary-400/20 flex items-center justify-center">
-                                    <div className="w-32 h-32 bg-primary-400 transform rotate-45"></div>
-                                </div>
+                                <Image
+                                    src={product.image}
+                                    alt={product.name}
+                                    width={320}
+                                    height={320}
+                                    className="object-contain drop-shadow-2xl"
+                                    priority
+                                />
                             </div>
 
                             {/* Product Actions */}

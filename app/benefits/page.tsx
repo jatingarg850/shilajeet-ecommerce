@@ -100,21 +100,18 @@ export default function BenefitsPage() {
         {
             name: 'Dr. Rajesh Kumar',
             title: 'Ayurvedic Physician',
-            image: '/images/testimonial-1.jpg',
             quote: 'In my 20 years of practice, I\'ve seen remarkable results with authentic Himalayan Shilajit. The energy and vitality improvements in my patients are consistently impressive.',
             rating: 5
         },
         {
             name: 'Priya Sharma',
             title: 'Fitness Enthusiast',
-            image: '/images/testimonial-2.jpg',
             quote: 'After incorporating Agnishila Shilajit into my routine, my workout recovery time decreased significantly. I feel more energized throughout the day.',
             rating: 5
         },
         {
             name: 'Amit Patel',
             title: 'Software Engineer',
-            image: '/images/testimonial-3.jpg',
             quote: 'The mental clarity and focus I get from Shilajit has transformed my productivity. No more afternoon crashes or brain fog.',
             rating: 5
         }
@@ -487,7 +484,9 @@ export default function BenefitsPage() {
 
                                 <div className="flex items-center space-x-4">
                                     <div className="w-12 h-12 bg-primary-400/20 border border-primary-400/30 flex items-center justify-center">
-                                        <div className="w-8 h-8 bg-primary-400 transform rotate-45"></div>
+                                        <span className="text-primary-400 font-bold text-lg">
+                                            {testimonial.name.charAt(0)}
+                                        </span>
                                     </div>
                                     <div>
                                         <div className="text-white font-bold">{testimonial.name}</div>
