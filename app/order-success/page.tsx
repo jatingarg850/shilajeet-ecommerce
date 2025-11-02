@@ -113,58 +113,108 @@ function OrderSuccessContent() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black">
-        <Navbar />
-        <div className="pt-32 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-400 mx-auto mb-4"></div>
-            <p className="text-white text-lg">Processing your order...</p>
-          </div>
+      <main className="min-h-screen bg-black relative">
+        {/* Universal background */}
+        <div className="fixed inset-0 z-0">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/bg/vd.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
-        <Footer />
+
+        {/* Content */}
+        <div className="relative z-10">
+          <Navbar />
+          <div className="pt-32 pb-20 flex items-center justify-center">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-400 mx-auto mb-4"></div>
+              <p className="text-white text-lg">Processing your order...</p>
+            </div>
+          </div>
+          <Footer />
+        </div>
       </main>
     );
   }
 
   if (!orderDetails) {
     return (
-      <main className="min-h-screen bg-black">
-        <Navbar />
-        <div className="pt-32 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">Order Not Found</h1>
-            <p className="text-gray-400 mb-6">
-              {searchParams.get('orderNumber') 
-                ? `Order ${searchParams.get('orderNumber')} could not be found.`
-                : 'No order number provided.'
-              }
-            </p>
-            <div className="space-x-4">
-              <button
-                onClick={() => router.push('/orders')}
-                className="bg-primary-400 text-black px-6 py-3 font-bold uppercase tracking-wider text-sm hover:bg-primary-500 transition-colors"
-              >
-                View Orders
-              </button>
-              <button
-                onClick={() => router.push('/')}
-                className="border border-white/20 text-white px-6 py-3 font-bold uppercase tracking-wider text-sm hover:border-primary-400 hover:text-primary-400 transition-colors"
-              >
-                Go Home
-              </button>
+      <main className="min-h-screen bg-black relative">
+        {/* Universal background */}
+        <div className="fixed inset-0 z-0">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/bg/vd.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10">
+          <Navbar />
+          <div className="pt-32 pb-20 flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-white mb-4">Order Not Found</h1>
+              <p className="text-gray-400 mb-6">
+                {searchParams.get('orderNumber') 
+                  ? `Order ${searchParams.get('orderNumber')} could not be found.`
+                  : 'No order number provided.'
+                }
+              </p>
+              <div className="space-x-4">
+                <button
+                  onClick={() => router.push('/orders')}
+                  className="bg-primary-400 text-black px-6 py-3 font-bold uppercase tracking-wider text-sm hover:bg-primary-500 transition-colors"
+                >
+                  View Orders
+                </button>
+                <button
+                  onClick={() => router.push('/')}
+                  className="border border-white/20 text-white px-6 py-3 font-bold uppercase tracking-wider text-sm hover:border-primary-400 hover:text-primary-400 transition-colors"
+                >
+                  Go Home
+                </button>
+              </div>
             </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-black">
-      <Navbar />
-      
-      <section className="pt-32 pb-20 bg-black relative overflow-hidden">
+    <main className="min-h-screen bg-black relative">
+      {/* Universal background */}
+      <div className="fixed inset-0 z-0">
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'url(/bg/vd.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
+          }}
+        />
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <Navbar />
+        
+        <section className="pt-32 pb-20 bg-transparent relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-16 left-16 w-24 h-24 border-l-2 border-t-2 border-primary-400/20"></div>
           <div className="absolute bottom-16 right-16 w-24 h-24 border-r-2 border-b-2 border-primary-400/20"></div>
@@ -339,7 +389,8 @@ function OrderSuccessContent() {
         </div>
       </section>
 
-      <Footer />
+        <Footer />
+      </div>
     </main>
   );
 }
@@ -347,20 +398,37 @@ function OrderSuccessContent() {
 export default function OrderSuccessPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-black">
-        <Navbar />
-        <div className="pt-32 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="w-20 h-20 border-4 border-primary-400 border-t-transparent rounded-full mx-auto mb-6"
-            />
-            <h1 className="text-3xl font-bold text-white mb-4">Loading...</h1>
-            <p className="text-gray-400 text-lg">Please wait</p>
-          </div>
+      <main className="min-h-screen bg-black relative">
+        {/* Universal background */}
+        <div className="fixed inset-0 z-0">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/bg/vd.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
-        <Footer />
+
+        {/* Content */}
+        <div className="relative z-10">
+          <Navbar />
+          <div className="pt-32 pb-20 flex items-center justify-center">
+            <div className="text-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                className="w-20 h-20 border-4 border-primary-400 border-t-transparent rounded-full mx-auto mb-6"
+              />
+              <h1 className="text-3xl font-bold text-white mb-4">Loading...</h1>
+              <p className="text-gray-400 text-lg">Please wait</p>
+            </div>
+          </div>
+          <Footer />
+        </div>
       </main>
     }>
       <OrderSuccessContent />

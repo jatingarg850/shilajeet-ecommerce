@@ -24,8 +24,12 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0 relative">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-primary-400 flex items-center justify-center">
-                <div className="w-6 h-6 bg-black transform rotate-45"></div>
+              <div className="w-12 h-12 flex items-center justify-center">
+                <img 
+                  src="/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png" 
+                  alt="Agnishila Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <div className="text-xl font-bold text-white tracking-tight">AGNISHILA</div>

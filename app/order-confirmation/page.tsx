@@ -182,67 +182,134 @@ function OrderConfirmationContent() {
   // Return early if no order number to prevent rendering issues
   if (!hasOrderNumber) {
     return (
-      <main className="min-h-screen bg-black">
-        <Navbar />
-        <div className="pt-32 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white mb-4">Redirecting...</h1>
-            <p className="text-gray-400">Please wait</p>
-          </div>
+      <main className="min-h-screen bg-black relative">
+        {/* Universal background */}
+        <div className="fixed inset-0 z-0">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/bg/vd.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
-        <Footer />
+
+        {/* Content */}
+        <div className="relative z-10">
+          <Navbar />
+          <div className="pt-32 pb-20 flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-white mb-4">Redirecting...</h1>
+              <p className="text-gray-400">Please wait</p>
+            </div>
+          </div>
+          <Footer />
+        </div>
       </main>
     );
   }
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black">
-        <Navbar />
-        <div className="pt-32 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="w-20 h-20 border-4 border-primary-400 border-t-transparent rounded-full mx-auto mb-6"
-            />
-            <h1 className="text-3xl font-bold text-white mb-4">Processing Your Order...</h1>
-            <p className="text-gray-400 text-lg">Please wait while we confirm your payment and prepare your order details</p>
-            <div className="mt-4 bg-primary-400/10 border border-primary-400/30 p-3 inline-block">
-              <p className="text-primary-300 text-sm">This will only take a moment...</p>
+      <main className="min-h-screen bg-black relative">
+        {/* Universal background */}
+        <div className="fixed inset-0 z-0">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/bg/vd.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10">
+          <Navbar />
+          <div className="pt-32 pb-20 flex items-center justify-center">
+            <div className="text-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                className="w-20 h-20 border-4 border-primary-400 border-t-transparent rounded-full mx-auto mb-6"
+              />
+              <h1 className="text-3xl font-bold text-white mb-4">Processing Your Order...</h1>
+              <p className="text-gray-400 text-lg">Please wait while we confirm your payment and prepare your order details</p>
+              <div className="mt-4 bg-primary-400/10 border border-primary-400/30 p-3 inline-block">
+                <p className="text-primary-300 text-sm">This will only take a moment...</p>
+              </div>
             </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
       </main>
     );
   }
 
   if (!orderData) {
     return (
-      <main className="min-h-screen bg-black">
-        <Navbar />
-        <div className="pt-32 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">Order Not Found</h1>
-            <button
-              onClick={() => router.push('/')}
-              className="bg-primary-400 text-black px-6 py-3 font-bold uppercase tracking-wider text-sm hover:bg-primary-500 transition-colors"
-            >
-              Go Home
-            </button>
-          </div>
+      <main className="min-h-screen bg-black relative">
+        {/* Universal background */}
+        <div className="fixed inset-0 z-0">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/bg/vd.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
-        <Footer />
+
+        {/* Content */}
+        <div className="relative z-10">
+          <Navbar />
+          <div className="pt-32 pb-20 flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-white mb-4">Order Not Found</h1>
+              <button
+                onClick={() => router.push('/')}
+                className="bg-primary-400 text-black px-6 py-3 font-bold uppercase tracking-wider text-sm hover:bg-primary-500 transition-colors"
+              >
+                Go Home
+              </button>
+            </div>
+          </div>
+          <Footer />
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-black">
-      <Navbar />
-      
-      <section className="pt-32 pb-20 bg-black relative overflow-hidden">
+    <main className="min-h-screen bg-black relative">
+      {/* Universal background */}
+      <div className="fixed inset-0 z-0">
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'url(/bg/vd.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
+          }}
+        />
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <Navbar />
+        
+        <section className="pt-32 pb-20 bg-transparent relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-16 left-16 w-24 h-24 border-l-2 border-t-2 border-primary-400/20"></div>
           <div className="absolute bottom-16 right-16 w-24 h-24 border-r-2 border-b-2 border-primary-400/20"></div>
@@ -466,7 +533,8 @@ function OrderConfirmationContent() {
         </div>
       </section>
 
-      <Footer />
+        <Footer />
+      </div>
     </main>
   );
 }
@@ -474,20 +542,37 @@ function OrderConfirmationContent() {
 export default function OrderConfirmationPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-black">
-        <Navbar />
-        <div className="pt-32 pb-20 flex items-center justify-center">
-          <div className="text-center">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              className="w-20 h-20 border-4 border-primary-400 border-t-transparent rounded-full mx-auto mb-6"
-            />
-            <h1 className="text-3xl font-bold text-white mb-4">Loading...</h1>
-            <p className="text-gray-400 text-lg">Please wait</p>
-          </div>
+      <main className="min-h-screen bg-black relative">
+        {/* Universal background */}
+        <div className="fixed inset-0 z-0">
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/bg/vd.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
-        <Footer />
+
+        {/* Content */}
+        <div className="relative z-10">
+          <Navbar />
+          <div className="pt-32 pb-20 flex items-center justify-center">
+            <div className="text-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                className="w-20 h-20 border-4 border-primary-400 border-t-transparent rounded-full mx-auto mb-6"
+              />
+              <h1 className="text-3xl font-bold text-white mb-4">Loading...</h1>
+              <p className="text-gray-400 text-lg">Please wait</p>
+            </div>
+          </div>
+          <Footer />
+        </div>
       </main>
     }>
       <OrderConfirmationContent />

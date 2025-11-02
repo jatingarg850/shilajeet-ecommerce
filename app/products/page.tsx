@@ -191,11 +191,27 @@ export default function ProductsPage() {
     setSortBy('featured');
   };
   return (
-    <main className="min-h-screen bg-black">
-      <Navbar />
-      
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-black relative overflow-hidden">
+    <main className="min-h-screen bg-black relative">
+      {/* Universal background */}
+      <div className="fixed inset-0 z-0">
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'url(/bg/vd.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
+          }}
+        />
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <Navbar />
+        
+        {/* Hero Section */}
+        <section className="pt-32 pb-20 bg-transparent relative overflow-hidden">
         {/* Background elements */}
         <div className="absolute inset-0">
           <div className="absolute top-16 left-16 w-24 h-24 border-l-2 border-t-2 border-gold-500/20"></div>
@@ -517,7 +533,8 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <Footer />
+        <Footer />
+      </div>
     </main>
   );
 }
