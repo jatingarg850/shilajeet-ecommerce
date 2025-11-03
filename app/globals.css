@@ -98,6 +98,28 @@ a {
   box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
 }
 
+/* Logo-inspired Mauve Gradient Utilities */
+.bg-mauve-gradient {
+  background: linear-gradient(135deg, #C4A5A5 0%, #D4B8BB 50%, #E0C7CA 100%);
+}
+
+.bg-mauve-gradient-vertical {
+  background: linear-gradient(180deg, #C4A5A5 0%, #D4B8BB 50%, #E0C7CA 100%);
+}
+
+.text-mauve-gradient {
+  background: linear-gradient(135deg, #C4A5A5 0%, #D4B8BB 50%, #E0C7CA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-mauve-gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(#000, #000) padding-box, 
+              linear-gradient(135deg, #C4A5A5 0%, #D4B8BB 50%, #E0C7CA 100%) border-box;
+}
+
 .shadow-gold-lg {
   box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
 }

@@ -210,8 +210,8 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex items-center space-x-4 mb-8"
             >
-              <div className="w-12 h-1 bg-gold-gradient"></div>
-              <span className="text-gold-gradient font-medium text-sm uppercase tracking-[0.2em]">
+              <div className="w-12 h-1 bg-mauve-gradient"></div>
+              <span className="text-mauve-gradient font-medium text-sm uppercase tracking-[0.2em]">
                 Premium Himalayan
               </span>
             </motion.div>
@@ -223,7 +223,7 @@ export default function HeroSection() {
               className="text-6xl lg:text-8xl font-bold text-white mb-8 leading-none tracking-tight"
             >
               UNLOCK
-              <span className="block text-gold-gradient">ANCIENT</span>
+              <span className="block text-mauve-gradient">ANCIENT</span>
               <span className="block text-white">POWER</span>
             </motion.h1>
 
@@ -243,11 +243,11 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="flex flex-col sm:flex-row gap-6"
             >
-              <button className="bg-gold-gradient hover:bg-gold-shine text-black px-10 py-4 font-bold flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 uppercase tracking-wider shadow-gold">
+              <button className="bg-mauve-gradient hover:bg-mauve-gradient text-black px-10 py-4 font-bold flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 uppercase tracking-wider">
                 <span>Shop Premium</span>
                 <ArrowRight size={18} />
               </button>
-              <button className="border-gold-gradient text-white hover:text-gold-gradient px-10 py-4 font-bold transition-all duration-300 uppercase tracking-wider">
+              <button className="border-mauve-gradient text-white hover:text-mauve-gradient px-10 py-4 font-bold transition-all duration-300 uppercase tracking-wider">
                 View Research
               </button>
             </motion.div>
@@ -259,15 +259,15 @@ export default function HeroSection() {
               className="mt-16 grid grid-cols-3 gap-12"
             >
               <div className="text-left">
-                <div className="text-3xl font-bold text-gold-gradient mb-2 tracking-tight">100%</div>
+                <div className="text-3xl font-bold text-mauve-gradient mb-2 tracking-tight">100%</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Pure Grade</div>
               </div>
               <div className="text-left">
-                <div className="text-3xl font-bold text-gold-gradient mb-2 tracking-tight">Lab</div>
+                <div className="text-3xl font-bold text-mauve-gradient mb-2 tracking-tight">Lab</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Verified</div>
               </div>
               <div className="text-left">
-                <div className="text-3xl font-bold text-gold-gradient mb-2 tracking-tight">16K+</div>
+                <div className="text-3xl font-bold text-mauve-gradient mb-2 tracking-tight">16K+</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Feet Source</div>
               </div>
             </motion.div>
