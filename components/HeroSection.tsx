@@ -220,11 +220,11 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-6xl lg:text-8xl font-bold text-white mb-8 leading-none tracking-tight"
+              className="text-6xl lg:text-8xl font-bold mb-8 leading-none tracking-tight"
             >
-              UNLOCK
-              <span className="block text-mauve-gradient">ANCIENT</span>
-              <span className="block text-white">POWER</span>
+              <span className="block text-white-to-mauve">UNLOCK</span>
+              <span className="block text-white-to-mauve">ANCIENT</span>
+              <span className="block text-white-to-mauve">POWER</span>
             </motion.h1>
 
             <motion.p

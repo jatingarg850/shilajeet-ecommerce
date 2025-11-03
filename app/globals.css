@@ -114,6 +114,13 @@ a {
   background-clip: text;
 }
 
+.text-white-to-mauve {
+  background: linear-gradient(180deg, #ffffff 0%, #E0C7CA 50%, #C4A5A5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .border-mauve-gradient {
   border: 2px solid transparent;
   background: linear-gradient(#000, #000) padding-box, 
