@@ -3,7 +3,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
-import { Building, Users, TrendingUp, Award, Package, Handshake, CheckCircle, ArrowRight } from 'lucide-react';
+import { Building, Users, TrendingUp, Award, Package, Heart, CheckCircle, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 
 export default function WholesalePage() {
@@ -35,7 +35,7 @@ export default function WholesalePage() {
       description: 'Minimum order quantities designed for businesses of all sizes'
     },
     {
-      icon: <Handshake className="w-8 h-8" />,
+      icon: <Heart className="w-8 h-8" />,
       title: 'Dedicated Support',
       description: 'Personal account manager and priority customer service for wholesale partners'
     }
