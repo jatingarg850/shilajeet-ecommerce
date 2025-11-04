@@ -114,6 +114,14 @@ a {
   background-clip: text;
 }
 
+.text-white-to-mauve {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 20%, #F0C7DA 60%, #D4A5B8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
 .bg-mauve-gradient-radial {
   background: radial-gradient(circle, #F0C7DA 0%, #E8B8CC 50%, #D4A5B8 100%);
 }

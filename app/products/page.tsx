@@ -222,7 +222,7 @@ export default function ProductsPage() {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center space-x-4 mb-8">
               <div className="w-12 h-1 bg-mauve-gradient"></div>
-              <span className="text-mauve-gradient font-medium text-sm uppercase tracking-[0.2em]">
+              <span className="text-white-to-mauve font-medium text-sm uppercase tracking-[0.2em]">
                 Agnishila Collection
               </span>
               <div className="w-12 h-1 bg-mauve-gradient"></div>
@@ -509,7 +509,7 @@ export default function ProductsPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
-                      <span className="text-2xl font-bold text-mauve-gradient">₹{product.price}</span>
+                      <span className="text-2xl font-bold text-white-to-mauve">₹{product.price}</span>
                     </div>
                   </div>
 

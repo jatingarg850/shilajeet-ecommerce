@@ -95,21 +95,21 @@ export default function HeroSection() {
         <SectionBlend position="bottom" height="xl" intensity="medium" />
 
         {/* Rocky corner formations */}
-        <div className="absolute top-16 left-16 w-24 h-24 border-l-4 border-t-4 border-gold-400/60 z-20" style={{
-          borderImage: 'linear-gradient(45deg, #d4af37, #b8941f) 1',
-          filter: 'drop-shadow(0 0 10px rgba(212, 175, 55, 0.3))'
+        <div className="absolute top-16 left-16 w-24 h-24 border-l-4 border-t-4 border-primary-400/60 z-20" style={{
+          borderImage: 'linear-gradient(45deg, #D4A5B8, #C899AC) 1',
+          filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
         }}></div>
-        <div className="absolute top-16 right-16 w-24 h-24 border-r-4 border-t-4 border-gold-400/60 z-20" style={{
-          borderImage: 'linear-gradient(-45deg, #d4af37, #b8941f) 1',
-          filter: 'drop-shadow(0 0 10px rgba(212, 175, 55, 0.3))'
+        <div className="absolute top-16 right-16 w-24 h-24 border-r-4 border-t-4 border-primary-400/60 z-20" style={{
+          borderImage: 'linear-gradient(-45deg, #D4A5B8, #C899AC) 1',
+          filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
         }}></div>
-        <div className="absolute bottom-16 left-16 w-24 h-24 border-l-4 border-b-4 border-gold-400/60 z-20" style={{
-          borderImage: 'linear-gradient(135deg, #d4af37, #b8941f) 1',
-          filter: 'drop-shadow(0 0 10px rgba(212, 175, 55, 0.3))'
+        <div className="absolute bottom-16 left-16 w-24 h-24 border-l-4 border-b-4 border-primary-400/60 z-20" style={{
+          borderImage: 'linear-gradient(135deg, #D4A5B8, #C899AC) 1',
+          filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
         }}></div>
-        <div className="absolute bottom-16 right-16 w-24 h-24 border-r-4 border-b-4 border-gold-400/60 z-20" style={{
-          borderImage: 'linear-gradient(-135deg, #d4af37, #b8941f) 1',
-          filter: 'drop-shadow(0 0 10px rgba(212, 175, 55, 0.3))'
+        <div className="absolute bottom-16 right-16 w-24 h-24 border-r-4 border-b-4 border-primary-400/60 z-20" style={{
+          borderImage: 'linear-gradient(-135deg, #D4A5B8, #C899AC) 1',
+          filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
         }}></div>
 
         {/* Rocky texture overlay */}
@@ -128,11 +128,11 @@ export default function HeroSection() {
 
         {/* Animated mineral veins */}
         <motion.div
-          className="absolute top-1/4 left-1/4 w-2 h-20 bg-gradient-to-b from-gold-400/60 via-amber-500/40 to-transparent z-20"
+          className="absolute top-1/4 left-1/4 w-2 h-20 bg-gradient-to-b from-primary-400/60 via-primary-500/40 to-transparent z-20"
           animate={{
             scaleY: [1, 1.3, 1],
             opacity: [0.5, 1, 0.5],
-            boxShadow: ['0 0 5px rgba(212, 175, 55, 0.3)', '0 0 15px rgba(212, 175, 55, 0.6)', '0 0 5px rgba(212, 175, 55, 0.3)']
+            boxShadow: ['0 0 5px rgba(212, 165, 184, 0.3)', '0 0 15px rgba(212, 165, 184, 0.6)', '0 0 5px rgba(212, 165, 184, 0.3)']
           }}
           transition={{
             duration: 3,
@@ -145,11 +145,11 @@ export default function HeroSection() {
           }}
         />
         <motion.div
-          className="absolute bottom-1/3 right-1/4 w-20 h-2 bg-gradient-to-r from-gold-400/60 via-amber-500/40 to-transparent z-20"
+          className="absolute bottom-1/3 right-1/4 w-20 h-2 bg-gradient-to-r from-primary-400/60 via-primary-500/40 to-transparent z-20"
           animate={{
             scaleX: [1, 1.5, 1],
             opacity: [0.5, 1, 0.5],
-            boxShadow: ['0 0 5px rgba(212, 175, 55, 0.3)', '0 0 15px rgba(212, 175, 55, 0.6)', '0 0 5px rgba(212, 175, 55, 0.3)']
+            boxShadow: ['0 0 5px rgba(212, 165, 184, 0.3)', '0 0 15px rgba(212, 165, 184, 0.6)', '0 0 5px rgba(212, 165, 184, 0.3)']
           }}
           transition={{
             duration: 4,
@@ -165,7 +165,7 @@ export default function HeroSection() {
         
         {/* Floating rock particles */}
         <motion.div
-          className="absolute top-1/3 right-1/3 w-1 h-1 bg-gold-400/80 rounded-full z-20"
+          className="absolute top-1/3 right-1/3 w-1 h-1 bg-primary-400/80 rounded-full z-20"
           animate={{
             y: [-10, 10, -10],
             x: [-5, 5, -5],
@@ -179,7 +179,7 @@ export default function HeroSection() {
           }}
         />
         <motion.div
-          className="absolute bottom-1/2 left-1/3 w-1 h-1 bg-amber-500/60 rounded-full z-20"
+          className="absolute bottom-1/2 left-1/3 w-1 h-1 bg-primary-500/60 rounded-full z-20"
           animate={{
             y: [10, -10, 10],
             x: [5, -5, 5],
@@ -211,7 +211,7 @@ export default function HeroSection() {
               className="flex items-center space-x-4 mb-8"
             >
               <div className="w-12 h-1 bg-mauve-gradient"></div>
-              <span className="text-mauve-gradient font-medium text-sm uppercase tracking-[0.2em]">
+              <span className="text-white-to-mauve font-medium text-sm uppercase tracking-[0.2em]">
                 Premium Himalayan
               </span>
             </motion.div>
@@ -223,7 +223,7 @@ export default function HeroSection() {
               className="text-6xl lg:text-8xl font-bold text-white mb-8 leading-none tracking-tight"
             >
               UNLOCK
-              <span className="block text-mauve-gradient">ANCIENT</span>
+              <span className="block text-white-to-mauve" style={{ display: 'inline-block', width: '100%' }}>ANCIENT</span>
               <span className="block text-white">POWER</span>
             </motion.h1>
 
@@ -247,7 +247,7 @@ export default function HeroSection() {
                 <span>Shop Premium</span>
                 <ArrowRight size={18} />
               </button>
-              <button className="border-mauve-gradient text-white hover:text-mauve-gradient px-10 py-4 font-bold transition-all duration-300 uppercase tracking-wider">
+              <button className="border-mauve-gradient text-white hover:text-white-to-mauve px-10 py-4 font-bold transition-all duration-300 uppercase tracking-wider">
                 View Research
               </button>
             </motion.div>
@@ -259,15 +259,15 @@ export default function HeroSection() {
               className="mt-16 grid grid-cols-3 gap-12"
             >
               <div className="text-left">
-                <div className="text-3xl font-bold text-mauve-gradient mb-2 tracking-tight">100%</div>
+                <div className="text-3xl font-bold text-white-to-mauve mb-2 tracking-tight">100%</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Pure Grade</div>
               </div>
               <div className="text-left">
-                <div className="text-3xl font-bold text-mauve-gradient mb-2 tracking-tight">Lab</div>
+                <div className="text-3xl font-bold text-white-to-mauve mb-2 tracking-tight">Lab</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Verified</div>
               </div>
               <div className="text-left">
-                <div className="text-3xl font-bold text-mauve-gradient mb-2 tracking-tight">16K+</div>
+                <div className="text-3xl font-bold text-white-to-mauve mb-2 tracking-tight">16K+</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Feet Source</div>
               </div>
             </motion.div>
@@ -296,12 +296,12 @@ export default function HeroSection() {
                 className="relative z-10"
               >
                 <div className="w-96 h-96 mx-auto flex items-center justify-center relative">
-                  {/* Enhanced golden glow background */}
+                  {/* Enhanced mauve glow background */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div
                       className="w-80 h-80 rounded-full opacity-40"
                       style={{
-                        background: 'radial-gradient(circle, rgba(212, 175, 55, 0.6) 0%, rgba(241, 214, 92, 0.4) 40%, rgba(184, 148, 31, 0.2) 70%, transparent 100%)',
+                        background: 'radial-gradient(circle, rgba(212, 165, 184, 0.6) 0%, rgba(240, 199, 218, 0.4) 40%, rgba(200, 153, 172, 0.2) 70%, transparent 100%)',
                         filter: 'blur(25px)'
                       }}
                     />
@@ -356,14 +356,14 @@ export default function HeroSection() {
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center"
                 >
-                  <div className="bg-black/70 backdrop-blur-sm border-2 border-gold-400/30 px-6 py-3 cave-shadow" style={{
+                  <div className="bg-black/70 backdrop-blur-sm border-2 border-primary-400/30 px-6 py-3 cave-shadow" style={{
                     background: 'linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,15,10,0.9) 100%)',
-                    borderImage: 'linear-gradient(45deg, rgba(212, 175, 55, 0.6), rgba(184, 148, 31, 0.4)) 1'
+                    borderImage: 'linear-gradient(45deg, rgba(212, 165, 184, 0.6), rgba(200, 153, 172, 0.4)) 1'
                   }}>
                     <h3 className="text-white font-bold text-lg uppercase tracking-wider mineral-glow">
                       {productImages[currentImageIndex].title}
                     </h3>
-                    <p className="text-mauve-gradient text-sm uppercase tracking-wider">
+                    <p className="text-white-to-mauve text-sm uppercase tracking-wider">
                       {productImages[currentImageIndex].subtitle}
                     </p>
                   </div>
@@ -375,10 +375,10 @@ export default function HeroSection() {
                 onClick={prevImage}
                 whileHover={{ scale: 1.1, x: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-gold-900/40 text-gold-400 p-3 backdrop-blur-sm z-20 transition-all duration-300 border border-gold-400/30"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-primary-900/40 text-primary-400 p-3 backdrop-blur-sm z-20 transition-all duration-300 border border-primary-400/30"
                 style={{
                   background: 'linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(20,15,10,0.8) 100%)',
-                  boxShadow: '0 0 15px rgba(212, 175, 55, 0.2)'
+                  boxShadow: '0 0 15px rgba(212, 165, 184, 0.2)'
                 }}
               >
                 <ChevronLeft size={18} />
@@ -388,10 +388,10 @@ export default function HeroSection() {
                 onClick={nextImage}
                 whileHover={{ scale: 1.1, x: 5 }}
                 whileTap={{ scale: 0.95 }}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-gold-900/40 text-gold-400 p-3 backdrop-blur-sm z-20 transition-all duration-300 border border-gold-400/30"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-primary-900/40 text-primary-400 p-3 backdrop-blur-sm z-20 transition-all duration-300 border border-primary-400/30"
                 style={{
                   background: 'linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(20,15,10,0.8) 100%)',
-                  boxShadow: '0 0 15px rgba(212, 175, 55, 0.2)'
+                  boxShadow: '0 0 15px rgba(212, 165, 184, 0.2)'
                 }}
               >
                 <ChevronRight size={18} />

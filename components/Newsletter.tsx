@@ -82,7 +82,7 @@ export default function Newsletter() {
                 >
                     <div className="flex items-center justify-center space-x-4 mb-8">
                         <div className="w-12 h-1 bg-mauve-gradient"></div>
-                        <span className="text-mauve-gradient font-medium text-sm uppercase tracking-[0.2em]">
+                        <span className="text-white-to-mauve font-medium text-sm uppercase tracking-[0.2em]">
                             Stay Connected
                         </span>
                         <div className="w-12 h-1 bg-mauve-gradient"></div>
@@ -133,7 +133,7 @@ export default function Newsletter() {
                             
                             <button
                                 onClick={resetForm}
-                                className="border-mauve-gradient text-mauve-gradient hover:text-black hover:bg-mauve-gradient px-8 py-3 font-bold uppercase tracking-wider text-sm transition-all duration-300"
+                                className="border-mauve-gradient text-white-to-mauve hover:text-black hover:bg-mauve-gradient px-8 py-3 font-bold uppercase tracking-wider text-sm transition-all duration-300"
                             >
                                 Subscribe Another Email
                             </button>
@@ -265,17 +265,17 @@ export default function Newsletter() {
                 >
                     <div className="flex items-center justify-center space-x-8 text-gray-400">
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-mauve-gradient mb-1">25,000+</div>
+                            <div className="text-2xl font-bold text-white-to-mauve mb-1">25,000+</div>
                             <div className="text-sm uppercase tracking-wider">Subscribers</div>
                         </div>
                         <div className="w-1 h-8 bg-white/20"></div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-mauve-gradient mb-1">4.9★</div>
+                            <div className="text-2xl font-bold text-white-to-mauve mb-1">4.9★</div>
                             <div className="text-sm uppercase tracking-wider">Rating</div>
                         </div>
                         <div className="w-1 h-8 bg-white/20"></div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-mauve-gradient mb-1">Weekly</div>
+                            <div className="text-2xl font-bold text-white-to-mauve mb-1">Weekly</div>
                             <div className="text-sm uppercase tracking-wider">Updates</div>
                         </div>
                     </div>

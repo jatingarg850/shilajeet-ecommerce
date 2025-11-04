@@ -76,7 +76,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
 
   const handleAddToCart = async () => {
     setIsAdding(true);
-    
+
     addItem({
       id: product.id.toString(),
       name: product.name,
@@ -93,9 +93,9 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
   const handleWishlistToggle = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     setIsWishlistLoading(true);
-    
+
     const productData = {
       id: product.id,
       name: product.name,
@@ -108,7 +108,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
     } else {
       await addToWishlist(productData);
     }
-    
+
     setIsWishlistLoading(false);
   };
 
@@ -162,12 +162,11 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           whileTap={{ scale: 0.9 }}
           className="absolute top-4 right-4 z-20 p-2 bg-black/50 backdrop-blur-sm border border-white/20 hover:border-gold-400/50 transition-all duration-300 disabled:opacity-50"
         >
-          <Heart 
-            className={`w-5 h-5 transition-all duration-300 ${
-              isInWishlist(product.id) 
-                ? 'fill-red-500 text-red-500' 
-                : 'text-white hover:text-red-500'
-            }`}
+          <Heart
+            className={`w-5 h-5 transition-all duration-300 ${isInWishlist(product.id)
+              ? 'fill-red-500 text-red-500'
+              : 'text-white hover:text-red-500'
+              }`}
           />
         </motion.button>
 
@@ -213,7 +212,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             <div className="text-right">
               <div className="flex items-center space-x-2">
                 <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
-                <span className="text-2xl font-bold text-mauve-gradient tracking-tight">
+                <span className="text-2xl font-bold text-white-to-mauve tracking-tight">
                   ₹{product.price}
                 </span>
               </div>
@@ -223,7 +222,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           {/* Product name */}
           <div className="flex items-center space-x-3">
             <motion.div
-              className="text-mauve-gradient"
+              className="text-white-to-mauve"
               animate={{ rotate: isHovered ? 360 : 0 }}
               transition={{ duration: 0.6 }}
             >
@@ -254,7 +253,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
 
           {/* Product Actions */}
           <div className="flex space-x-2">
-            <Link 
+            <Link
               href={`/products/${product.id}`}
               className="flex-1 bg-jet-800 hover:bg-jet-700 text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm border border-white/20 hover:border-gold-400/50"
             >
@@ -268,11 +267,11 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
               className="flex-1 bg-mauve-gradient hover:bg-mauve-shine text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve"
             >
               <motion.div
-                animate={{ 
+                animate={{
                   rotate: isHovered ? 360 : 0,
                   scale: isAdding ? [1, 1.2, 1] : 1
                 }}
-                transition={{ 
+                transition={{
                   rotate: { duration: 0.6 },
                   scale: { duration: 0.3, repeat: isAdding ? 2 : 0 }
                 }}
@@ -313,108 +312,108 @@ export default function FeaturedProducts() {
           }}
           quality={90}
         />
-        
+
         {/* Section blending - same as HeroSection pattern */}
         <SectionBlend position="both" height="xl" intensity="medium" />
-        
+
         {/* Main section overlay */}
         <div className="absolute inset-0 bg-black/30 z-5"></div>
       </div>
-      
+
       {/* Content with proper spacing */}
       <div className="relative z-30 py-24">
-      
-      {/* Rocky background elements */}
-      <div className="absolute inset-0 z-20">
-        {/* Rocky texture overlay */}
-        <div className="absolute inset-0 opacity-30" style={{
-          backgroundImage: `
+
+        {/* Rocky background elements */}
+        <div className="absolute inset-0 z-20">
+          {/* Rocky texture overlay */}
+          <div className="absolute inset-0 opacity-30" style={{
+            backgroundImage: `
             radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.1) 2px, transparent 4px),
             radial-gradient(circle at 80% 70%, rgba(101, 67, 33, 0.08) 1px, transparent 3px),
             radial-gradient(circle at 40% 80%, rgba(160, 82, 45, 0.06) 1px, transparent 2px)
           `,
-          backgroundSize: '100px 100px, 150px 150px, 80px 80px'
-        }}></div>
-        
-        {/* Gold mineral veins */}
-        <div className="absolute top-20 left-20 w-32 h-32 border border-gold-400/10 rotate-45" style={{
-          background: 'linear-gradient(45deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
-          boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)'
-        }}></div>
-        <div className="absolute bottom-20 right-20 w-24 h-24 border border-gold-300/10 rotate-12" style={{
-          background: 'linear-gradient(-45deg, rgba(184, 148, 31, 0.1) 0%, transparent 50%)',
-          boxShadow: '0 0 15px rgba(184, 148, 31, 0.1)'
-        }}></div>
-        
-        {/* Additional rock formations */}
-        <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-stone-800/20 rotate-45 border border-stone-600/10"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-20 h-20 bg-stone-700/20 rotate-12 border border-stone-500/10"></div>
-        
-        {/* Scattered rock particles */}
-        <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-gold-400/30 rounded-full"></div>
-        <div className="absolute top-2/3 right-1/3 w-1 h-1 bg-amber-500/40 rounded-full"></div>
-        <div className="absolute bottom-1/2 left-2/3 w-3 h-3 bg-stone-600/20 rounded-full"></div>
-      </div>
+            backgroundSize: '100px 100px, 150px 150px, 80px 80px'
+          }}></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
+          {/* Gold mineral veins */}
+          <div className="absolute top-20 left-20 w-32 h-32 border border-gold-400/10 rotate-45" style={{
+            background: 'linear-gradient(45deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
+            boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)'
+          }}></div>
+          <div className="absolute bottom-20 right-20 w-24 h-24 border border-gold-300/10 rotate-12" style={{
+            background: 'linear-gradient(-45deg, rgba(184, 148, 31, 0.1) 0%, transparent 50%)',
+            boxShadow: '0 0 15px rgba(184, 148, 31, 0.1)'
+          }}></div>
 
+          {/* Additional rock formations */}
+          <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-stone-800/20 rotate-45 border border-stone-600/10"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-20 h-20 bg-stone-700/20 rotate-12 border border-stone-500/10"></div>
 
-          <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6">
-            Featured Products
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Discover our premium collection of authentic Himalayan Shilajit products,
-            each carefully sourced and lab-tested for purity and potency.
-          </p>
-        </motion.div>
-
-        {/* Products grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {products.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
-          ))}
+          {/* Scattered rock particles */}
+          <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-gold-400/30 rounded-full"></div>
+          <div className="absolute top-2/3 right-1/3 w-1 h-1 bg-amber-500/40 rounded-full"></div>
+          <div className="absolute bottom-1/2 left-2/3 w-3 h-3 bg-stone-600/20 rounded-full"></div>
         </div>
 
-        {/* View all button */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <Link href="/products">
-            <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative bg-transparent border-mauve-gradient text-mauve-gradient hover:text-black px-10 py-4 font-bold transition-all duration-300 overflow-hidden uppercase tracking-wider"
-            >
-              <motion.div
-                className="absolute inset-0 bg-mauve-gradient"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "0%" }}
-                transition={{ duration: 0.3 }}
-              />
-              <span className="relative z-10 flex items-center space-x-2 text-mauve-gradient">
-                <span>View All Products</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section header */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+
+
+            <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6">
+              Featured Products
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Discover our premium collection of authentic Himalayan Shilajit products,
+              each carefully sourced and lab-tested for purity and potency.
+            </p>
+          </motion.div>
+
+          {/* Products grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            {products.map((product, index) => (
+              <ProductCard key={product.id} product={product} index={index} />
+            ))}
+          </div>
+
+          {/* View all button */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1 }}
+            viewport={{ once: true }}
+            className="text-center mt-16"
+          >
+            <Link href="/products">
+              <motion.button
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative bg-transparent border-mauve-gradient text-white-to-mauve hover:text-black px-10 py-4 font-bold transition-all duration-300 overflow-hidden uppercase tracking-wider"
+              >
                 <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.div>
-              </span>
-            </motion.button>
-          </Link>
-        </motion.div>
+                  className="absolute inset-0 bg-mauve-gradient"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "0%" }}
+                  transition={{ duration: 0.3 }}
+                />
+                <span className="relative z-10 flex items-center space-x-2 text-white-to-mauve">
+                  <span>View All Products</span>
+                  <motion.div
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    →
+                  </motion.div>
+                </span>
+              </motion.button>
+            </Link>
+          </motion.div>
         </div>
       </div>
     </section>
