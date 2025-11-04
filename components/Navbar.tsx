@@ -32,8 +32,12 @@ export default function Navbar() {
                 />
               </div>
               <div>
-                <div className="text-xl font-bold text-white tracking-tight">AGNISHILA</div>
-                <div className="text-xs text-primary-400 uppercase tracking-[0.2em]">The Fire Within</div>
+                <img 
+                  src="/logo/name.png" 
+                  alt="Agnishila" 
+                  className="h-8 object-contain mb-1"
+                />
+                <div className="text-xs text-white uppercase tracking-[0.2em]">Ignite the fire within</div>
               </div>
             </Link>
           </div>

@@ -81,16 +81,16 @@ export default function Newsletter() {
                     className="text-center mb-16"
                 >
                     <div className="flex items-center justify-center space-x-4 mb-8">
-                        <div className="w-12 h-1 bg-gold-gradient"></div>
-                        <span className="text-gold-gradient font-medium text-sm uppercase tracking-[0.2em]">
+                        <div className="w-12 h-1 bg-mauve-gradient"></div>
+                        <span className="text-mauve-gradient font-medium text-sm uppercase tracking-[0.2em]">
                             Stay Connected
                         </span>
-                        <div className="w-12 h-1 bg-gold-gradient"></div>
+                        <div className="w-12 h-1 bg-mauve-gradient"></div>
                     </div>
                     
                     <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wider">
                         UNLOCK
-                        <span className="block text-gold-gradient">EXCLUSIVE</span>
+                        <span className="block text-white-to-mauve" style={{ display: 'inline-block', width: '100%' }}>EXCLUSIVE</span>
                         <span className="block text-white">INSIGHTS</span>
                     </h2>
                     
@@ -117,7 +117,7 @@ export default function Newsletter() {
                             <div className="absolute top-0 right-0 w-0 h-0 border-l-[30px] border-l-transparent border-t-[30px] border-t-gold-400/50"></div>
                             <div className="absolute bottom-0 left-0 w-0 h-0 border-r-[30px] border-r-transparent border-b-[30px] border-b-gold-400/50"></div>
                             
-                            <div className="w-20 h-20 bg-gold-gradient mx-auto mb-8 flex items-center justify-center">
+                            <div className="w-20 h-20 bg-mauve-gradient mx-auto mb-8 flex items-center justify-center">
                                 <Check className="w-10 h-10 text-black" />
                             </div>
                             
@@ -133,7 +133,7 @@ export default function Newsletter() {
                             
                             <button
                                 onClick={resetForm}
-                                className="border-gold-gradient text-gold-gradient hover:text-black hover:bg-gold-gradient px-8 py-3 font-bold uppercase tracking-wider text-sm transition-all duration-300"
+                                className="border-mauve-gradient text-mauve-gradient hover:text-black hover:bg-mauve-gradient px-8 py-3 font-bold uppercase tracking-wider text-sm transition-all duration-300"
                             >
                                 Subscribe Another Email
                             </button>
@@ -166,7 +166,7 @@ export default function Newsletter() {
                                         <button
                                             type="submit"
                                             disabled={isSubmitting || !email.trim()}
-                                            className="bg-gold-gradient hover:bg-gold-shine text-black py-4 px-8 font-bold uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2 shadow-gold"
+                                            className="bg-mauve-gradient hover:bg-mauve-shine text-white py-4 px-8 font-bold uppercase tracking-wider text-sm transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2 shadow-mauve"
                                         >
                                             {isSubmitting ? (
                                                 <>
@@ -240,7 +240,7 @@ export default function Newsletter() {
                             transition={{ delay: 0.6 + index * 0.1 }}
                             className="text-center group"
                         >
-                            <div className="w-16 h-16 bg-gold-gradient mx-auto mb-6 flex items-center justify-center group-hover:bg-gold-shine transition-all duration-300 transform group-hover:scale-110">
+                            <div className="w-16 h-16 bg-mauve-gradient mx-auto mb-6 flex items-center justify-center group-hover:bg-mauve-shine transition-all duration-300 transform group-hover:scale-110">
                                 <div className="text-black">
                                     {benefit.icon}
                                 </div>
@@ -265,17 +265,17 @@ export default function Newsletter() {
                 >
                     <div className="flex items-center justify-center space-x-8 text-gray-400">
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-gold-gradient mb-1">25,000+</div>
+                            <div className="text-2xl font-bold text-mauve-gradient mb-1">25,000+</div>
                             <div className="text-sm uppercase tracking-wider">Subscribers</div>
                         </div>
                         <div className="w-1 h-8 bg-white/20"></div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-gold-gradient mb-1">4.9★</div>
+                            <div className="text-2xl font-bold text-mauve-gradient mb-1">4.9★</div>
                             <div className="text-sm uppercase tracking-wider">Rating</div>
                         </div>
                         <div className="w-1 h-8 bg-white/20"></div>
                         <div className="text-center">
-                            <div className="text-2xl font-bold text-gold-gradient mb-1">Weekly</div>
+                            <div className="text-2xl font-bold text-mauve-gradient mb-1">Weekly</div>
                             <div className="text-sm uppercase tracking-wider">Updates</div>
                         </div>
                     </div>

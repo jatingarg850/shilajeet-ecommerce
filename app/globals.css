@@ -100,31 +100,36 @@ a {
 
 /* Logo-inspired Mauve Gradient Utilities */
 .bg-mauve-gradient {
-  background: linear-gradient(135deg, #C4A5A5 0%, #D4B8BB 50%, #E0C7CA 100%);
+  background: linear-gradient(135deg, #D4A5B8 0%, #E8B8CC 50%, #F0C7DA 100%);
 }
 
 .bg-mauve-gradient-vertical {
-  background: linear-gradient(180deg, #C4A5A5 0%, #D4B8BB 50%, #E0C7CA 100%);
+  background: linear-gradient(180deg, #D4A5B8 0%, #E8B8CC 50%, #F0C7DA 100%);
 }
 
 .text-mauve-gradient {
-  background: linear-gradient(135deg, #C4A5A5 0%, #D4B8BB 50%, #E0C7CA 100%);
+  background: linear-gradient(135deg, #D4A5B8 0%, #E8B8CC 50%, #F0C7DA 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.text-white-to-mauve {
-  background: linear-gradient(180deg, #ffffff 0%, #E0C7CA 50%, #C4A5A5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.bg-mauve-gradient-radial {
+  background: radial-gradient(circle, #F0C7DA 0%, #E8B8CC 50%, #D4A5B8 100%);
+}
+
+.bg-mauve-shine {
+  background: linear-gradient(45deg, #C899AC 0%, #D4A5B8 25%, #F0C7DA 50%, #E8B8CC 75%, #D4A5B8 100%);
 }
 
 .border-mauve-gradient {
   border: 2px solid transparent;
   background: linear-gradient(#000, #000) padding-box, 
-              linear-gradient(135deg, #C4A5A5 0%, #D4B8BB 50%, #E0C7CA 100%) border-box;
+              linear-gradient(135deg, #D4A5B8 0%, #E8B8CC 50%, #F0C7DA 100%) border-box;
+}
+
+.shadow-mauve {
+  box-shadow: 0 4px 20px rgba(212, 165, 184, 0.4);
 }
 
 .shadow-gold-lg {

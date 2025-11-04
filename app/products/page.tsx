@@ -221,16 +221,16 @@ export default function ProductsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center space-x-4 mb-8">
-              <div className="w-12 h-1 bg-gold-gradient"></div>
-              <span className="text-gold-gradient font-medium text-sm uppercase tracking-[0.2em]">
+              <div className="w-12 h-1 bg-mauve-gradient"></div>
+              <span className="text-mauve-gradient font-medium text-sm uppercase tracking-[0.2em]">
                 Agnishila Collection
               </span>
-              <div className="w-12 h-1 bg-gold-gradient"></div>
+              <div className="w-12 h-1 bg-mauve-gradient"></div>
             </div>
 
             <h1 className="text-6xl lg:text-7xl font-bold text-white mb-8 tracking-tight leading-none">
               OUR
-              <span className="block text-gold-gradient">PRODUCTS</span>
+              <span className="block text-white-to-mauve" style={{ display: 'inline-block', width: '100%' }}>PRODUCTS</span>
             </h1>
             
             <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
@@ -427,7 +427,7 @@ export default function ProductsPage() {
               </p>
               <button
                 onClick={clearAllFilters}
-                className="bg-gold-gradient text-black px-8 py-4 font-bold uppercase tracking-wider text-sm hover:bg-gold-shine transition-colors shadow-gold"
+                className="bg-mauve-gradient text-white px-8 py-4 font-bold uppercase tracking-wider text-sm hover:bg-mauve-shine transition-colors shadow-mauve"
               >
                 Clear All Filters
               </button>
@@ -467,8 +467,8 @@ export default function ProductsPage() {
                 
                 {/* Product Image */}
                 <div className="h-48 bg-jet-800 flex items-center justify-center">
-                  <div className="w-32 h-32 bg-gold-500/20 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-gold-gradient transform rotate-45"></div>
+                  <div className="w-32 h-32 bg-mauve-gradient/20 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-mauve-gradient transform rotate-45"></div>
                   </div>
                 </div>
 
@@ -509,7 +509,7 @@ export default function ProductsPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
-                      <span className="text-2xl font-bold text-gold-gradient">₹{product.price}</span>
+                      <span className="text-2xl font-bold text-mauve-gradient">₹{product.price}</span>
                     </div>
                   </div>
 
@@ -520,7 +520,7 @@ export default function ProductsPage() {
                       handleAddToCart(product);
                     }}
                     disabled={addingStates[product.id]}
-                    className="w-full bg-gold-gradient hover:bg-gold-shine text-black py-3 font-bold uppercase tracking-wider text-sm transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-gold"
+                    className="w-full bg-mauve-gradient hover:bg-mauve-shine text-white py-3 font-bold uppercase tracking-wider text-sm transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve"
                   >
                     <ShoppingCart size={16} />
                     <span>{addingStates[product.id] ? 'Added!' : 'Add to Cart'}</span>

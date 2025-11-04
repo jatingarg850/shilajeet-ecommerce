@@ -146,7 +146,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           transition={{ delay: index * 0.15 + 0.5, type: "spring", stiffness: 200 }}
           className="absolute top-4 left-4 z-20"
         >
-          <div className="bg-gold-gradient text-black px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-gold">
+          <div className="bg-mauve-gradient text-white px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-mauve">
             {product.badge}
           </div>
         </motion.div>
@@ -204,7 +204,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             <div className="flex items-center space-x-2">
               <div className="flex space-x-1">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className="w-1 h-4 bg-gold-gradient"></div>
+                  <div key={i} className="w-1 h-4 bg-mauve-gradient"></div>
                 ))}
               </div>
               <span className="text-white font-bold text-sm">{product.rating}</span>
@@ -213,7 +213,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             <div className="text-right">
               <div className="flex items-center space-x-2">
                 <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
-                <span className="text-2xl font-bold text-gold-gradient tracking-tight">
+                <span className="text-2xl font-bold text-mauve-gradient tracking-tight">
                   ₹{product.price}
                 </span>
               </div>
@@ -223,7 +223,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           {/* Product name */}
           <div className="flex items-center space-x-3">
             <motion.div
-              className="text-gold-gradient"
+              className="text-mauve-gradient"
               animate={{ rotate: isHovered ? 360 : 0 }}
               transition={{ duration: 0.6 }}
             >
@@ -265,7 +265,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
               disabled={isAdding}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="flex-1 bg-gold-gradient hover:bg-gold-shine text-black py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-gold"
+              className="flex-1 bg-mauve-gradient hover:bg-mauve-shine text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve"
             >
               <motion.div
                 animate={{ 
@@ -395,15 +395,15 @@ export default function FeaturedProducts() {
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="group relative bg-transparent border-gold-gradient text-gold-gradient hover:text-black px-10 py-4 font-bold transition-all duration-300 overflow-hidden uppercase tracking-wider"
+              className="group relative bg-transparent border-mauve-gradient text-mauve-gradient hover:text-black px-10 py-4 font-bold transition-all duration-300 overflow-hidden uppercase tracking-wider"
             >
               <motion.div
-                className="absolute inset-0 bg-gold-gradient"
+                className="absolute inset-0 bg-mauve-gradient"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: "0%" }}
                 transition={{ duration: 0.3 }}
               />
-              <span className="relative z-10 flex items-center space-x-2">
+              <span className="relative z-10 flex items-center space-x-2 text-mauve-gradient">
                 <span>View All Products</span>
                 <motion.div
                   animate={{ x: [0, 5, 0] }}

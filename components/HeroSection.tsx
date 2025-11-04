@@ -220,11 +220,11 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-6xl lg:text-8xl font-bold mb-8 leading-none tracking-tight"
+              className="text-6xl lg:text-8xl font-bold text-white mb-8 leading-none tracking-tight"
             >
-              <span className="block text-white-to-mauve">UNLOCK</span>
-              <span className="block text-white-to-mauve">ANCIENT</span>
-              <span className="block text-white-to-mauve">POWER</span>
+              UNLOCK
+              <span className="block text-mauve-gradient">ANCIENT</span>
+              <span className="block text-white">POWER</span>
             </motion.h1>
 
             <motion.p
@@ -243,7 +243,7 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="flex flex-col sm:flex-row gap-6"
             >
-              <button className="bg-mauve-gradient hover:bg-mauve-gradient text-black px-10 py-4 font-bold flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 uppercase tracking-wider">
+              <button className="bg-mauve-gradient hover:bg-mauve-gradient text-white px-10 py-4 font-bold flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 uppercase tracking-wider">
                 <span>Shop Premium</span>
                 <ArrowRight size={18} />
               </button>
@@ -363,7 +363,7 @@ export default function HeroSection() {
                     <h3 className="text-white font-bold text-lg uppercase tracking-wider mineral-glow">
                       {productImages[currentImageIndex].title}
                     </h3>
-                    <p className="text-gold-gradient text-sm uppercase tracking-wider">
+                    <p className="text-mauve-gradient text-sm uppercase tracking-wider">
                       {productImages[currentImageIndex].subtitle}
                     </p>
                   </div>
@@ -411,7 +411,7 @@ export default function HeroSection() {
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
                       className={`transition-all duration-300 ${index === currentImageIndex
-                        ? 'w-8 h-2 bg-gold-gradient'
+                        ? 'w-8 h-2 bg-mauve-gradient'
                         : 'w-2 h-2 bg-white/30 hover:bg-white/50'
                         }`}
                     />
