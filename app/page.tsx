@@ -5,6 +5,8 @@ import InnovativeCarousel from '@/components/InnovativeCarousel';
 import CustomerReviews from '@/components/CustomerReviews';
 import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
+import HowItWorks from '@/components/HowItWorks';
+import FAQSection from '@/components/FAQSection';
 
 export default function Home() {
   return (
@@ -28,8 +30,10 @@ export default function Home() {
         <Navbar />
         <HeroSection />
         <FeaturedProducts />
+        <HowItWorks />
         <InnovativeCarousel />
         <CustomerReviews />
+        <FAQSection />
         <Newsletter />
         <Footer />
       </div>
