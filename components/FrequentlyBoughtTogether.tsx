@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 interface Product {
   id: string;
@@ -20,6 +22,9 @@ interface FrequentlyBoughtTogetherProps {
 
 export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }: FrequentlyBoughtTogetherProps) {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([mainProduct.id, ...bundleProducts.map(p => p.id)]);
+  const [isAdding, setIsAdding] = useState(false);
+  const { addItem } = useCart();
+  const router = useRouter();
 
   const toggleProduct = (productId: string) => {
     if (productId === mainProduct.id) return; // Main product always selected
@@ -40,6 +45,29 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
     .reduce((sum, p) => sum + p.originalPrice, 0);
   const savings = totalOriginalPrice - totalPrice;
 
+  const handleAddToCart = async () => {
+    setIsAdding(true);
+    const selectedItems = allProducts.filter(p => selectedProducts.includes(p.id));
+    
+    for (const product of selectedItems) {
+      await addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      });
+    }
+    
+    setTimeout(() => {
+      setIsAdding(false);
+    }, 1000);
+  };
+
+  const handleBuyNow = async () => {
+    await handleAddToCart();
+    router.push('/checkout');
+  };
+
   return (
     <section className="py-16 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,7 +75,7 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-jet-900 border border-white/20 p-8"
+          className="p-8"
         >
           <h2 className="text-3xl font-bold text-white mb-4 uppercase tracking-wider text-center">
             Frequently Bought Together
@@ -66,7 +94,7 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
                   transition={{ delay: index * 0.1, duration: 0.4 }}
                   className="relative"
                 >
-                  <div className={`bg-white p-4 border-2 ${selectedProducts.includes(product.id) ? 'border-primary-400' : 'border-gray-300'} transition-all duration-300`}>
+                  <div className="p-4">
                     <Image
                       src={product.image}
                       alt={product.name}
@@ -79,10 +107,10 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
                   {product.id !== mainProduct.id && (
                     <button
                       onClick={() => toggleProduct(product.id)}
-                      className={`absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                      className={`absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
                         selectedProducts.includes(product.id)
                           ? 'bg-primary-400 text-white'
-                          : 'bg-gray-400 text-white'
+                          : 'bg-gray-600 text-white hover:bg-gray-500'
                       }`}
                     >
                       {selectedProducts.includes(product.id) ? '✓' : ''}
@@ -119,10 +147,18 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
 
           {/* Action Buttons */}
           <div className="grid md:grid-cols-2 gap-4">
-            <button className="bg-mauve-gradient text-white py-4 px-6 font-bold uppercase tracking-wider hover:bg-mauve-shine transition-colors">
-              Add Selected to Cart
+            <button 
+              onClick={handleAddToCart}
+              disabled={isAdding || selectedProducts.length === 0}
+              className="bg-mauve-gradient text-white py-4 px-6 font-bold uppercase tracking-wider hover:bg-mauve-shine transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isAdding ? 'Adding...' : 'Add Selected to Cart'}
             </button>
-            <button className="border-2 border-primary-400 text-primary-400 py-4 px-6 font-bold uppercase tracking-wider hover:bg-primary-400 hover:text-white transition-colors">
+            <button 
+              onClick={handleBuyNow}
+              disabled={isAdding || selectedProducts.length === 0}
+              className="border-2 border-primary-400 text-primary-400 py-4 px-6 font-bold uppercase tracking-wider hover:bg-primary-400 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               Buy Bundle Now
             </button>
           </div>

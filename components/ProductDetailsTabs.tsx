@@ -30,21 +30,19 @@ export default function ProductDetailsTabs({
       <div className="flex border-b border-white/20 mb-8">
         <button
           onClick={() => setActiveTab('details')}
-          className={`px-6 py-3 font-bold uppercase tracking-wider text-sm transition-colors ${
-            activeTab === 'details'
-              ? 'text-white border-b-2 border-primary-400'
-              : 'text-gray-400 hover:text-white'
-          }`}
+          className={`px-6 py-3 font-bold uppercase tracking-wider text-sm transition-colors ${activeTab === 'details'
+            ? 'text-white border-b-2 border-primary-400'
+            : 'text-gray-400 hover:text-white'
+            }`}
         >
           Details
         </button>
         <button
           onClick={() => setActiveTab('howToUse')}
-          className={`px-6 py-3 font-bold uppercase tracking-wider text-sm transition-colors ${
-            activeTab === 'howToUse'
-              ? 'text-white border-b-2 border-primary-400'
-              : 'text-gray-400 hover:text-white'
-          }`}
+          className={`px-6 py-3 font-bold uppercase tracking-wider text-sm transition-colors ${activeTab === 'howToUse'
+            ? 'text-white border-b-2 border-primary-400'
+            : 'text-gray-400 hover:text-white'
+            }`}
         >
           How to Use?
         </button>
@@ -104,21 +102,49 @@ export default function ProductDetailsTabs({
               <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-wider">
                 Certifications & Quality
               </h4>
-              <div className="flex flex-wrap gap-6 items-center">
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-xs font-bold text-center">GMP</span>
+              <div className="flex flex-wrap gap-6 items-center mb-6">
+                <div className="w-24 h-24 flex items-center justify-center">
+                  <Image 
+                    src="/certification/GMP.png" 
+                    alt="GMP Certified" 
+                    width={96} 
+                    height={96}
+                    className="object-contain transition-all duration-300"
+                    style={{ filter: 'brightness(0) saturate(100%) invert(85%) sepia(15%) saturate(500%) hue-rotate(290deg) brightness(95%) contrast(90%)' }}
+                  />
                 </div>
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-xs font-bold text-center">HACCP</span>
+                <div className="w-24 h-24 flex items-center justify-center">
+                  <Image 
+                    src="/certification/HACCP.png" 
+                    alt="HACCP Certified" 
+                    width={96} 
+                    height={96}
+                    className="object-contain transition-all duration-300"
+                    style={{ filter: 'brightness(0) saturate(100%) invert(85%) sepia(15%) saturate(500%) hue-rotate(290deg) brightness(95%) contrast(90%)' }}
+                  />
                 </div>
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-xs font-bold text-center">ISO 22000</span>
+                <div className="w-24 h-24 flex items-center justify-center">
+                  <Image 
+                    src="/certification/ISO-22000.png" 
+                    alt="ISO 22000 Certified" 
+                    width={96} 
+                    height={96}
+                    className="object-contain transition-all duration-300"
+                    style={{ filter: 'brightness(0) saturate(100%) invert(85%) sepia(15%) saturate(500%) hue-rotate(290deg) brightness(95%) contrast(90%)' }}
+                  />
                 </div>
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-xs font-bold text-center">FDA</span>
+                <div className="w-24 h-24 flex items-center justify-center">
+                  <Image 
+                    src="/certification/FDA.png" 
+                    alt="FDA Approved" 
+                    width={96} 
+                    height={96}
+                    className="object-contain transition-all duration-300"
+                    style={{ filter: 'brightness(0) saturate(100%) invert(85%) sepia(15%) saturate(500%) hue-rotate(290deg) brightness(95%) contrast(90%)' }}
+                  />
                 </div>
               </div>
-              <div className="mt-6 space-y-2">
+              <div className="space-y-2">
                 {certifications.map((cert, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <CheckCircle className="w-5 h-5 text-primary-400 mt-1 flex-shrink-0" />
@@ -128,15 +154,7 @@ export default function ProductDetailsTabs({
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-4 pt-6">
-              <button className="flex-1 bg-mauve-gradient text-white py-4 px-6 font-bold uppercase tracking-wider hover:bg-mauve-shine transition-colors">
-                Add to Cart
-              </button>
-              <button className="flex-1 bg-primary-600 text-white py-4 px-6 font-bold uppercase tracking-wider hover:bg-primary-700 transition-colors">
-                Buy Now
-              </button>
-            </div>
+
           </div>
         ) : (
           <div className="space-y-6">

@@ -2,6 +2,7 @@
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import FAQSection from '@/components/FAQSection';
 import { motion } from 'framer-motion';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
@@ -466,10 +467,12 @@ export default function ProductsPage() {
                 </motion.button>
                 
                 {/* Product Image */}
-                <div className="h-48 bg-jet-800 flex items-center justify-center">
-                  <div className="w-32 h-32 bg-mauve-gradient/20 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-mauve-gradient transform rotate-45"></div>
-                  </div>
+                <div className="h-48 bg-jet-800 flex items-center justify-center p-4">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
 
                 {/* Product Info */}
@@ -532,6 +535,8 @@ export default function ProductsPage() {
           )}
         </div>
       </section>
+
+        <FAQSection />
 
         <Footer />
       </div>

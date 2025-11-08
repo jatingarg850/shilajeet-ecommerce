@@ -784,6 +784,37 @@ export default function ProductDetailPage() {
                 {/* Why Choose Section */}
                 <WhyChoose />
 
+                {/* FAQ Section */}
+                <FAQSection 
+                    title="Product FAQs"
+                    faqs={[
+                        {
+                            question: `What makes ${product.name} different from other products?`,
+                            answer: product.detailedDescription
+                        },
+                        {
+                            question: 'How should I use this product?',
+                            answer: product.usage
+                        },
+                        {
+                            question: 'What are the key benefits?',
+                            answer: product.benefits.join(', ')
+                        },
+                        {
+                            question: 'Is this product lab tested and certified?',
+                            answer: `Yes, this product is ${product.certifications.join(', ')}. We ensure the highest quality standards for all our products.`
+                        },
+                        {
+                            question: 'What are the main ingredients?',
+                            answer: `This product contains: ${product.ingredients.join(', ')}`
+                        },
+                        {
+                            question: 'How long will one package last?',
+                            answer: 'Depending on the recommended dosage, one package typically lasts 30-60 days with regular use.'
+                        }
+                    ]}
+                />
+
                 <Footer />
             </div>
         </main>

@@ -3,6 +3,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SectionBlend from '@/components/SectionBlend';
+import FAQSection from '@/components/FAQSection';
 import { motion } from 'framer-motion';
 import { 
     Zap, 
@@ -552,6 +553,28 @@ export default function BenefitsPage() {
                     </motion.div>
                 </div>
             </section>
+
+                <FAQSection 
+                    title="Benefits FAQs"
+                    faqs={[
+                        {
+                            question: 'How long does it take to see results from Shilajit?',
+                            answer: 'Most users report feeling increased energy within 1-2 weeks. However, for optimal benefits like improved cognitive function and anti-aging effects, consistent use for 2-3 months is recommended.'
+                        },
+                        {
+                            question: 'Can I take Shilajit with other supplements?',
+                            answer: 'Yes, Shilajit is generally safe to take with other supplements. In fact, it can enhance the absorption of other nutrients. However, consult your healthcare provider if you\'re taking prescription medications.'
+                        },
+                        {
+                            question: 'Is Shilajit suitable for everyone?',
+                            answer: 'Shilajit is safe for most adults. However, pregnant or nursing women, children, and people with certain medical conditions should consult their healthcare provider before use.'
+                        },
+                        {
+                            question: 'What makes Himalayan Shilajit superior?',
+                            answer: 'Himalayan Shilajit from high altitudes (16,000+ feet) contains the highest concentration of minerals and fulvic acid. The extreme conditions and pristine environment ensure maximum purity and potency.'
+                        }
+                    ]}
+                />
 
                 <Footer />
             </div>
