@@ -134,7 +134,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
       <motion.div
         style={{ rotateX, rotateY }}
         whileHover={{ z: 50 }}
-        className="relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu"
+        className="relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu flex flex-col h-full"
       >
         {/* Sharp corner accent */}
         <div className="absolute top-0 right-0 w-0 h-0 border-l-[24px] border-l-transparent border-t-[24px] border-t-gold-500/30 group-hover:border-t-gold-400/50 transition-all duration-300"></div>
@@ -197,9 +197,9 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         </div>
 
         {/* Content section */}
-        <div className="relative p-8 space-y-6">
+        <div className="relative p-8 flex flex-col flex-grow">
           {/* Rating and price */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-2">
               <div className="flex space-x-1">
                 {[...Array(5)].map((_, i) => (
@@ -220,7 +220,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           </div>
 
           {/* Product name */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 mb-6">
             <motion.div
               className="text-white-to-mauve"
               animate={{ rotate: isHovered ? 360 : 0 }}
@@ -232,19 +232,19 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           </div>
 
           {/* Description */}
-          <p className="text-gray-300 text-sm leading-relaxed font-light">
+          <p className="text-gray-300 text-sm leading-relaxed font-light mb-6">
             {product.description}
           </p>
 
           {/* Features */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-6 flex-grow">
             {product.features.map((feature: string, i: number) => (
               <motion.span
                 key={feature}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.15 + 1 + i * 0.1 }}
-                className="text-xs bg-gold-500/10 text-gold-300 px-3 py-1 border border-gold-500/20 uppercase tracking-wider font-medium"
+                className="text-xs bg-gold-500/10 text-gold-300 px-3 py-1 border border-gold-500/20 uppercase tracking-wider font-medium h-fit"
               >
                 {feature}
               </motion.span>
@@ -252,7 +252,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           </div>
 
           {/* Product Actions */}
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 mt-auto">
             <Link
               href={`/products/${product.id}`}
               className="flex-1 bg-jet-800 hover:bg-jet-700 text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm border border-white/20 hover:border-gold-400/50"
@@ -366,7 +366,7 @@ export default function FeaturedProducts() {
           >
 
 
-            <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6">
+            <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6">
               Featured Products
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">

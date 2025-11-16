@@ -83,7 +83,7 @@ export default function FAQSection({ faqs = defaultFAQs, title = 'Frequently Ask
                         ></motion.div>
                     </div>
 
-                    <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6 uppercase tracking-wider">
+                    <h2 className="text-4xl lg:text-5xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
                         {title}
                     </h2>
                     <p className="text-gray-300 text-lg">

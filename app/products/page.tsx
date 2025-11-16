@@ -441,7 +441,7 @@ export default function ProductsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-jet-900 border border-white/20 relative overflow-hidden group hover:border-gold-400/50 transition-all duration-300 cursor-pointer"
+                className="bg-jet-900 border border-white/20 relative overflow-hidden group hover:border-gold-400/50 transition-all duration-300 cursor-pointer flex flex-col"
                 onClick={() => window.location.href = `/products/${product.id}`}
               >
                 <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-gold-500/30 group-hover:border-t-gold-400/50 transition-all duration-300"></div>
@@ -476,9 +476,9 @@ export default function ProductsPage() {
                 </div>
 
                 {/* Product Info */}
-                <div className="p-6 space-y-4">
+                <div className="p-6 flex flex-col flex-grow">
                   {/* Rating and Price */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
                       <div className="flex space-x-1">
                         {[...Array(5)].map((_, i) => (
@@ -491,17 +491,17 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Product Name */}
-                  <h3 className="text-xl font-bold text-white uppercase tracking-wider">{product.name}</h3>
+                  <h3 className="text-xl font-bold text-white uppercase tracking-wider mb-4">{product.name}</h3>
 
                   {/* Description */}
-                  <p className="text-gray-400 text-sm font-light leading-relaxed">{product.description}</p>
+                  <p className="text-gray-400 text-sm font-light leading-relaxed mb-4">{product.description}</p>
 
                   {/* Features */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-4 flex-grow">
                     {product.features.map((feature) => (
                       <span
                         key={feature}
-                        className="text-xs bg-gold-500/10 text-gold-300 px-2 py-1 border border-gold-500/20 uppercase tracking-wider"
+                        className="text-xs bg-gold-500/10 text-gold-300 px-2 py-1 border border-gold-500/20 uppercase tracking-wider h-fit"
                       >
                         {feature}
                       </span>
@@ -509,7 +509,7 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Price */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
                       <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
                       <span className="text-2xl font-bold text-white-to-mauve">₹{product.price}</span>
@@ -523,7 +523,7 @@ export default function ProductsPage() {
                       handleAddToCart(product);
                     }}
                     disabled={addingStates[product.id]}
-                    className="w-full bg-mauve-gradient hover:bg-mauve-shine text-white py-3 font-bold uppercase tracking-wider text-sm transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve"
+                    className="w-full bg-mauve-gradient hover:bg-mauve-shine text-white py-3 font-bold uppercase tracking-wider text-sm transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve mt-auto"
                   >
                     <ShoppingCart size={16} />
                     <span>{addingStates[product.id] ? 'Added!' : 'Add to Cart'}</span>

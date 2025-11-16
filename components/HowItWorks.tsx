@@ -36,7 +36,7 @@ export default function HowItWorks() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4 uppercase tracking-wider">
+          <h2 className="text-4xl lg:text-5xl font-bold text-white-to-mauve mb-4 uppercase tracking-wider">
             How does it work?
           </h2>
         </motion.div>
@@ -48,7 +48,7 @@ export default function HowItWorks() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
-              className="bg-jet-900 border border-white/20 p-6 relative overflow-hidden group hover:border-primary-400/50 transition-all duration-300"
+              className="bg-jet-900 border border-white/20 p-6 relative overflow-hidden group hover:border-primary-400/50 transition-all duration-300 flex flex-col"
             >
               <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-primary-400/30 group-hover:border-t-primary-400/50 transition-all duration-300"></div>
               
@@ -62,7 +62,7 @@ export default function HowItWorks() {
                 {step.title}
               </h3>
 
-              <p className="text-gray-300 text-sm leading-relaxed text-center">
+              <p className="text-gray-300 text-sm leading-relaxed text-center flex-grow">
                 {step.description}
               </p>
 
@@ -80,7 +80,7 @@ export default function HowItWorks() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="mt-16 bg-jet-900 border border-white/20 p-8"
         >
-          <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
+          <h3 className="text-2xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
             Full List of Ingredients
           </h3>
           <p className="text-gray-300 leading-relaxed mb-4">
@@ -98,7 +98,7 @@ export default function HowItWorks() {
           transition={{ delay: 0.5, duration: 0.6 }}
           className="mt-8 bg-jet-900 border border-white/20 p-8"
         >
-          <h3 className="text-2xl font-bold text-white mb-6 uppercase tracking-wider">
+          <h3 className="text-2xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
             How to Use
           </h3>
           <div className="space-y-4">

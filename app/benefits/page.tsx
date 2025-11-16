@@ -287,7 +287,7 @@ export default function BenefitsPage() {
                         viewport={{ once: true }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wider">
+                        <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
                             Core Benefits
                         </h2>
                         <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -398,7 +398,7 @@ export default function BenefitsPage() {
                         viewport={{ once: true }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wider">
+                        <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
                             How It Works
                         </h2>
                         <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -467,7 +467,7 @@ export default function BenefitsPage() {
                         viewport={{ once: true }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wider">
+                        <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
                             What Experts Say
                         </h2>
                         <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">

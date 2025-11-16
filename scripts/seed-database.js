@@ -239,6 +239,54 @@ const newsletter = [
   }
 ];
 
+const reviews = [
+  {
+    name: 'Rajesh Kumar',
+    email: 'rajesh@example.com',
+    rating: 5,
+    comment: 'Excellent product! I can feel the difference in my energy levels. Highly recommended for anyone looking for authentic Shilajit.',
+    status: 'approved',
+    helpful: 12,
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+  },
+  {
+    name: 'Priya Sharma',
+    email: 'priya@example.com',
+    rating: 4,
+    comment: 'Good quality capsules. Easy to consume. Noticed improvement in stamina after 2 weeks of use.',
+    status: 'approved',
+    helpful: 8,
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+  },
+  {
+    name: 'Amit Patel',
+    email: 'amit@example.com',
+    rating: 5,
+    comment: 'Authentic and pure. The packaging is also very good. Will definitely order again.',
+    status: 'pending',
+    helpful: 3,
+    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
+  },
+  {
+    name: 'Sneha Reddy',
+    email: 'sneha@example.com',
+    rating: 3,
+    comment: 'Product is okay but I expected better results. Maybe need to use it longer.',
+    status: 'pending',
+    helpful: 1,
+    createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000)
+  },
+  {
+    name: 'Vikram Singh',
+    email: 'vikram@example.com',
+    rating: 5,
+    comment: 'Best Shilajit I have tried. Genuine Himalayan product. Worth every penny!',
+    status: 'approved',
+    helpful: 15,
+    createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000)
+  }
+];
+
 async function seedDatabase() {
   const client = new MongoClient(MONGODB_URI);
 
@@ -255,6 +303,7 @@ async function seedDatabase() {
     await db.collection('users').deleteMany({});
     await db.collection('orders').deleteMany({});
     await db.collection('newsletter').deleteMany({});
+    await db.collection('reviews').deleteMany({});
     console.log('Existing data cleared!');
 
     // Insert products
@@ -289,12 +338,22 @@ async function seedDatabase() {
     const newsletterResult = await db.collection('newsletter').insertMany(newsletter);
     console.log(`${newsletterResult.insertedCount} newsletter subscribers inserted!`);
 
+    // Link reviews to products and insert
+    console.log('\nInserting reviews...');
+    const reviewsWithProducts = reviews.map((review, index) => ({
+      ...review,
+      productId: productIds[index % productIds.length]
+    }));
+    const reviewsResult = await db.collection('reviews').insertMany(reviewsWithProducts);
+    console.log(`${reviewsResult.insertedCount} reviews inserted!`);
+
     console.log('\n✅ Database seeded successfully!');
     console.log('\n📊 Summary:');
     console.log(`   - Products: ${productsResult.insertedCount}`);
     console.log(`   - Users: ${usersResult.insertedCount}`);
     console.log(`   - Orders: ${ordersResult.insertedCount}`);
     console.log(`   - Newsletter Subscribers: ${newsletterResult.insertedCount}`);
+    console.log(`   - Reviews: ${reviewsResult.insertedCount}`);
     console.log('\n🔐 Admin Credentials:');
     console.log('   Email: admin@agnishila.com');
     console.log('   Password: admin123');

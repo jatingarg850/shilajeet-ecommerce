@@ -207,7 +207,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wider">
+            <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
               Our Impact
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -255,7 +255,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wider">
+            <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
               Our Core Values
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -350,7 +350,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 uppercase tracking-wider">
+            <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
               What Drives Us
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -401,7 +401,7 @@ export default function AboutPage() {
           >
             <Quote className="w-16 h-16 text-primary-400 mx-auto mb-8" />
             
-            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8 uppercase tracking-wider">
+            <h2 className="text-4xl lg:text-5xl font-bold text-white-to-mauve mb-8 uppercase tracking-wider">
               Our Philosophy
             </h2>
             

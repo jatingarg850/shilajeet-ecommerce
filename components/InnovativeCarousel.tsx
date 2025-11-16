@@ -107,7 +107,7 @@ export default function InnovativeCarousel() {
           className="text-center mb-20"
         >
 
-          <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6">
             Why Choose Our Shilajit?
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">

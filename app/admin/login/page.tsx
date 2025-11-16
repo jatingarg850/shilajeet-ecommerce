@@ -27,7 +27,8 @@ export default function AdminLoginPage() {
       });
 
       if (result?.ok) {
-        router.push('/admin/dashboard');
+        router.push('/admin');
+        router.refresh();
       } else {
         setError('Invalid credentials');
       }

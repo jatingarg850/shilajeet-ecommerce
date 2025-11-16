@@ -25,8 +25,20 @@ export default function CustomersPage() {
   const fetchCustomers = async () => {
     try {
       const response = await fetch('/api/admin/customers');
-      const data = await response.json();
-      setCustomers(data);
+      if (response.ok) {
+        const data = await response.json();
+        // Map the API response to match our interface
+        const formattedCustomers = data.map((customer: any) => ({
+          _id: customer.id,
+          name: customer.name,
+          email: customer.email,
+          phone: customer.phone || '',
+          address: customer.address || '',
+          createdAt: customer.joinDate,
+          totalOrders: customer.orderCount || 0
+        }));
+        setCustomers(formattedCustomers);
+      }
     } catch (error) {
       console.error('Failed to fetch customers:', error);
     } finally {
