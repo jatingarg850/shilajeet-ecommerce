@@ -152,7 +152,7 @@ export async function GET(request: NextRequest) {
       });
     });
 
-    const totalCategorySales = Object.values(categorySales).reduce((sum: any, count: any) => sum + count, 0);
+    const totalCategorySales = Object.values(categorySales).reduce((sum: any, count: any) => sum + count, 0) as number;
     const salesByCategory = Object.entries(categorySales).map(([category, count]: any) => ({
       category,
       count,

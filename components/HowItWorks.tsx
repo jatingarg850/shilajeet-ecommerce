@@ -7,12 +7,12 @@ const steps = [
   {
     icon: <ShoppingCart className="w-8 h-8" />,
     title: 'Order',
-    description: 'Browse our premium collection and add your favorite products to cart'
+    description: 'Browse our premium TruBlk™ collection and add your favorite products to cart'
   },
   {
     icon: <Package className="w-8 h-8" />,
-    title: 'KYC-44 Ashwagandha',
-    description: 'Premium Ashwagandha with KSM-66 for stress relief and vitality'
+    title: 'Lab Tested',
+    description: 'Every batch is FSSAI approved, 3rd-party lab verified for purity and safety'
   },
   {
     icon: <Truck className="w-8 h-8" />,
@@ -21,8 +21,8 @@ const steps = [
   },
   {
     icon: <CheckCircle className="w-8 h-8" />,
-    title: 'Black Haldi',
-    description: 'Rare Black Turmeric for enhanced immunity and wellness'
+    title: 'Experience',
+    description: 'Feel the difference with clinically validated, globally compliant Shilajit'
   }
 ];
 
@@ -73,7 +73,7 @@ export default function HowItWorks() {
           ))}
         </div>
 
-        {/* Full List of Ingredients */}
+        {/* TruBlk Promise */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -81,13 +81,13 @@ export default function HowItWorks() {
           className="mt-16 bg-jet-900 border border-white/20 p-8"
         >
           <h3 className="text-2xl font-bold text-white-to-mauve mb-6 uppercase tracking-wider">
-            Full List of Ingredients
+            Agnishila TruBlk™ Promise
           </h3>
           <p className="text-gray-300 leading-relaxed mb-4">
-            Imported Isolate: Whey Protein Isolate, Whey Protein Concentrate (Milk), Emulsifier (Soya Lecithin), Digestive Enzyme Blend (Protease, Amylase, Cellulase, Lactase, Lipase), Sweetener (Sucralose), Flavour, Colour.
+            Born in India. Built for global trust. Our TruBlk™ Shilajit embodies the finest expression of Shilajit — crafted through precision, validated through science, and trusted by global brands for its strength, stamina, stress relief, and daily vitality.
           </p>
           <p className="text-gray-400 text-sm">
-            Allergen Information: Contains Milk and Soya. May contain traces of Gluten, Eggs, Peanuts, Tree Nuts, Fish, Crustaceans, Molluscs, Sesame Seeds, Sulphur Dioxide and Sulphites.
+            Clinically Evaluated • Scientifically Standardized • Absolutely Traceable • GMP & ISO Certified
           </p>
         </motion.div>
 

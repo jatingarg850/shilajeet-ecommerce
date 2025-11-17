@@ -26,17 +26,17 @@ const products = [
   },
   {
     id: 'agnishila-shilajit-gummies',
-    name: 'Agnishila Shilajit Gummies',
+    name: 'Agnishila ShilaBoost Gummies',
     price: 1299,
     originalPrice: 1799,
     image: '/images/image-removebg-preview (1).png',
     rating: 4.8,
     reviews: 892,
-    description: 'Delicious and convenient Shilajit gummies for daily wellness',
+    description: 'Modern way to experience Shilajit with Gokhru, Ginger Extract, and Black Musli for energy',
     badge: 'POPULAR',
     badgeColor: 'from-blue-500 to-cyan-500',
     icon: <Zap className="w-5 h-5" />,
-    features: ['Natural Flavors', 'Easy Dosage', 'Travel Friendly']
+    features: ['Pure Shilajit Resin', 'Gokhru Extract', 'No Bitterness']
   },
   {
     id: 'agnishila-ashwagandha-gummies',

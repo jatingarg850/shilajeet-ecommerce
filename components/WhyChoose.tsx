@@ -6,23 +6,23 @@ import { CheckCircle, Zap, Leaf, FlaskConical } from 'lucide-react';
 const benefits = [
   {
     icon: <CheckCircle className="w-12 h-12" />,
-    title: 'Made from Proprietary Shilajit Resin',
-    description: 'Our advanced 7th generation Purification Technology ensures a highly purified and more bioavailable form of Shilajit extract for maximum effectiveness.'
-  },
-  {
-    icon: <Zap className="w-12 h-12" />,
-    title: '2.5x Higher Bioavailability',
-    description: 'Engineered for superior absorption, delivering faster and more noticeable benefits compared to regular Shilajit.'
+    title: 'Pure & Potent Formulations',
+    description: 'Our TruBlk™ Shilajit embodies the finest expression of Shilajit - contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.'
   },
   {
     icon: <Leaf className="w-12 h-12" />,
-    title: '100% Natural',
-    description: 'No artificial colors, flavors, or preservatives - just clean, high-quality Shilajit in its premium gummy form.'
+    title: 'Authentic Himalayan Sourcing',
+    description: 'We source Shilajit from the untouched high-altitude Himalayan regions, ensuring purity, strength, and natural energy.'
   },
   {
     icon: <FlaskConical className="w-12 h-12" />,
-    title: 'Every Batch Third Party Lab Tested',
-    description: 'Each and Every Batch that you receive is 3rd Party Tested - Certified for Purity, Safety, and Quality - Guaranteed.'
+    title: 'Lab-Tested for Safety',
+    description: 'Every batch is FSSAI approved, 3rd-party lab verified and tested for heavy metals, ensuring total safety.'
+  },
+  {
+    icon: <Zap className="w-12 h-12" />,
+    title: 'GMP, HACCP & FDA-Compliant',
+    description: 'Every batch of TruBlk™ undergoes exhaustive screening for heavy metals, solvent residues, microbial contaminants, and adulterants. Manufactured in GMP- and ISO-certified facilities.'
   }
 ];
 
@@ -36,9 +36,12 @@ export default function WhyChoose() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4 uppercase tracking-wider">
-            Why choose Shilajit Gummies
+          <h2 className="text-4xl lg:text-5xl font-bold text-white-to-mauve mb-4 uppercase tracking-wider">
+            Why Choose Agnishila
           </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            At Agnishila, after years of research we bring the purest form of Himalayan wellness straight to you — Shilajit enters a new era - one defined by proof, purity, and purpose.
+          </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">

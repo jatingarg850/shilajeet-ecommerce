@@ -189,8 +189,16 @@ export default function Footer() {
                 <div className="flex items-center space-x-3">
                   <Phone className="w-5 h-5 text-primary-400 flex-shrink-0" />
                   <div>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider">Toll Free</p>
+                    <span className="text-white font-medium">08071502811</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-3">
+                  <Phone className="w-5 h-5 text-primary-400 flex-shrink-0" />
+                  <div>
                     <p className="text-xs text-gray-400 uppercase tracking-wider">Call Us</p>
-                    <span className="text-white font-medium">+91 98765 43210</span>
+                    <span className="text-white font-medium">+91 93108 51557</span>
                   </div>
                 </div>
                 

@@ -47,19 +47,19 @@ const products = [
     },
     {
         id: 'agnishila-shilajit-gummies',
-        name: 'Agnishila Shilajit Gummies',
+        name: 'Agnishila ShilaBoost Gummies',
         price: 1299,
         originalPrice: 1799,
         image: '/images/image-removebg-preview (1).png',
         rating: 4.8,
         reviews: 892,
-        description: 'Delicious and convenient Shilajit gummies for daily wellness. Perfect for busy lifestyles.',
-        features: ['Natural Flavors', 'Easy Dosage', 'Travel Friendly', '60 Gummies'],
-        detailedDescription: 'Our Shilajit Gummies make ancient wellness accessible and enjoyable. Each gummy contains standardized Shilajit extract equivalent to 500mg of pure resin, combined with natural fruit flavors for a delightful daily ritual.',
-        ingredients: ['Shilajit Extract (500mg equivalent)', 'Natural Fruit Flavors', 'Organic Cane Sugar', 'Pectin', 'Natural Colors'],
-        benefits: ['Sustained Energy Release', 'Improved Focus & Clarity', 'Enhanced Mood', 'Better Sleep Quality', 'Stress Management'],
-        usage: 'Take 2 gummies daily, preferably with meals. Do not exceed recommended dosage.',
-        certifications: ['Vegetarian', 'No Artificial Preservatives', 'Lab Tested', 'Ayush Approved']
+        description: 'A modern and delicious way to experience the ancient power of Shilajit. Infused with pure Shilajit Resin, Gokhru, Ginger Extract, and Black Musli.',
+        features: ['Pure Shilajit Resin', 'Gokhru Extract', 'Ginger Extract', 'Black Musli', '60 Gummies'],
+        detailedDescription: 'Agnishila ShilaBoost Gummies are a modern and delicious way to experience the ancient power of Shilajit. Each gummy is infused with pure Shilajit Resin (400mg per gummy), blended with Gokhru (30mg), Ginger Extract (50mg), and Black Musli (20mg) — four potent Ayurvedic ingredients known for enhancing energy, stamina, performance, and daily vitality. Designed for those who want natural strength without bitterness, ShilaBoost Gummies deliver the benefits of premium Shilajit in a convenient, tasty, and easily absorbable form.',
+        ingredients: ['Shilajit Resin (400mg per gummy)', 'Gokhru Extract (30mg)', 'Ginger Extract (50mg)', 'Black Musli Extract (20mg)'],
+        benefits: ['Boosts Energy & Reduces Fatigue', 'Enhances Strength & Stamina', 'Supports Hormonal Balance & Male Wellness', 'Improves Digestion & Nutrient Absorption', 'Enhances Recovery & Reduces Stress', 'Supports Immunity & Overall Wellness', 'Daily Boost for Active Lifestyles'],
+        usage: 'Take 2 gummies daily, preferably after breakfast or lunch. For best results, take consistently for 4–8 weeks. Can be taken before workouts for an energy & stamina boost. Maximum 2 gummies per day. Stay hydrated for better absorption.',
+        certifications: ['GMP Certified', 'HACCP Certified', 'Lab Tested for Purity', 'Heavy Metal Free', 'Quality Assured']
     },
     {
         id: 'agnishila-ashwagandha-gummies',
