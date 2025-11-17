@@ -31,19 +31,19 @@ import FAQSection from '@/components/FAQSection';
 const products = [
     {
         id: 'agnishila-gold-shilajit-resin',
-        name: 'Agnishila Gold Shilajit Resin',
+        name: 'TruBlk Shilajit Gold Resin',
         price: 2499,
         originalPrice: 3499,
         image: '/images/image-removebg-preview.png',
         rating: 4.9,
         reviews: 1247,
-        description: 'Premium Himalayan Shilajit resin with 24K gold flakes. The ultimate vitality booster for peak performance.',
-        features: ['24K Gold Infused', '100% Pure', 'Lab Tested', '30g Premium Jar'],
-        detailedDescription: 'Sourced from the pristine heights of 16,000+ feet in the Himalayas, our Gold Shilajit Resin is enhanced with pure 24K gold flakes for maximum bioavailability. This ancient superfood contains over 84 minerals and fulvic acid to boost energy, enhance cognitive function, and support overall vitality.',
-        ingredients: ['Pure Himalayan Shilajit', '24K Gold Flakes', 'Fulvic Acid', '84+ Trace Minerals'],
-        benefits: ['Boosts Energy & Stamina', 'Enhances Cognitive Function', 'Supports Immune System', 'Improves Physical Performance', 'Anti-Aging Properties'],
-        usage: 'Take a rice grain-sized portion (300-500mg) dissolved in warm water or milk, twice daily on empty stomach.',
-        certifications: ['3rd Party Lab Tested', 'Heavy Metal Free', 'Ayush Certified', 'GMP Certified']
+        description: 'A powerful blend crafted to elevate your strength, stamina, and overall vitality. Sourced from high-altitude Himalayan minerals, enriched with ancient Ayurvedic actives.',
+        features: ['Swarna Bhasma (Gold)', 'KSM-66 Ashwagandha', 'Safed Musli', 'Kaunj (Mucuna)', 'Brahmi', 'Lab Tested'],
+        detailedDescription: 'TruBlk Shilajit Gold Resin is a powerful blend crafted to elevate your strength, stamina, and overall vitality. Sourced from high-altitude Himalayan minerals, this gold-grade resin is enriched with ancient Ayurvedic actives that work together for superior performance and daily wellness. This formulation combines pure TruBlk Shilajit Resin with Swarna Bhasma, KSM-66 Ashwagandha, Safed Musli, Kaunj (Mucuna), and Brahmi — creating a potent synergy for energy, focus, recovery, and hormonal balance. At Agnishila, after years of research we bring the purest form of Himalayan wellness straight to you — Shilajit enters a new era - one defined by proof, purity, and purpose. Introducing Agnishila TruBlk™ — the gold standard in clinically validated, globally compliant Shilajit. Born in India. Built for global trust.',
+        ingredients: ['TruBlk Shilajit Resin (700mg per 1gm)', 'Swarna Bhasma (0.2mg)', 'KSM-66 Ashwagandha (150mg)', 'Safed Musli (49.9mg)', 'Kaunj/Mucuna (49.9mg)', 'Brahmi (50mg)'],
+        benefits: ['Increases Strength & Stamina', 'Boosts Testosterone & Hormonal Balance', 'Reduces Stress & Supports Calm Mind', 'Enhances Energy & Metabolism', 'Improves Brain Function & Memory', 'Strengthens Immunity', 'Supports Male Reproductive Health', 'Boosts Recovery & Reduces Fatigue'],
+        usage: 'Take 300–500 mg (pea-sized amount) once daily. Mix in warm water, milk, or herbal tea. Stir well until fully dissolved. Consume on an empty stomach in the morning for best results. For maximum benefits: Morning dose for energy & stamina, optional evening dose for stress relief & recovery. Athletes can take before workout for enhanced performance. Take daily for 6–8 weeks for best results. Safe for long-term daily use.',
+        certifications: ['FSSAI Approved', '3rd Party Lab Verified', 'GMP Certified', 'HACCP Compliant', 'ISO Certified', 'FDA-Compliant Manufacturing', 'Heavy Metal Free']
     },
     {
         id: 'agnishila-shilajit-gummies',

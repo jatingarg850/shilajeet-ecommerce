@@ -12,17 +12,17 @@ import SectionBlend from './SectionBlend';
 const products = [
   {
     id: 'agnishila-gold-shilajit-resin',
-    name: 'Agnishila Gold Shilajit Resin',
+    name: 'TruBlk Shilajit Gold Resin',
     price: 2499,
     originalPrice: 3499,
     image: '/images/image-removebg-preview.png',
     rating: 4.9,
     reviews: 1247,
-    description: 'Premium Himalayan Shilajit resin with 24K gold flakes for ultimate vitality',
+    description: 'Powerful blend with Swarna Bhasma, KSM-66 Ashwagandha, and Ayurvedic herbs for strength and vitality',
     badge: 'BESTSELLER',
     badgeColor: 'from-red-500 to-pink-500',
     icon: <Award className="w-5 h-5" />,
-    features: ['24K Gold Infused', '100% Pure', 'Lab Tested']
+    features: ['Swarna Bhasma', 'KSM-66 Ashwagandha', 'Lab Tested']
   },
   {
     id: 'agnishila-shilajit-gummies',
