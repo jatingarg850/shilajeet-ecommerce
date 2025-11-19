@@ -174,16 +174,7 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-bold text-white mb-6 uppercase tracking-wider">Connect</h4>
             <div className="space-y-6">
-              <div className="bg-jet-900 border border-white/20 p-4">
-                <div className="flex items-start space-x-3 mb-3">
-                  <MapPin className="w-5 h-5 text-primary-400 mt-1 flex-shrink-0" />
-                  <div className="text-gray-300 text-sm">
-                    <p className="font-medium text-white mb-1">Visit Us</p>
-                    <p>Himalayan Wellness Center</p>
-                    <p>Wellness Valley, India</p>
-                  </div>
-                </div>
-              </div>
+              
               
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
@@ -194,21 +185,9 @@ export default function Footer() {
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-primary-400 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider">Call Us</p>
-                    <span className="text-white font-medium">+91 93108 51557</span>
-                  </div>
-                </div>
                 
-                <div className="flex items-center space-x-3">
-                  <Mail className="w-5 h-5 text-primary-400 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider">Email Us</p>
-                    <span className="text-white font-medium">hello@agnishila.com</span>
-                  </div>
-                </div>
+                
+                
               </div>
             </div>
           </div>
@@ -222,7 +201,7 @@ export default function Footer() {
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">
-                  Awaken Your Fire
+                  Ignite Your Fire Within
                 </h3>
                 <p className="text-gray-300 font-light leading-relaxed">
                   Join our wellness community and receive exclusive insights, product updates, 

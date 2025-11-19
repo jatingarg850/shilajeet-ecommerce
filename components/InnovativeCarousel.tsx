@@ -3,69 +3,79 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Zap, Shield, Award, Leaf, Mountain, Microscope } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Zap, Shield, Award, Leaf, Mountain, Microscope, Sparkles } from 'lucide-react';
 import SectionBlend from './SectionBlend';
 
 const benefits = [
   {
     id: 1,
     icon: <Zap className="w-16 h-16" />,
-    title: 'Enhanced Energy',
-    description: 'Natural boost to your daily energy levels without crashes or jitters',
-    detail: 'Shilajit contains fulvic acid and over 84 minerals that support cellular energy production at the mitochondrial level, providing sustained energy throughout the day.',
-    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&auto=format',
-    stats: '84+ Minerals',
-    benefit: 'All-Day Energy'
+    title: 'Pure & Potent Formulations',
+    description: 'High fulvic acid, maximum bioavailability, zero fillers',
+    detail: 'Our TruBlk™ Shilajit embodies the finest expression of Shilajit - contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.',
+    image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&h=600&fit=crop&auto=format',
+    stats: 'TruBlk™',
+    benefit: 'Premium Quality'
   },
   {
     id: 2,
-    icon: <Shield className="w-16 h-16" />,
-    title: 'Immune Support',
-    description: 'Strengthen your body\'s natural defense system',
-    detail: 'Rich in antioxidants and bioactive compounds that help protect against oxidative stress and support immune function for optimal health.',
-    image: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=800&h=600&fit=crop&auto=format',
-    stats: '100% Natural',
-    benefit: 'Immune Boost'
-  },
-  {
-    id: 3,
-    icon: <Award className="w-16 h-16" />,
-    title: 'Premium Quality',
-    description: 'Lab-tested purity and potency guaranteed',
-    detail: 'Every batch is third-party tested for heavy metals, contaminants, and authenticity to ensure maximum safety and efficacy.',
-    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop&auto=format',
-    stats: 'Lab Tested',
-    benefit: 'Pure Quality'
-  },
-  {
-    id: 4,
     icon: <Mountain className="w-16 h-16" />,
-    title: 'Himalayan Source',
-    description: 'Sourced from pristine high-altitude regions',
-    detail: 'Harvested from the pristine Himalayan mountains at altitudes above 16,000 feet, where the purest form of Shilajit is naturally formed.',
+    title: 'Authentic Himalayan Sourcing',
+    description: 'Sourced from untouched high-altitude regions',
+    detail: 'We source Shilajit from the untouched high-altitude Himalayan regions, ensuring purity, strength, and natural energy.',
     image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&auto=format',
     stats: '16,000+ Feet',
     benefit: 'Pure Origin'
   },
   {
+    id: 3,
+    icon: <Shield className="w-16 h-16" />,
+    title: 'Lab-Tested for Safety',
+    description: 'FSSAI approved, 3rd-party verified',
+    detail: 'Every batch is FSSAI approved, 3rd-party lab verified and tested for heavy metals, ensuring total safety.',
+    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=600&fit=crop&auto=format',
+    stats: 'Lab Verified',
+    benefit: 'Total Safety'
+  },
+  {
+    id: 4,
+    icon: <Award className="w-16 h-16" />,
+    title: 'GMP, HACCP & FDA-Compliant Manufacturing',
+    description: 'International benchmarks for excellence',
+    detail: 'Every batch of TruBlk™ undergoes exhaustive screening for heavy metals, solvent residues, microbial contaminants, and adulterants. Manufactured in GMP- and ISO-certified facilities, validated for stability and safety — it meets international benchmarks for excellence. Because the world\'s finest Shilajit deserves uncompromising purity.',
+    image: '/bg/vd.jpg',
+    stats: 'GMP & ISO',
+    benefit: 'Certified'
+  },
+  {
     id: 5,
-    icon: <Microscope className="w-16 h-16" />,
-    title: 'Scientific Backing',
-    description: 'Backed by extensive research and studies',
-    detail: 'Supported by over 50 peer-reviewed studies demonstrating its effectiveness in enhancing vitality, cognitive function, and overall wellness.',
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&auto=format',
-    stats: '50+ Studies',
-    benefit: 'Proven Results'
+    icon: <Leaf className="w-16 h-16" />,
+    title: 'Modern Wellness Meets Ancient Ayurveda',
+    description: 'Ancient wisdom with cutting-edge technology',
+    detail: 'Agnishila blends ancient wisdom with cutting-edge extraction technology for maximum results.',
+    image: 'https://images.unsplash.com/photo-1545239705-1564e58b9e4a?w=800&h=600&fit=crop&auto=format',
+    stats: '5000+ Years',
+    benefit: 'Ayurvedic'
   },
   {
     id: 6,
-    icon: <Leaf className="w-16 h-16" />,
-    title: 'Natural & Pure',
-    description: '100% authentic with no artificial additives',
-    detail: 'Processed using traditional methods to preserve natural properties, with no artificial additives, fillers, or synthetic compounds.',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop&auto=format',
-    stats: '0% Additives',
-    benefit: 'Pure Nature'
+    icon: <Microscope className="w-16 h-16" />,
+    title: 'Transparency You Can Trust',
+    description: 'Clinically evaluated, scientifically standardized',
+    detail: 'No shortcuts. Agnishila TruBlk™ is Clinically Evaluated, Scientifically Standardized & Absolutely Traceable.',
+    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&auto=format',
+    stats: '100%',
+    benefit: 'Traceable'
+  },
+  {
+    id: 7,
+    icon: <Sparkles className="w-16 h-16" />,
+    title: 'Crafted for Everyday Performance',
+    description: 'Trusted by global brands for strength and vitality',
+    detail: 'Agnishila TruBlk™ embodies the finest expression of Shilajit — crafted through precision, validated through science, and trusted by global brands for its strength, stamina, stress relief, or daily vitality.',
+    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&auto=format',
+    stats: 'Daily Use',
+    benefit: 'Performance'
   }
 ];
 
@@ -108,23 +118,25 @@ export default function InnovativeCarousel() {
         >
 
           <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6">
-            Why Choose Our Shilajit?
+            Why Choose Shilajit?
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Experience the transformative power of authentic Himalayan Shilajit with scientifically proven benefits
-          </p>
+          <p className="text-xl text-gray-300 max-w-20xl mx-auto leading-relaxed">
+            At Agnishila, after years of research we bring the purest form of Himalayan wellness straight to you — Shilajit enters a new era - one defined by proof, purity, and purpose.
+</p><br></br><br/><p className="text-xl text-gray-300 max-w-10xl mx-auto leading-relaxed">
+Introducing Agnishila TruBlk™ — the gold standard in clinically validated, globally compliant Shilajit.
+Born in India. Built for global trust.  </p>
         </motion.div>
 
         {/* Enhanced Carousel Container */}
         <div className="relative">
-          <div className="carousel-container relative w-full h-[500px] bg-gradient-to-br from-jet-900 to-black rounded-3xl shadow-2xl overflow-hidden border border-white/10">
+          <div className="carousel-container relative w-full h-[600px] bg-gradient-to-br from-jet-900 to-black rounded-3xl shadow-2xl overflow-hidden border border-white/10">
 
             {/* Carousel Slide Container */}
             <div ref={slideRef} className="carousel-slide relative w-full h-full">
               {benefits.map((benefit, index) => (
                 <div
                   key={benefit.id}
-                  className="carousel-item absolute w-[280px] h-[350px] top-1/2 transform -translate-y-1/2 rounded-2xl shadow-2xl transition-all duration-500 ease-in-out overflow-hidden"
+                  className="carousel-item absolute w-[320px] h-[420px] top-1/2 transform -translate-y-1/2 rounded-2xl shadow-2xl transition-all duration-500 ease-in-out overflow-hidden"
                   style={{
                     backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${benefit.image})`,
                     backgroundSize: 'cover',
@@ -132,18 +144,18 @@ export default function InnovativeCarousel() {
                   }}
                 >
                   {/* Content that appears on the active slide */}
-                  <div className="content absolute top-1/2 left-[120px] w-[400px] text-left text-white transform -translate-y-1/2 hidden">
+                  <div className="content absolute top-1/2 left-[80px] w-[500px] text-left text-white transform -translate-y-1/2 hidden pr-8">
                     <motion.div
                       className="mb-6 text-primary-400"
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                      {benefit.icon}
+                      
                     </motion.div>
 
                     <motion.h3
-                      className="text-5xl font-bold uppercase mb-4 leading-tight"
+                      className="text-4xl font-bold uppercase mb-6 leading-tight"
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.3 }}
@@ -152,7 +164,7 @@ export default function InnovativeCarousel() {
                     </motion.h3>
 
                     <motion.p
-                      className="text-lg mb-6 opacity-90 leading-relaxed"
+                      className="text-lg mb-8 opacity-90 leading-relaxed"
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.4 }}
@@ -166,14 +178,14 @@ export default function InnovativeCarousel() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.5 }}
                     >
-                      <div className="text-center">
+                      <div className="bg-primary-400/10 border border-primary-400/30 px-6 py-3">
                         <div className="text-2xl font-bold text-primary-400">{benefit.stats}</div>
                         <div className="text-sm text-gray-300">{benefit.benefit}</div>
                       </div>
                     </motion.div>
 
                     <motion.button
-                      className="bg-primary-400 hover:bg-primary-500 text-black px-8 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105"
+                      className="bg-primary-400 hover:bg-primary-500 text-black px-8 py-3 font-bold transition-all duration-300 transform hover:scale-105 uppercase tracking-wider text-sm"
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.6 }}

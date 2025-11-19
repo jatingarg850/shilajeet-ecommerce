@@ -7,66 +7,11 @@ import { motion } from 'framer-motion';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { ShoppingCart, Star, Heart, Search, Filter, X, ChevronDown } from 'lucide-react';
-import { useState, useMemo } from 'react';
-
-const products = [
-  {
-    id: 'agnishila-gold-shilajit-resin',
-    name: 'TruBlk Shilajit Gold Resin',
-    price: 2499,
-    originalPrice: 3499,
-    image: '/images/image-removebg-preview.png',
-    rating: 4.9,
-    reviews: 1247,
-    description: 'A powerful blend crafted to elevate your strength, stamina, and overall vitality with Swarna Bhasma, KSM-66 Ashwagandha, and more.',
-    features: ['Swarna Bhasma', 'KSM-66 Ashwagandha', 'Safed Musli', 'Lab Tested'],
-    category: 'Shilajit',
-    type: 'Resin',
-    detailedDescription: 'TruBlk Shilajit Gold Resin combines pure Himalayan Shilajit with Swarna Bhasma, KSM-66 Ashwagandha, Safed Musli, Kaunj (Mucuna), and Brahmi for superior performance and daily wellness.',
-    ingredients: ['TruBlk Shilajit Resin (700mg)', 'Swarna Bhasma (0.2mg)', 'KSM-66 Ashwagandha (150mg)', 'Safed Musli (49.9mg)', 'Kaunj (49.9mg)', 'Brahmi (50mg)'],
-    benefits: ['Increases Strength & Stamina', 'Boosts Testosterone', 'Reduces Stress', 'Enhances Energy', 'Improves Brain Function', 'Strengthens Immunity'],
-    usage: 'Take 300–500 mg (pea-sized amount) once daily mixed in warm water, milk, or herbal tea on an empty stomach.',
-    certifications: ['FSSAI Approved', '3rd Party Lab Verified', 'GMP Certified', 'FDA-Compliant']
-  },
-  {
-    id: 'agnishila-shilajit-gummies',
-    name: 'Agnishila ShilaBoost Gummies',
-    price: 1299,
-    originalPrice: 1799,
-    image: '/images/image-removebg-preview (1).png',
-    rating: 4.8,
-    reviews: 892,
-    description: 'Modern and delicious way to experience Shilajit. Infused with Gokhru, Ginger Extract, and Black Musli for energy and stamina.',
-    features: ['Pure Shilajit Resin', 'Gokhru Extract', 'Ginger Extract', 'Black Musli'],
-    category: 'Shilajit',
-    type: 'Gummies',
-    detailedDescription: 'ShilaBoost Gummies deliver the benefits of premium Shilajit in a convenient, tasty form with Gokhru, Ginger Extract, and Black Musli.',
-    ingredients: ['Shilajit Resin (400mg)', 'Gokhru Extract (30mg)', 'Ginger Extract (50mg)', 'Black Musli (20mg)'],
-    benefits: ['Boosts Energy', 'Enhances Strength & Stamina', 'Supports Hormonal Balance', 'Improves Digestion', 'Reduces Stress', 'Supports Immunity'],
-    usage: 'Take 2 gummies daily after breakfast or lunch. Can be taken before workouts for energy boost.',
-    certifications: ['GMP Certified', 'HACCP Certified', 'Lab Tested', 'Heavy Metal Free']
-  },
-  {
-    id: 'agnishila-ashwagandha-gummies',
-    name: 'Agnishila Ashwagandha Gummies',
-    price: 999,
-    originalPrice: 1399,
-    image: '/images/image.png',
-    rating: 4.7,
-    reviews: 654,
-    description: 'Premium Ashwagandha gummies for stress relief and adaptogenic support. Naturally delicious.',
-    features: ['KSM-66 Ashwagandha', 'Stress Relief', 'Natural Taste', '60 Gummies'],
-    category: 'Ashwagandha',
-    type: 'Gummies',
-    detailedDescription: 'Formulated with clinically studied KSM-66 Ashwagandha root extract, these gummies provide powerful adaptogenic support to help your body manage stress naturally while promoting calm energy and mental clarity.',
-    ingredients: ['KSM-66 Ashwagandha Extract (600mg)', 'Natural Berry Flavors', 'Organic Sweeteners', 'Pectin', 'Vitamin D3'],
-    benefits: ['Reduces Stress & Anxiety', 'Improves Sleep Quality', 'Enhances Physical Performance', 'Supports Hormonal Balance', 'Boosts Immunity'],
-    usage: 'Take 2 gummies daily, preferably in the evening. Can be taken with or without food.',
-    certifications: ['Clinically Studied KSM-66', 'Vegan Friendly', 'Third Party Tested', 'FDA Registered Facility']
-  }
-];
+import { useState, useMemo, useEffect } from 'react';
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [addingStates, setAddingStates] = useState<{[key: string]: boolean}>({});
@@ -96,6 +41,25 @@ export default function ProductsPage() {
     { label: 'Rating: High to Low', value: 'rating-desc' },
     { label: 'Name: A to Z', value: 'name-asc' }
   ];
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        console.log('Fetching products...');
+        const response = await fetch('/api/products');
+        console.log('Response status:', response.status);
+        const data = await response.json();
+        console.log('Products data:', data);
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleAddToCart = async (product: any) => {
     setAddingStates(prev => ({ ...prev, [product.id]: true }));
@@ -140,7 +104,7 @@ export default function ProductsPage() {
       // Search filter
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           product.features.some(feature => feature.toLowerCase().includes(searchQuery.toLowerCase()));
+                           product.features.some((feature: string) => feature.toLowerCase().includes(searchQuery.toLowerCase()));
       
       // Category filter
       const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
@@ -182,7 +146,7 @@ export default function ProductsPage() {
     }
 
     return filtered;
-  }, [searchQuery, selectedCategory, selectedType, priceRange, sortBy]);
+  }, [products, searchQuery, selectedCategory, selectedType, priceRange, sortBy]);
 
   const clearAllFilters = () => {
     setSearchQuery('');
@@ -236,7 +200,7 @@ export default function ProductsPage() {
             
             <p className="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
               Discover our curated collection of premium Himalayan wellness products, 
-              each crafted to awaken the fire within you.
+              each crafted to Ignite the fire within you.
             </p>
           </div>
 
@@ -272,7 +236,7 @@ export default function ProductsPage() {
                   className="md:hidden flex items-center space-x-2 bg-jet-900 border border-white/20 text-white px-4 py-2 hover:border-gold-400 transition-colors"
                 >
                   <Filter className="w-4 h-4" />
-                  <span className="text-sm uppercase tracking-wider">Filters</span>
+                  <span className="text-sm  tracking-wider">Filters</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
                 </button>
                 
@@ -491,17 +455,17 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Product Name */}
-                  <h3 className="text-xl font-bold text-white uppercase tracking-wider mb-4">{product.name}</h3>
+                  <h3 className="text-xl font-bold text-white normal-case tracking-wider mb-4">{product.name}</h3>
 
                   {/* Description */}
                   <p className="text-gray-400 text-sm font-light leading-relaxed mb-4">{product.description}</p>
 
                   {/* Features */}
                   <div className="flex flex-wrap gap-2 mb-4 flex-grow">
-                    {product.features.map((feature) => (
+                    {product.features.map((feature: string) => (
                       <span
                         key={feature}
-                        className="text-xs bg-gold-500/10 text-gold-300 px-2 py-1 border border-gold-500/20 uppercase tracking-wider h-fit"
+                        className="text-xs bg-gold-500/10 text-gold-300 px-2 py-1 border border-gold-500/20 normal-case tracking-wider h-fit"
                       >
                         {feature}
                       </span>

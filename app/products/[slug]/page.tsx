@@ -28,57 +28,6 @@ import FrequentlyBoughtTogether from '@/components/FrequentlyBoughtTogether';
 import WhyChoose from '@/components/WhyChoose';
 import FAQSection from '@/components/FAQSection';
 
-const products = [
-    {
-        id: 'agnishila-gold-shilajit-resin',
-        name: 'TruBlk Shilajit Gold Resin',
-        price: 2499,
-        originalPrice: 3499,
-        image: '/images/image-removebg-preview.png',
-        rating: 4.9,
-        reviews: 1247,
-        description: 'A powerful blend crafted to elevate your strength, stamina, and overall vitality. Sourced from high-altitude Himalayan minerals, enriched with ancient Ayurvedic actives.',
-        features: ['Swarna Bhasma (Gold)', 'KSM-66 Ashwagandha', 'Safed Musli', 'Kaunj (Mucuna)', 'Brahmi', 'Lab Tested'],
-        detailedDescription: 'TruBlk Shilajit Gold Resin is a powerful blend crafted to elevate your strength, stamina, and overall vitality. Sourced from high-altitude Himalayan minerals, this gold-grade resin is enriched with ancient Ayurvedic actives that work together for superior performance and daily wellness. This formulation combines pure TruBlk Shilajit Resin with Swarna Bhasma, KSM-66 Ashwagandha, Safed Musli, Kaunj (Mucuna), and Brahmi — creating a potent synergy for energy, focus, recovery, and hormonal balance. At Agnishila, after years of research we bring the purest form of Himalayan wellness straight to you — Shilajit enters a new era - one defined by proof, purity, and purpose. Introducing Agnishila TruBlk™ — the gold standard in clinically validated, globally compliant Shilajit. Born in India. Built for global trust.',
-        ingredients: ['TruBlk Shilajit Resin (700mg per 1gm)', 'Swarna Bhasma (0.2mg)', 'KSM-66 Ashwagandha (150mg)', 'Safed Musli (49.9mg)', 'Kaunj/Mucuna (49.9mg)', 'Brahmi (50mg)'],
-        benefits: ['Increases Strength & Stamina', 'Boosts Testosterone & Hormonal Balance', 'Reduces Stress & Supports Calm Mind', 'Enhances Energy & Metabolism', 'Improves Brain Function & Memory', 'Strengthens Immunity', 'Supports Male Reproductive Health', 'Boosts Recovery & Reduces Fatigue'],
-        usage: 'Take 300–500 mg (pea-sized amount) once daily. Mix in warm water, milk, or herbal tea. Stir well until fully dissolved. Consume on an empty stomach in the morning for best results. For maximum benefits: Morning dose for energy & stamina, optional evening dose for stress relief & recovery. Athletes can take before workout for enhanced performance. Take daily for 6–8 weeks for best results. Safe for long-term daily use.',
-        certifications: ['FSSAI Approved', '3rd Party Lab Verified', 'GMP Certified', 'HACCP Compliant', 'ISO Certified', 'FDA-Compliant Manufacturing', 'Heavy Metal Free']
-    },
-    {
-        id: 'agnishila-shilajit-gummies',
-        name: 'Agnishila ShilaBoost Gummies',
-        price: 1299,
-        originalPrice: 1799,
-        image: '/images/image-removebg-preview (1).png',
-        rating: 4.8,
-        reviews: 892,
-        description: 'A modern and delicious way to experience the ancient power of Shilajit. Infused with pure Shilajit Resin, Gokhru, Ginger Extract, and Black Musli.',
-        features: ['Pure Shilajit Resin', 'Gokhru Extract', 'Ginger Extract', 'Black Musli', '60 Gummies'],
-        detailedDescription: 'Agnishila ShilaBoost Gummies are a modern and delicious way to experience the ancient power of Shilajit. Each gummy is infused with pure Shilajit Resin (400mg per gummy), blended with Gokhru (30mg), Ginger Extract (50mg), and Black Musli (20mg) — four potent Ayurvedic ingredients known for enhancing energy, stamina, performance, and daily vitality. Designed for those who want natural strength without bitterness, ShilaBoost Gummies deliver the benefits of premium Shilajit in a convenient, tasty, and easily absorbable form.',
-        ingredients: ['Shilajit Resin (400mg per gummy)', 'Gokhru Extract (30mg)', 'Ginger Extract (50mg)', 'Black Musli Extract (20mg)'],
-        benefits: ['Boosts Energy & Reduces Fatigue', 'Enhances Strength & Stamina', 'Supports Hormonal Balance & Male Wellness', 'Improves Digestion & Nutrient Absorption', 'Enhances Recovery & Reduces Stress', 'Supports Immunity & Overall Wellness', 'Daily Boost for Active Lifestyles'],
-        usage: 'Take 2 gummies daily, preferably after breakfast or lunch. For best results, take consistently for 4–8 weeks. Can be taken before workouts for an energy & stamina boost. Maximum 2 gummies per day. Stay hydrated for better absorption.',
-        certifications: ['GMP Certified', 'HACCP Certified', 'Lab Tested for Purity', 'Heavy Metal Free', 'Quality Assured']
-    },
-    {
-        id: 'agnishila-ashwagandha-gummies',
-        name: 'Agnishila Ashwagandha Gummies',
-        price: 999,
-        originalPrice: 1399,
-        image: '/images/image.png',
-        rating: 4.7,
-        reviews: 654,
-        description: 'Premium Ashwagandha gummies for stress relief and adaptogenic support. Naturally delicious.',
-        features: ['KSM-66 Ashwagandha', 'Stress Relief', 'Natural Taste', '60 Gummies'],
-        detailedDescription: 'Formulated with clinically studied KSM-66 Ashwagandha root extract, these gummies provide powerful adaptogenic support to help your body manage stress naturally while promoting calm energy and mental clarity.',
-        ingredients: ['KSM-66 Ashwagandha Extract (600mg)', 'Natural Berry Flavors', 'Organic Sweeteners', 'Pectin', 'Vitamin D3'],
-        benefits: ['Reduces Stress & Anxiety', 'Improves Sleep Quality', 'Enhances Physical Performance', 'Supports Hormonal Balance', 'Boosts Immunity'],
-        usage: 'Take 2 gummies daily, preferably in the evening. Can be taken with or without food.',
-        certifications: ['Clinically Studied KSM-66', 'Vegan Friendly', 'Third Party Tested', 'FDA Registered Facility']
-    }
-];
-
 interface Review {
     _id: string;
     userId: string;
@@ -97,6 +46,8 @@ export default function ProductDetailPage() {
     const { user, isAuthenticated } = useAuth();
     const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
+    const [product, setProduct] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const [isAdding, setIsAdding] = useState(false);
     const [activeTab, setActiveTab] = useState('description');
@@ -111,7 +62,30 @@ export default function ProductDetailPage() {
     const [submittingReview, setSubmittingReview] = useState(false);
     const [wishlistLoading, setWishlistLoading] = useState(false);
 
-    const product = products.find(p => p.id === params.slug);
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                console.log('Fetching product with slug:', params.slug);
+                const response = await fetch(`/api/products/${params.slug}`);
+                console.log('Product response status:', response.status);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Product data:', data);
+                    setProduct(data);
+                } else {
+                    console.error('Product not found');
+                }
+            } catch (error) {
+                console.error('Error fetching product:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (params.slug) {
+            fetchProduct();
+        }
+    }, [params.slug]);
 
     useEffect(() => {
         if (product) {
@@ -246,6 +220,18 @@ export default function ProductDetailPage() {
         });
     };
 
+    if (loading) {
+        return (
+            <main className="min-h-screen bg-black">
+                <Navbar />
+                <div className="pt-32 pb-20 flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-400"></div>
+                </div>
+                <Footer />
+            </main>
+        );
+    }
+
     if (!product) {
         return (
             <main className="min-h-screen bg-black">
@@ -303,16 +289,16 @@ export default function ProductDetailPage() {
                             <span className="text-sm uppercase tracking-wider">Back to Products</span>
                         </button>
 
-                        <div className="grid lg:grid-cols-2 gap-16 mb-16">
+                        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
                             {/* Product Image */}
                             <motion.div
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                className="bg-jet-900 border border-white/20 p-8 relative overflow-hidden"
+                                className="bg-jet-900 border border-white/20 p-6 lg:p-8 relative overflow-hidden flex flex-col lg:sticky lg:top-24 lg:self-start"
                             >
                                 <div className="absolute top-0 right-0 w-0 h-0 border-l-[30px] border-l-transparent border-t-[30px] border-t-primary-400/30"></div>
 
-                                <div className="aspect-square bg-jet-800 flex items-center justify-center">
+                                <div className="aspect-square bg-jet-800 flex items-center justify-center mb-6">
                                     <Image
                                         src={product.image}
                                         alt={product.name}
@@ -324,7 +310,7 @@ export default function ProductDetailPage() {
                                 </div>
 
                                 {/* Product Actions */}
-                                <div className="flex items-center justify-between mt-6 pt-6 border-t border-white/20">
+                                <div className="flex items-center justify-between pt-6 border-t border-white/20">
                                     <button
                                         onClick={handleWishlistToggle}
                                         disabled={wishlistLoading}
@@ -364,7 +350,7 @@ export default function ProductDetailPage() {
                             >
                                 {/* Header */}
                                 <div>
-                                    <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 uppercase tracking-wider">
+                                    <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4  tracking-wider">
                                         {product.name}
                                     </h1>
 
@@ -404,7 +390,7 @@ export default function ProductDetailPage() {
                                 <div>
                                     <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Key Features</h3>
                                     <div className="grid grid-cols-2 gap-3">
-                                        {product.features.map((feature) => (
+                                        {product.features.map((feature: string) => (
                                             <div key={feature} className="flex items-center space-x-2">
                                                 <Check className="w-4 h-4 text-primary-400" />
                                                 <span className="text-gray-300 text-sm">{feature}</span>
@@ -508,7 +494,7 @@ export default function ProductDetailPage() {
                                         >
                                             <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Ingredients</h3>
                                             <div className="grid md:grid-cols-2 gap-4">
-                                                {product.ingredients.map((ingredient, index) => (
+                                                {product.ingredients.map((ingredient: string, index: number) => (
                                                     <div key={index} className="flex items-center space-x-3 p-3 bg-black border border-white/10">
                                                         <Check className="w-5 h-5 text-primary-400" />
                                                         <span className="text-gray-300">{ingredient}</span>
@@ -527,7 +513,7 @@ export default function ProductDetailPage() {
                                         >
                                             <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Health Benefits</h3>
                                             <div className="grid md:grid-cols-2 gap-4">
-                                                {product.benefits.map((benefit, index) => (
+                                                {product.benefits.map((benefit: string, index: number) => (
                                                     <div key={index} className="flex items-center space-x-3 p-3 bg-black border border-white/10">
                                                         <Star className="w-5 h-5 text-primary-400" />
                                                         <span className="text-gray-300">{benefit}</span>
@@ -551,7 +537,7 @@ export default function ProductDetailPage() {
 
                                             <h4 className="text-lg font-bold text-white mb-3 uppercase tracking-wider">Certifications</h4>
                                             <div className="grid md:grid-cols-2 gap-3">
-                                                {product.certifications.map((cert, index) => (
+                                                {product.certifications.map((cert: string, index: number) => (
                                                     <div key={index} className="flex items-center space-x-3 p-3 bg-black border border-white/10">
                                                         <Award className="w-5 h-5 text-primary-400" />
                                                         <span className="text-gray-300">{cert}</span>
@@ -739,47 +725,7 @@ export default function ProductDetailPage() {
                                 )}
                             </div>
                         </motion.div>
-
-                        {/* Product Details Tabs */}
-                        <div className="mt-12">
-                            <ProductDetailsTabs
-                                features={product.features}
-                                detailedDescription={product.detailedDescription}
-                                ingredients={product.ingredients}
-                                benefits={product.benefits}
-                                usage={product.usage}
-                                certifications={product.certifications}
-                            />
-                        </div>
-                    </div>
-                </section>
-
-                {/* Frequently Bought Together */}
-                <FrequentlyBoughtTogether
-                    mainProduct={{
-                        id: product.id,
-                        name: product.name,
-                        price: product.price,
-                        originalPrice: product.originalPrice,
-                        image: product.image
-                    }}
-                    bundleProducts={[
-                        {
-                            id: 'agnishila-shilajit-gummies',
-                            name: 'Agnishila Shilajit Gummies',
-                            price: 1299,
-                            originalPrice: 1799,
-                            image: '/images/image-removebg-preview (1).png'
-                        },
-                        {
-                            id: 'agnishila-ashwagandha-gummies',
-                            name: 'Agnishila Ashwagandha Gummies',
-                            price: 1199,
-                            originalPrice: 1699,
-                            image: '/images/image-removebg-preview (1).png'
-                        }
-                    ]}
-                />
+</div></section>
 
                 {/* Why Choose Section */}
                 <WhyChoose />

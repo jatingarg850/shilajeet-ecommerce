@@ -4,57 +4,27 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { ShoppingCart, Sparkles, Award, Zap, Heart } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import SectionBlend from './SectionBlend';
 
-const products = [
-  {
-    id: 'agnishila-gold-shilajit-resin',
-    name: 'TruBlk Shilajit Gold Resin',
-    price: 2499,
-    originalPrice: 3499,
-    image: '/images/image-removebg-preview.png',
-    rating: 4.9,
-    reviews: 1247,
-    description: 'Powerful blend with Swarna Bhasma, KSM-66 Ashwagandha, and Ayurvedic herbs for strength and vitality',
-    badge: 'BESTSELLER',
-    badgeColor: 'from-red-500 to-pink-500',
-    icon: <Award className="w-5 h-5" />,
-    features: ['Swarna Bhasma', 'KSM-66 Ashwagandha', 'Lab Tested']
-  },
-  {
-    id: 'agnishila-shilajit-gummies',
-    name: 'Agnishila ShilaBoost Gummies',
-    price: 1299,
-    originalPrice: 1799,
-    image: '/images/image-removebg-preview (1).png',
-    rating: 4.8,
-    reviews: 892,
-    description: 'Modern way to experience Shilajit with Gokhru, Ginger Extract, and Black Musli for energy',
-    badge: 'POPULAR',
-    badgeColor: 'from-blue-500 to-cyan-500',
-    icon: <Zap className="w-5 h-5" />,
-    features: ['Pure Shilajit Resin', 'Gokhru Extract', 'No Bitterness']
-  },
-  {
-    id: 'agnishila-ashwagandha-gummies',
-    name: 'Agnishila Ashwagandha Gummies',
-    price: 999,
-    originalPrice: 1399,
-    image: '/images/image.png',
-    rating: 4.7,
-    reviews: 654,
-    description: 'Premium Ashwagandha gummies for stress relief and adaptogenic support',
-    badge: 'NEW',
-    badgeColor: 'from-green-500 to-emerald-500',
-    icon: <Sparkles className="w-5 h-5" />,
-    features: ['KSM-66 Ashwagandha', 'Stress Relief', 'Natural Taste']
+const getIconForBadge = (badge: string) => {
+  switch (badge) {
+    case 'BESTSELLER':
+      return <Award className="w-5 h-5" />;
+    case 'POPULAR':
+      return <Zap className="w-5 h-5" />;
+    case 'NEW':
+      return <Sparkles className="w-5 h-5" />;
+    default:
+      return <Award className="w-5 h-5" />;
   }
-];
+};
 
 const ProductCard = ({ product, index }: { product: any; index: number }) => {
+  const router = useRouter();
   const { addItem } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const [isHovered, setIsHovered] = useState(false);
@@ -134,7 +104,11 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
       <motion.div
         style={{ rotateX, rotateY }}
         whileHover={{ z: 50 }}
-        className="relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu flex flex-col h-full"
+        onClick={() => {
+          console.log('Card clicked, navigating to:', product.id);
+          router.push(`/products/${product.id}`);
+        }}
+        className="relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu flex flex-col h-full cursor-pointer"
       >
         {/* Sharp corner accent */}
         <div className="absolute top-0 right-0 w-0 h-0 border-l-[24px] border-l-transparent border-t-[24px] border-t-gold-500/30 group-hover:border-t-gold-400/50 transition-all duration-300"></div>
@@ -153,7 +127,11 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
 
         {/* Wishlist Heart Icon */}
         <motion.button
-          onClick={handleWishlistToggle}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleWishlistToggle(e);
+          }}
           disabled={isWishlistLoading}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -228,7 +206,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             >
               {product.icon}
             </motion.div>
-            <h3 className="text-xl font-bold text-white uppercase tracking-wider">{product.name}</h3>
+            <h3 className="text-xl font-bold text-white normal-case tracking-wider">{product.name}</h3>
           </div>
 
           {/* Description */}
@@ -244,7 +222,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.15 + 1 + i * 0.1 }}
-                className="text-xs bg-gold-500/10 text-gold-300 px-3 py-1 border border-gold-500/20 uppercase tracking-wider font-medium h-fit"
+                className="text-xs bg-gold-500/10 text-gold-300 px-3 py-1 border border-gold-500/20 normal-case tracking-wider font-medium h-fit"
               >
                 {feature}
               </motion.span>
@@ -253,18 +231,16 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
 
           {/* Product Actions */}
           <div className="flex space-x-2 mt-auto">
-            <Link
-              href={`/products/${product.id}`}
-              className="flex-1 bg-jet-800 hover:bg-jet-700 text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm border border-white/20 hover:border-gold-400/50"
-            >
-              <span>View Details</span>
-            </Link>
             <motion.button
-              onClick={handleAddToCart}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleAddToCart();
+              }}
               disabled={isAdding}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="flex-1 bg-mauve-gradient hover:bg-mauve-shine text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve"
+              className="w-full bg-mauve-gradient hover:bg-mauve-shine text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve"
             >
               <motion.div
                 animate={{
@@ -297,6 +273,45 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
 };
 
 export default function FeaturedProducts() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        console.log('Fetching featured products...');
+        const response = await fetch('/api/products?featured=true');
+        console.log('Featured response status:', response.status);
+        const data = await response.json();
+        console.log('Featured products data:', data);
+        // Add icon to each product based on badge
+        const productsWithIcons = data.map((product: any) => ({
+          ...product,
+          icon: getIconForBadge(product.badge)
+        }));
+        setProducts(productsWithIcons);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="relative overflow-hidden py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-400"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="relative overflow-hidden">
       {/* Seamless background continuation */}
@@ -324,7 +339,7 @@ export default function FeaturedProducts() {
       <div className="relative z-30 py-24">
 
         {/* Rocky background elements */}
-        <div className="absolute inset-0 z-20">
+        <div className="absolute inset-0 z-10 pointer-events-none">
           {/* Rocky texture overlay */}
           <div className="absolute inset-0 opacity-30" style={{
             backgroundImage: `

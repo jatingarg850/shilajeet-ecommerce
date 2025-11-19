@@ -8,63 +8,63 @@ import { useState } from 'react';
 const reviews = [
   {
     id: 1,
-    name: 'Sarah Johnson',
-    title: 'CEO, TechCorp',
+    name: 'Rajesh Sharma',
+    title: 'IT Professional',
     rating: 5,
-    comment: 'Exceptional quality and results. This supplement has significantly enhanced my cognitive performance and energy levels during demanding business operations.',
-    date: 'March 2024',
+    comment: 'TruBlk Shilajit Gold Resin has transformed my energy levels! The combination of Swarna Bhasma and KSM-66 Ashwagandha is incredible. I feel more focused at work and my stamina has improved significantly. The gold-infused resin is worth every rupee.',
+    date: 'November 2024',
     verified: true,
-    location: 'San Francisco, CA'
+    location: 'Bangalore, India'
   },
   {
     id: 2,
-    name: 'Dr. Michael Chen',
-    title: 'Medical Director',
+    name: 'Priya Patel',
+    title: 'Fitness Enthusiast',
     rating: 5,
-    comment: 'As a healthcare professional, I\'m impressed by the purity and efficacy. The lab results speak for themselves - this is pharmaceutical-grade quality.',
-    date: 'February 2024',
+    comment: 'The Shilajit Gummies are a game-changer! So convenient and tasty. I take them before my morning workout and the energy boost is amazing. No bitterness like traditional shilajit. Perfect for my busy lifestyle.',
+    date: 'November 2024',
     verified: true,
-    location: 'New York, NY'
+    location: 'Mumbai, India'
   },
   {
     id: 3,
-    name: 'Emily Rodriguez',
-    title: 'Investment Banker',
+    name: 'Amit Verma',
+    title: 'Business Owner',
     rating: 5,
-    comment: 'The sustained energy and mental clarity I experience with this product is unparalleled. It\'s become essential for my high-performance lifestyle.',
-    date: 'March 2024',
+    comment: 'I\'ve tried many Shilajit brands, but Agnishila TruBlk™ stands out. The lab certification and purity are evident. The Gold Resin with Safed Musli and Brahmi has improved my mental clarity and stress management remarkably.',
+    date: 'October 2024',
     verified: true,
-    location: 'London, UK'
+    location: 'Delhi, India'
   },
   {
     id: 4,
-    name: 'David Kumar',
-    title: 'Olympic Athlete',
+    name: 'Sneha Reddy',
+    title: 'Yoga Instructor',
     rating: 5,
-    comment: 'Recovery and performance enhancement at the highest level. This product meets the stringent requirements of professional athletics.',
-    date: 'January 2024',
+    comment: 'Ashwagandha Gummies are perfect for stress relief! The KSM-66 quality is top-notch. I recommend these to all my students. Natural taste, effective results, and helps with sleep quality too.',
+    date: 'October 2024',
     verified: true,
-    location: 'Toronto, CA'
+    location: 'Hyderabad, India'
   },
   {
     id: 5,
-    name: 'Lisa Thompson',
-    title: 'Research Scientist',
+    name: 'Vikram Singh',
+    title: 'Gym Trainer',
     rating: 5,
-    comment: 'The bioavailability and mineral profile are exceptional. From a scientific perspective, this represents the gold standard in Shilajit supplementation.',
-    date: 'February 2024',
+    comment: 'TruBlk Gold Resin is the real deal! The Kaunj and Black Musli combination has boosted my strength training results. Recovery time has reduced and I feel more energetic throughout the day. Highly recommend for athletes.',
+    date: 'September 2024',
     verified: true,
-    location: 'Boston, MA'
+    location: 'Pune, India'
   },
   {
     id: 6,
-    name: 'James Wilson',
-    title: 'Fortune 500 Executive',
+    name: 'Kavita Desai',
+    title: 'Corporate Executive',
     rating: 5,
-    comment: 'Consistent, reliable performance enhancement. The quality control and sourcing transparency give me complete confidence in this product.',
-    date: 'March 2024',
+    comment: 'The Shilajit Gummies with Gokhru and Ginger Extract are amazing! Easy to carry, no mess, and the results are fantastic. My energy levels stay consistent throughout long meetings. The FSSAI approval gives me confidence in the quality.',
+    date: 'September 2024',
     verified: true,
-    location: 'Sydney, AU'
+    location: 'Ahmedabad, India'
   }
 ];
 
