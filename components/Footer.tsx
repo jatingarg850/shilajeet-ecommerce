@@ -201,7 +201,7 @@ export default function Footer() {
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">
-                  Ignite Your Fire Within
+                  Ignite The Fire Within
                 </h3>
                 <p className="text-gray-300 font-light leading-relaxed">
                   Join our wellness community and receive exclusive insights, product updates, 

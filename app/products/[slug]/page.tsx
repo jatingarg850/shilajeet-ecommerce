@@ -39,6 +39,260 @@ interface Review {
     verified: boolean;
 }
 
+// Product-specific FAQs
+const getProductFAQs = (productId: string, product: any) => {
+    const faqMap: { [key: string]: any[] } = {
+        'agnishila-trublk-gold-resin': [
+            {
+                question: 'What is TruBlk Agnishila Gold Resin?',
+                answer: 'It is a premium & finest expression of Shilajit sourced from the untouched high-altitude Himalayan region enriched with Swarna Bhasma, KSM-66 Ashwagandha, Safed Musli, Kaunj, and Brahmi for superior energy, strength, stamina, and mental clarity.'
+            },
+            {
+                question: 'What are the main health benefits?',
+                answer: 'TruBlk Gold Resin supports: Strength & stamina, Energy & metabolism, Stress reduction, Mental clarity & focus, Testosterone & hormonal balance, Immunity & overall vitality.'
+            },
+            {
+                question: 'How do I use it?',
+                answer: 'Take 300–500 mg (pea-sized amount) daily. Mix with warm water, milk, or herbal tea and consume on an empty stomach.'
+            },
+            {
+                question: 'How long until I see results?',
+                answer: 'You may feel improved energy within 7–14 days. Full benefits appear after 4–8 weeks of consistent use.'
+            },
+            {
+                question: 'Is it safe for daily use?',
+                answer: 'Yes, it is safe for regular long-term use when taken in recommended dosage.'
+            },
+            {
+                question: 'Who can take this product?',
+                answer: 'Suitable for adults looking to improve energy, stamina, stress levels, and overall wellness. Not recommended for children, pregnant or breastfeeding women.'
+            },
+            {
+                question: 'Is the product lab tested?',
+                answer: 'Yes. Every batch is tested for purity, heavy metals, fulvic acid levels, and microbial safety. Made in GMP, HACCP & FDA-compliant facilities.'
+            },
+            {
+                question: 'What makes it different from regular Shilajit?',
+                answer: 'It is fortified with Swarna Bhasma, Ashwagandha, Musli, Kaunj, and Brahmi, making it more effective for vitality, hormonal balance, immunity, performance, and cognitive health.'
+            },
+            {
+                question: 'Can it be taken with other supplements?',
+                answer: 'Yes, it can be used alongside vitamins or protein supplements. Avoid combining with strong testosterone boosters without medical advice.'
+            },
+            {
+                question: 'Does it need refrigeration?',
+                answer: 'No. Store in a cool, dry place away from direct sunlight. Use a dry spoon.'
+            },
+            {
+                question: 'Does the texture change with temperature?',
+                answer: 'Yes. Shilajit may soften in heat and harden in cold, which is completely normal and does not affect quality.'
+            },
+            {
+                question: 'Can women use it?',
+                answer: 'Yes. It supports energy, stress balance, hormonal wellness, and immunity. Avoid use during pregnancy or breastfeeding.'
+            },
+            {
+                question: 'Can I take it before workouts?',
+                answer: 'Yes. It helps enhance strength, endurance, and recovery when taken 20–30 minutes before exercise.'
+            },
+            {
+                question: 'What does it taste like?',
+                answer: 'Shilajit has a natural earthy, resin-like taste. Mixing with warm milk or honey improves flavour.'
+            },
+            {
+                question: 'How long does one jar last?',
+                answer: 'Typically 40 days, depending on daily usage.'
+            }
+        ],
+        'agnishila-shilajit-gummies': [
+            {
+                question: 'What makes these gummies different from traditional Shilajit?',
+                answer: 'Our Shilajit Gummies offer the same potent benefits as traditional resin but in a convenient, tasty, and portable format. They contain authentic Himalayan Shilajit extract with Gokhru and Ginger, making them perfect for busy lifestyles without compromising on quality.'
+            },
+            {
+                question: 'How many gummies should I take daily?',
+                answer: 'Take 2 gummies daily, preferably in the morning with or without food. Each serving provides an optimal dose of Shilajit extract equivalent to 500mg of pure resin, along with complementary herbs for enhanced benefits.'
+            },
+            {
+                question: 'Do these gummies taste like traditional Shilajit?',
+                answer: 'No! We\'ve eliminated the bitter, earthy taste of traditional Shilajit. Our gummies have a pleasant natural flavor with a hint of ginger, making them enjoyable to consume while retaining all the therapeutic benefits.'
+            },
+            {
+                question: 'Are these gummies suitable for vegetarians?',
+                answer: 'Yes, our Shilajit Gummies are 100% vegetarian. They use pectin-based gelling agents instead of gelatin, making them suitable for vegetarians and those following plant-based diets.'
+            },
+            {
+                question: 'Can I take these gummies while traveling?',
+                answer: 'Absolutely! That\'s one of the main advantages. The gummies are portable, mess-free, and don\'t require refrigeration. They\'re TSA-friendly and perfect for maintaining your wellness routine on the go.'
+            },
+            {
+                question: 'What is the shelf life of these gummies?',
+                answer: 'Our Shilajit Gummies have a shelf life of 18 months from the date of manufacture when stored in a cool, dry place away from direct sunlight. Each bottle is sealed for freshness and includes a desiccant packet.'
+            }
+        ],
+        'agnishila-ashwagandha-gummies': [
+            {
+                question: 'What type of Ashwagandha is used in these gummies?',
+                answer: 'We use KSM-66® Ashwagandha, the most clinically studied and premium full-spectrum root extract. Each gummy contains 300mg of KSM-66®, which is standardized to contain at least 5% withanolides for maximum efficacy.'
+            },
+            {
+                question: 'How do these gummies help with stress and anxiety?',
+                answer: 'KSM-66® Ashwagandha is an adaptogen that helps regulate cortisol levels (the stress hormone). Clinical studies show it reduces stress and anxiety by up to 44%, improves sleep quality, and enhances overall mood and mental well-being.'
+            },
+            {
+                question: 'When is the best time to take Ashwagandha gummies?',
+                answer: 'For stress relief and energy, take 2 gummies in the morning. For better sleep and relaxation, take them 30-60 minutes before bedtime. You can also split the dose - one in the morning and one at night for balanced benefits throughout the day.'
+            },
+            {
+                question: 'Can I take these gummies with coffee or tea?',
+                answer: 'Yes, you can take Ashwagandha gummies with coffee or tea. However, since Ashwagandha has calming properties, some people prefer taking it separately from caffeine to experience its full relaxing effects.'
+            },
+            {
+                question: 'Are there any side effects?',
+                answer: 'Ashwagandha is generally well-tolerated. Some people may experience mild digestive discomfort initially. Start with one gummy daily and gradually increase to two. Avoid if pregnant, nursing, or taking thyroid medication without consulting a doctor.'
+            },
+            {
+                question: 'How long does it take to feel the effects?',
+                answer: 'Some users feel calmer and more relaxed within a few days. However, for comprehensive benefits like improved sleep, reduced anxiety, and enhanced physical performance, consistent use for 4-8 weeks is recommended.'
+            }
+        ]
+    };
+
+    // Return product-specific FAQs or default FAQs
+    return faqMap[productId] || [
+        {
+            question: `What makes ${product.name} special?`,
+            answer: product.detailedDescription || 'This product is crafted with premium ingredients and backed by scientific research to deliver exceptional results.'
+        },
+        {
+            question: 'How should I use this product?',
+            answer: product.usage || 'Follow the recommended dosage on the packaging. For best results, use consistently as part of your daily wellness routine.'
+        },
+        {
+            question: 'Is this product lab tested?',
+            answer: `Yes, all our products are ${product.certifications?.join(', ') || 'FSSAI approved and lab tested'}. We ensure the highest quality standards.`
+        },
+        {
+            question: 'What are the main ingredients?',
+            answer: `This product contains: ${product.ingredients?.join(', ') || 'premium natural ingredients'}`
+        },
+        {
+            question: 'How long will one package last?',
+            answer: 'Depending on the recommended dosage, one package typically lasts 30-60 days with regular use.'
+        }
+    ];
+};
+
+// Product-specific usage instructions renderer
+const renderUsageInstructions = (productId: string, product: any) => {
+    if (productId === 'agnishila-trublk-gold-resin') {
+        return (
+            <div className="space-y-8">
+                {/* Standard Usage */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <Check className="w-6 h-6 text-primary-400" />
+                        <span>Usage Instructions (Standard)</span>
+                    </h3>
+                    <div className="bg-black border border-white/10 p-6 mb-4">
+                        <p className="text-gray-300 leading-relaxed mb-4">
+                            Take 300–500 mg (pea-sized amount) of TruBlk Shilajit Gold Resin once daily.
+                        </p>
+                        <ol className="list-decimal list-inside space-y-2 text-gray-300">
+                            <li>Scoop a pea-sized amount using the provided spoon.</li>
+                            <li>Mix it in warm water, milk, or herbal tea.</li>
+                            <li>Stir well until fully dissolved.</li>
+                            <li>Consume on an empty stomach in the morning for best results.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                {/* Advanced Usage */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <Check className="w-6 h-6 text-primary-400" />
+                        <span>Advanced Usage Instructions (For Maximum Benefits)</span>
+                    </h3>
+                    <div className="bg-black border border-white/10 p-6">
+                        <ul className="space-y-3 text-gray-300">
+                            <li className="flex items-start space-x-3">
+                                <span className="text-primary-400 font-bold">Morning:</span>
+                                <span>300–500 mg with warm water or milk for energy & stamina.</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                                <span className="text-primary-400 font-bold">Evening:</span>
+                                <span>Optional second serving for stress relief & recovery (only if needed).</span>
+                            </li>
+                            <li className="flex items-start space-x-3">
+                                <span className="text-primary-400 font-bold">Athletes / Active adults:</span>
+                                <span>Can take before workout for enhanced performance.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Important Notes */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <span className="text-yellow-400">⚠</span>
+                        <span>Important Notes</span>
+                    </h3>
+                    <div className="bg-black border border-yellow-400/20 p-6">
+                        <ul className="space-y-2 text-gray-300">
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Do not exceed 1 gram per day unless advised by a health professional.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Not recommended for children, pregnant or lactating women.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Keep the resin away from moisture & direct sunlight.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Always use a dry spoon when scooping.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Store in a cool, dry place.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Duration */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <span className="text-primary-400">🧪</span>
+                        <span>How long to use?</span>
+                    </h3>
+                    <div className="bg-black border border-white/10 p-6">
+                        <p className="text-gray-300 leading-relaxed mb-2">
+                            Take daily for 6–8 weeks for best results.
+                        </p>
+                        <p className="text-primary-400 font-bold">
+                            Safe for long-term daily use.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
+    // Default usage for other products
+    return (
+        <div>
+            <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Usage Instructions</h3>
+            <div className="bg-black border border-white/10 p-6">
+                <p className="text-gray-300 leading-relaxed">{product.usage || 'Follow the recommended dosage on the packaging.'}</p>
+            </div>
+        </div>
+    );
+};
+
 export default function ProductDetailPage() {
     const params = useParams();
     const router = useRouter();
@@ -54,6 +308,7 @@ export default function ProductDetailPage() {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loadingReviews, setLoadingReviews] = useState(true);
     const [showReviewForm, setShowReviewForm] = useState(false);
+    const [bundleProducts, setBundleProducts] = useState<any[]>([]);
     const [reviewForm, setReviewForm] = useState({
         rating: 5,
         title: '',
@@ -90,8 +345,24 @@ export default function ProductDetailPage() {
     useEffect(() => {
         if (product) {
             fetchReviews();
+            fetchBundleProducts();
         }
     }, [product]);
+
+    const fetchBundleProducts = async () => {
+        try {
+            // Fetch specific products for bundle
+            const productIds = ['agnishila-trublk-gold-resin', 'agnishila-ashwagandha-gummies'];
+            const bundlePromises = productIds
+                .filter(id => id !== product.id) // Exclude current product
+                .map(id => fetch(`/api/products/${id}`).then(res => res.json()));
+            
+            const bundleData = await Promise.all(bundlePromises);
+            setBundleProducts(bundleData);
+        } catch (error) {
+            console.error('Error fetching bundle products:', error);
+        }
+    };
 
     const fetchReviews = async () => {
         try {
@@ -530,20 +801,7 @@ export default function ProductDetailPage() {
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -20 }}
                                         >
-                                            <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Usage Instructions</h3>
-                                            <div className="bg-black border border-white/10 p-6 mb-6">
-                                                <p className="text-gray-300 leading-relaxed mb-4">{product.usage}</p>
-                                            </div>
-
-                                            <h4 className="text-lg font-bold text-white mb-3 uppercase tracking-wider">Certifications</h4>
-                                            <div className="grid md:grid-cols-2 gap-3">
-                                                {product.certifications.map((cert: string, index: number) => (
-                                                    <div key={index} className="flex items-center space-x-3 p-3 bg-black border border-white/10">
-                                                        <Award className="w-5 h-5 text-primary-400" />
-                                                        <span className="text-gray-300">{cert}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            {renderUsageInstructions(product.id, product)}
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -725,40 +983,36 @@ export default function ProductDetailPage() {
                                 )}
                             </div>
                         </motion.div>
-</div></section>
+                    </div>
+                </section>
+
+                {/* Frequently Bought Together */}
+                {bundleProducts.length > 0 && (
+                    <FrequentlyBoughtTogether
+                        mainProduct={{
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            originalPrice: product.originalPrice,
+                            image: product.image
+                        }}
+                        bundleProducts={bundleProducts.map(p => ({
+                            id: p.id,
+                            name: p.name,
+                            price: p.price,
+                            originalPrice: p.originalPrice,
+                            image: p.image
+                        }))}
+                    />
+                )}
 
                 {/* Why Choose Section */}
-                <WhyChoose />
+       
 
                 {/* FAQ Section */}
                 <FAQSection 
-                    title="Product FAQs"
-                    faqs={[
-                        {
-                            question: `What makes ${product.name} different from other products?`,
-                            answer: product.detailedDescription
-                        },
-                        {
-                            question: 'How should I use this product?',
-                            answer: product.usage
-                        },
-                        {
-                            question: 'What are the key benefits?',
-                            answer: product.benefits.join(', ')
-                        },
-                        {
-                            question: 'Is this product lab tested and certified?',
-                            answer: `Yes, this product is ${product.certifications.join(', ')}. We ensure the highest quality standards for all our products.`
-                        },
-                        {
-                            question: 'What are the main ingredients?',
-                            answer: `This product contains: ${product.ingredients.join(', ')}`
-                        },
-                        {
-                            question: 'How long will one package last?',
-                            answer: 'Depending on the recommended dosage, one package typically lasts 30-60 days with regular use.'
-                        }
-                    ]}
+                    title="Frequently Asked Questions"
+                    faqs={getProductFAQs(product.id, product)}
                 />
 
                 <Footer />

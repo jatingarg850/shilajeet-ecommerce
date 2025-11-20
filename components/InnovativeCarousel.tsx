@@ -118,7 +118,7 @@ export default function InnovativeCarousel() {
         >
 
           <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6">
-            Why Choose Shilajit?
+            Why Choose AGNISHILA?
           </h2>
           <p className="text-xl text-gray-300 max-w-20xl mx-auto leading-relaxed">
             At Agnishila, after years of research we bring the purest form of Himalayan wellness straight to you — Shilajit enters a new era - one defined by proof, purity, and purpose.
@@ -197,12 +197,12 @@ Born in India. Built for global trust.  </p>
                   </div>
 
                   {/* Card overlay for non-active slides */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 pb-8">
                     <div className="text-primary-400 mb-3">
                       {benefit.icon}
                     </div>
-                    <h4 className="text-white font-bold text-xl mb-2">{benefit.title}</h4>
-                    <p className="text-gray-300 text-sm">{benefit.description}</p>
+                    <h4 className="text-white font-bold text-xl mb-3 leading-tight">{benefit.title}</h4>
+                    <p className="text-gray-300 text-sm leading-relaxed">{benefit.description}</p>
                   </div>
                 </div>
               ))}

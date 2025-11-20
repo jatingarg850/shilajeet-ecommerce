@@ -28,6 +28,69 @@ export default function FAQSection({ faqs = defaultFAQs, title = 'Frequently Ask
     return (
         <section className="py-20 bg-black relative">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Section Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-12"
+                >
+                    <h2 className="text-4xl lg:text-5xl font-bold text-white-to-mauve mb-4 uppercase tracking-wider">
+                        {title}
+                    </h2>
+                    <p className="text-gray-300 text-lg">
+                        Find answers to common questions about our products
+                    </p>
+                </motion.div>
+
+                {/* FAQ List */}
+                <div className="space-y-4 mb-16">
+                    {faqs.map((faq, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1, duration: 0.5 }}
+                            viewport={{ once: true }}
+                            className="bg-jet-900 border border-white/20 overflow-hidden"
+                        >
+                            <button
+                                onClick={() => toggleFAQ(index)}
+                                className="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+                            >
+                                <h3 className="text-lg font-bold text-white pr-8">
+                                    {faq.question}
+                                </h3>
+                                <div className="flex-shrink-0 w-8 h-8 bg-primary-400/20 border border-primary-400/30 flex items-center justify-center">
+                                    {openIndex === index ? (
+                                        <Minus className="w-5 h-5 text-primary-400" />
+                                    ) : (
+                                        <Plus className="w-5 h-5 text-primary-400" />
+                                    )}
+                                </div>
+                            </button>
+
+                            <AnimatePresence>
+                                {openIndex === index && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="overflow-hidden"
+                                    >
+                                        <div className="px-6 pb-6 pt-2 border-t border-white/10">
+                                            <p className="text-gray-300 leading-relaxed">
+                                                {faq.answer}
+                                            </p>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
+                    ))}
+                </div>
                 
                 {/* Contact CTA */}
                 <motion.div

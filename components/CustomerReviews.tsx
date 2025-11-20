@@ -85,12 +85,12 @@ const ReviewCard = ({ review, index }: { review: any; index: number }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative bg-jet-900 border border-white/20 hover:border-primary-400/50 transition-all duration-500 overflow-hidden">
+      <div className="relative bg-jet-900 border border-white/20 hover:border-primary-400/50 transition-all duration-500 overflow-hidden h-full flex flex-col">
         {/* Sharp corner accent */}
         <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-primary-400/20 group-hover:border-t-primary-400/40 transition-all duration-300"></div>
         
         {/* Content */}
-        <div className="p-8">
+        <div className="p-8 flex flex-col flex-grow">
           {/* Header */}
           <div className="flex items-start justify-between mb-8">
             <div>
@@ -121,12 +121,12 @@ const ReviewCard = ({ review, index }: { review: any; index: number }) => {
           </div>
 
           {/* Review Text */}
-          <blockquote className="text-gray-300 leading-relaxed mb-8 font-light text-base">
+          <blockquote className="text-gray-300 leading-relaxed mb-8 font-light text-base flex-grow">
             "{review.comment}"
           </blockquote>
 
           {/* Bottom */}
-          <div className="flex items-center justify-between pt-6 border-t border-white/10">
+          <div className="flex items-center justify-between pt-6 border-t border-white/10 mt-auto">
             <div className="text-gray-500 text-xs font-medium uppercase tracking-wider">
               {review.date}
             </div>
