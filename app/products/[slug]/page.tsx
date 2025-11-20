@@ -106,28 +106,32 @@ const getProductFAQs = (productId: string, product: any) => {
         ],
         'agnishila-shilajit-gummies': [
             {
-                question: 'What makes these gummies different from traditional Shilajit?',
-                answer: 'Our Shilajit Gummies offer the same potent benefits as traditional resin but in a convenient, tasty, and portable format. They contain authentic Himalayan Shilajit extract with Gokhru and Ginger, making them perfect for busy lifestyles without compromising on quality.'
+                question: 'Why Choose Agnishila ShilaBoost Gummies?',
+                answer: 'Agnishila ShilaBoost Gummies are crafted for those who want natural energy, stamina, and vitality in the easiest and tastiest form. Powered by pure Shilajit Resin, Gokhru, Ginger Extract, and Black Musli, they deliver maximum benefits with zero bitterness.'
             },
             {
-                question: 'How many gummies should I take daily?',
-                answer: 'Take 2 gummies daily, preferably in the morning with or without food. Each serving provides an optimal dose of Shilajit extract equivalent to 500mg of pure resin, along with complementary herbs for enhanced benefits.'
+                question: 'What makes ShilaBoost different from ordinary gummies?',
+                answer: 'Unlike ordinary gummies that use low-quality extracts, ShilaBoost is made with authentic Shilajit Resin rich in fulvic minerals — giving you better stamina, strength, and recovery. It\'s real Shilajit, not just extract.'
             },
             {
-                question: 'Do these gummies taste like traditional Shilajit?',
-                answer: 'No! We\'ve eliminated the bitter, earthy taste of traditional Shilajit. Our gummies have a pleasant natural flavor with a hint of ginger, making them enjoyable to consume while retaining all the therapeutic benefits.'
+                question: 'What Ayurvedic herbs are included?',
+                answer: 'Our formulation combines Gokhru for strength and endurance, Black Musli for vitality and performance, and Ginger Extract for better digestion and absorption. This powerful blend makes ShilaBoost more effective than regular Shilajit supplements.'
             },
             {
-                question: 'Are these gummies suitable for vegetarians?',
-                answer: 'Yes, our Shilajit Gummies are 100% vegetarian. They use pectin-based gelling agents instead of gelatin, making them suitable for vegetarians and those following plant-based diets.'
+                question: 'Are these gummies fast-absorbing and tasty?',
+                answer: 'Yes! No bitter taste. No mixing. Each gummy is designed for quick absorption, delivering smooth, sustained energy throughout the day. They\'re delicious and convenient.'
             },
             {
-                question: 'Can I take these gummies while traveling?',
-                answer: 'Absolutely! That\'s one of the main advantages. The gummies are portable, mess-free, and don\'t require refrigeration. They\'re TSA-friendly and perfect for maintaining your wellness routine on the go.'
+                question: 'Who should take ShilaBoost Gummies?',
+                answer: 'Perfect for professionals, athletes, gym-goers, or anyone who needs an all-day natural boost in energy, focus, and performance. Ideal for active lifestyles requiring daily stamina.'
             },
             {
-                question: 'What is the shelf life of these gummies?',
-                answer: 'Our Shilajit Gummies have a shelf life of 18 months from the date of manufacture when stored in a cool, dry place away from direct sunlight. Each bottle is sealed for freshness and includes a desiccant packet.'
+                question: 'Are ShilaBoost Gummies lab tested and safe?',
+                answer: 'Yes! Made in GMP & HACCP-certified facilities, each batch is tested for purity, safety, heavy metals, and quality. You get wellness you can trust — without compromise.'
+            },
+            {
+                question: 'What is Agnishila\'s Promise?',
+                answer: 'From sourcing to formulation, we ensure honest, high-quality, and effective wellness products backed by ancient Ayurveda and modern science. We promise purity and potency in every gummy.'
             }
         ],
         'agnishila-ashwagandha-gummies': [
@@ -276,6 +280,94 @@ const renderUsageInstructions = (productId: string, product: any) => {
                         <p className="text-primary-400 font-bold">
                             Safe for long-term daily use.
                         </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
+    if (productId === 'agnishila-shilajit-gummies') {
+        return (
+            <div className="space-y-8">
+                {/* How to Use */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <span className="text-primary-400">🔸</span>
+                        <span>How to Use</span>
+                    </h3>
+                    <div className="bg-black border border-white/10 p-6">
+                        <p className="text-gray-300 leading-relaxed">
+                            Take 2 gummies daily, preferably after breakfast or lunch.
+                        </p>
+                    </div>
+                </div>
+
+                {/* For Best Results */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <span className="text-primary-400">🔸</span>
+                        <span>For Best Results</span>
+                    </h3>
+                    <div className="bg-black border border-white/10 p-6">
+                        <ul className="space-y-3 text-gray-300">
+                            <li className="flex items-start space-x-2">
+                                <span className="text-primary-400">•</span>
+                                <span>Take consistently for 4–8 weeks.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-primary-400">•</span>
+                                <span>Can be taken before workouts for an energy & stamina boost.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-primary-400">•</span>
+                                <span>Stay hydrated for better absorption.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Do Not Exceed */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <span className="text-primary-400">🔸</span>
+                        <span>Do Not Exceed</span>
+                    </h3>
+                    <div className="bg-black border border-white/10 p-6">
+                        <p className="text-gray-300 leading-relaxed">
+                            Maximum 2 gummies per day, unless advised by a healthcare professional.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Important Notes */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <span className="text-yellow-400">⚠</span>
+                        <span>Important Notes</span>
+                    </h3>
+                    <div className="bg-black border border-yellow-400/20 p-6">
+                        <ul className="space-y-2 text-gray-300">
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Suitable for adults only.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Not recommended for pregnant or breastfeeding women.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Keep out of reach of children.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Store in a cool, dry place, away from direct sunlight.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Close the pouch/jar tightly after use.</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
