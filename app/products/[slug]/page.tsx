@@ -931,7 +931,7 @@ export default function ProductDetailPage() {
                                 </AnimatePresence>
                             </div>
                         </div>
-                        <InnovativeCarousel/>
+                        <InnovativeCarousel productName={product.name} />
 
                         {/* Customer Reviews Section */}
                         <motion.div
@@ -1132,7 +1132,7 @@ export default function ProductDetailPage() {
                 )}
 
                 {/* Why Choose Section */}
-       
+                <WhyChoose productName={product.name} />
 
                 {/* FAQ Section */}
                 <FAQSection 

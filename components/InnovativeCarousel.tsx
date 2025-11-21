@@ -12,9 +12,9 @@ const benefits = [
     icon: <Zap className="w-16 h-16" />,
     title: 'Pure & Potent Formulations',
     description: 'High fulvic acid, maximum bioavailability, zero fillers',
-    detail: 'Our TruBlk™ Shilajit embodies the finest expression of Shilajit - contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.',
+    detail: 'Agnishila embodies the finest expression of Shilajit - contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.',
     image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&h=600&fit=crop&auto=format',
-    stats: 'TruBlk™',
+    stats: 'Agnishila',
     benefit: 'Premium Quality'
   },
   {
@@ -42,7 +42,7 @@ const benefits = [
     icon: <Award className="w-16 h-16" />,
     title: 'GMP, HACCP & FDA-Compliant Manufacturing',
     description: 'International benchmarks for excellence',
-    detail: 'Every batch of TruBlk™ undergoes exhaustive screening for heavy metals, solvent residues, microbial contaminants, and adulterants. Manufactured in GMP- and ISO-certified facilities, validated for stability and safety — it meets international benchmarks for excellence. Because the world\'s finest Shilajit deserves uncompromising purity.',
+    detail: 'Every batch of Agnishila undergoes exhaustive screening for heavy metals, solvent residues, microbial contaminants, and adulterants. Manufactured in GMP- and ISO-certified facilities, validated for stability and safety — it meets international benchmarks for excellence. Because the world\'s finest Shilajit deserves uncompromising purity.',
     image: '/bg/vd.jpg',
     stats: 'GMP & ISO',
     benefit: 'Certified'
@@ -79,7 +79,11 @@ const benefits = [
   }
 ];
 
-export default function InnovativeCarousel() {
+interface InnovativeCarouselProps {
+  productName?: string;
+}
+
+export default function InnovativeCarousel({ productName }: InnovativeCarouselProps = {}) {
   const slideRef = useRef<HTMLDivElement>(null);
 
   const nextSlide = () => {
@@ -118,12 +122,12 @@ export default function InnovativeCarousel() {
         >
 
           <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6">
-            Why Choose AGNISHILA?
+            Why Choose {productName || 'AGNISHILA'}?
           </h2>
           <p className="text-xl text-gray-300 max-w-20xl mx-auto leading-relaxed">
             At Agnishila, after years of research we bring the purest form of Himalayan wellness straight to you — Shilajit enters a new era - one defined by proof, purity, and purpose.
 </p><br></br><br/><p className="text-xl text-gray-300 max-w-10xl mx-auto leading-relaxed">
-Introducing Agnishila TruBlk™ — the gold standard in clinically validated, globally compliant Shilajit.
+Introducing {productName || 'Agnishila TruBlk™'} — the gold standard in clinically validated, globally compliant Shilajit.
 Born in India. Built for global trust.  </p>
         </motion.div>
 
