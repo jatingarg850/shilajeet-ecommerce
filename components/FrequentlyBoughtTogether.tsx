@@ -37,9 +37,14 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
   };
 
   const allProducts = [mainProduct, ...bundleProducts];
-  const totalPrice = allProducts
+  const subtotal = allProducts
     .filter(p => selectedProducts.includes(p.id))
     .reduce((sum, p) => sum + p.price, 0);
+  
+  // Apply 5% extra discount on bundle
+  const bundleDiscount = Math.round(subtotal * 0.05);
+  const totalPrice = subtotal - bundleDiscount;
+  
   const totalOriginalPrice = allProducts
     .filter(p => selectedProducts.includes(p.id))
     .reduce((sum, p) => sum + p.originalPrice, 0);
@@ -49,11 +54,16 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
     setIsAdding(true);
     const selectedItems = allProducts.filter(p => selectedProducts.includes(p.id));
     
+    // Apply 5% discount proportionally to each item
+    const discountMultiplier = 0.95; // 5% off = multiply by 0.95
+    
     for (const product of selectedItems) {
+      const discountedPrice = Math.round(product.price * discountMultiplier);
+      
       await addItem({
         id: product.id,
         name: product.name,
-        price: product.price,
+        price: discountedPrice,
         image: product.image,
       });
     }
@@ -81,7 +91,7 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
             Frequently Bought Together
           </h2>
           <p className="text-primary-400 text-center mb-8">
-            Bundle up and get extra 6% off
+            Bundle up and get extra 5% off
           </p>
 
           {/* Products Grid */}
@@ -132,15 +142,23 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
 
           {/* Pricing Summary */}
           <div className="bg-black border border-white/20 p-6 mb-6">
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-gray-300">Subtotal:</span>
+              <span className="text-white font-bold">₹{subtotal}</span>
+            </div>
+            <div className="flex justify-between items-center mb-3 pb-3 border-b border-white/10">
+              <span className="text-green-400 text-sm">Bundle Discount (5%):</span>
+              <span className="text-green-400 font-bold">-₹{bundleDiscount}</span>
+            </div>
             <div className="flex justify-between items-center mb-4">
-              <span className="text-gray-300">Total Price:</span>
+              <span className="text-gray-300 text-lg">Total Price:</span>
               <div className="text-right">
-                <span className="text-gray-500 line-through mr-2">₹{totalOriginalPrice}</span>
-                <span className="text-2xl font-bold text-primary-400">₹{totalPrice}</span>
+                <span className="text-gray-500 line-through mr-2 text-sm">₹{totalOriginalPrice}</span>
+                <span className="text-3xl font-bold text-primary-400">₹{totalPrice}</span>
               </div>
             </div>
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-400">You Save:</span>
+            <div className="flex justify-between items-center text-sm bg-green-600/10 border border-green-600/20 p-3 rounded">
+              <span className="text-gray-300">Total Savings:</span>
               <span className="text-green-400 font-bold">₹{savings} ({Math.round((savings / totalOriginalPrice) * 100)}% off)</span>
             </div>
           </div>

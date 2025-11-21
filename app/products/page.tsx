@@ -6,8 +6,9 @@ import FAQSection from '@/components/FAQSection';
 import { motion } from 'framer-motion';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { ShoppingCart, Star, Heart, Search, Filter, X, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Star, Heart, Search, Filter, X, ChevronDown, Flame } from 'lucide-react';
 import { useState, useMemo, useEffect } from 'react';
+import { getProductFireCoins } from '@/lib/fireCoins';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -410,6 +411,19 @@ export default function ProductsPage() {
               >
                 <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-gold-500/30 group-hover:border-t-gold-400/50 transition-all duration-300"></div>
                 
+                {/* Fire Coins Badge */}
+                <motion.div
+                  initial={{ scale: 0, x: -20 }}
+                  animate={{ scale: 1, x: 0 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                  className="absolute top-4 left-4 z-20"
+                >
+                  <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-2.5 py-1 text-xs font-bold flex items-center space-x-1 shadow-lg">
+                    <Flame className="w-3.5 h-3.5" />
+                    <span>+{getProductFireCoins(product.id)}</span>
+                  </div>
+                </motion.div>
+
                 {/* Wishlist Heart Icon */}
                 <motion.button
                   onClick={(e) => handleWishlistToggle(e, product)}

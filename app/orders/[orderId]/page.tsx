@@ -327,12 +327,8 @@ export default function OrderDetailsPage() {
                                             <span>₹{order.subtotal}</span>
                                         </div>
                                         <div className="flex justify-between text-gray-300">
-                                            <span>Tax:</span>
-                                            <span>₹{order.tax}</span>
-                                        </div>
-                                        <div className="flex justify-between text-gray-300">
                                             <span>Shipping:</span>
-                                            <span>{order.shipping === 0 ? 'Free' : `₹${order.shipping}`}</span>
+                                            <span className="text-primary-400 font-bold">{order.shipping === 0 ? 'FREE' : `₹${order.shipping}`}</span>
                                         </div>
                                         <div className="flex justify-between text-white font-bold text-lg pt-2 border-t border-white/20">
                                             <span>Total:</span>

@@ -137,13 +137,24 @@ export default function AboutPage() {
             </div>
 
             <h1 className="text-6xl lg:text-7xl font-bold text-white mb-8 tracking-tight leading-none">
-              ABOUT
-              <span className="block text-primary-400">AGNISHILA</span>
+              ABOUT AGNISHILA
+              <span className="block text-primary-400">THE FIRE WITHIN</span>
             </h1>
             
-            <p className="text-xl text-gray-400 max-w-4xl mx-auto font-light leading-relaxed">
-              In the untouched silence of the Himalayas, where mountains breathe purity and winds carry ancient wisdom, 
-              something extraordinary was born — Agnishila, "The Fire Stone."
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto font-light leading-relaxed mb-6">
+              In the untouched silence of the Himalayas, where the mountains breathe purity and the winds carry ancient wisdom, something extraordinary was born — <span className="text-primary-400 font-semibold">Agnishila</span>.
+            </p>
+            
+            <p className="text-lg text-gray-300 max-w-4xl mx-auto font-light leading-relaxed mb-6">
+              A name that means "The Fire Stone," it symbolizes the spark of life that exists in all of us — a fire that fuels our energy, clarity, and purpose.
+            </p>
+            
+            <p className="text-lg text-gray-300 max-w-4xl mx-auto font-light leading-relaxed mb-6">
+              At Agnishila, we believe true vitality doesn't come from haste or hype — it comes from harmony.
+            </p>
+            
+            <p className="text-lg text-gray-300 max-w-4xl mx-auto font-light leading-relaxed">
+              That's why every Agnishila product is crafted not just to energize your body, but to awaken your inner balance — the strength to move, the calm to focus, and the resilience to rise.
             </p>
           </motion.div>
 
@@ -157,10 +168,15 @@ export default function AboutPage() {
             >
               <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-primary-400/30 group-hover:border-t-primary-400/50 transition-all duration-300"></div>
               <Mountain className="w-12 h-12 text-primary-400 mb-6" />
-              <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Our Origin</h3>
+              <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">🔥 Our Origin</h3>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                The journey began with a deep reverence for Ayurveda — India's timeless science of life.
+              </p>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                We travelled through the Himalayan trails and ancient texts to rediscover the world's most potent natural compounds — Shilajit, Ashwagandha, Gokshura, Swarna Bhasma, Kesar, and more — ingredients trusted for centuries to restore energy, focus, and longevity.
+              </p>
               <p className="text-gray-300 leading-relaxed">
-                Born from the pristine Himalayan peaks at 16,000+ feet, where ancient wisdom meets modern science 
-                to create wellness solutions that awaken your inner fire.
+                But we didn't stop there. We combined that ancient knowledge with modern science and clean extraction techniques, ensuring purity, potency, and consistency in every drop of Shilajit, gummy, or capsule.
               </p>
             </motion.div>
 
@@ -172,10 +188,26 @@ export default function AboutPage() {
             >
               <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-primary-400/30 group-hover:border-t-primary-400/50 transition-all duration-300"></div>
               <Sparkles className="w-12 h-12 text-primary-400 mb-6" />
-              <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Our Mission</h3>
-              <p className="text-gray-300 leading-relaxed">
-                To bridge the gap between traditional Ayurvedic wisdom and modern lifestyle needs, 
-                creating products that restore balance, energy, and vitality naturally.
+              <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">🌄 Our Promise</h3>
+              <p className="text-gray-300 leading-relaxed mb-3">
+                Every Agnishila product is:
+              </p>
+              <ul className="space-y-3 text-gray-300">
+                <li className="flex items-start space-x-2">
+                  <span className="text-primary-400">•</span>
+                  <span>🌿 100% Pure & 3rd party Lab-Tested — sourced from the Himalayas, verified for authenticity and safety.</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-primary-400">•</span>
+                  <span>⚗ Scientifically Balanced — blending Ayurveda with precision-backed nutrition.</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-primary-400">•</span>
+                  <span>✨ Crafted for Modern Life — convenient formats that fit your day, your rhythm, your fire.</span>
+                </li>
+              </ul>
+              <p className="text-gray-300 leading-relaxed mt-4">
+                We don't just create wellness products — we create a daily ritual of renewal.
               </p>
             </motion.div>
 
@@ -187,10 +219,15 @@ export default function AboutPage() {
             >
               <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-primary-400/30 group-hover:border-t-primary-400/50 transition-all duration-300"></div>
               <Heart className="w-12 h-12 text-primary-400 mb-6" />
-              <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Our Promise</h3>
+              <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">⚡ Our Purpose</h3>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                In a world that's constantly rushing, Agnishila stands as a reminder:
+              </p>
+              <p className="text-primary-400 font-bold text-xl mb-4">
+                Real energy isn't about doing more — it's about being more.
+              </p>
               <p className="text-gray-300 leading-relaxed">
-                Every Agnishila product is 100% pure, lab-tested, and crafted with the highest standards 
-                to deliver authentic wellness that you can trust and feel.
+                Whether you seek focus, strength, calm, or clarity, Agnishila helps you reconnect with the natural fire within you — steady, grounded, and unstoppable.
               </p>
             </motion.div>
           </div>
@@ -402,18 +439,21 @@ export default function AboutPage() {
             <Quote className="w-16 h-16 text-primary-400 mx-auto mb-8" />
             
             <h2 className="text-4xl lg:text-5xl font-bold text-white-to-mauve mb-8 uppercase tracking-wider">
-              Our Philosophy
+              💫 Our Philosophy
             </h2>
             
             <div className="space-y-6 text-xl text-gray-300 leading-relaxed mb-12">
               <p>
-                "From the mountains to your moment, every Agnishila creation carries the same essence:"
+                From the mountains to your moment, every Agnishila creation carries the same essence:
               </p>
-              <p className="text-2xl font-bold text-primary-400">
+              <p className="text-3xl font-bold text-primary-400">
                 Purity of nature. Power of science. Purpose of self.
               </p>
-              <p>
-                Because energy isn't found — it's awakened. And your journey to it starts here — with Agnishila.
+              <p className="text-2xl font-semibold text-white">
+                Because energy isn't found — it's awakened.
+              </p>
+              <p className="text-lg">
+                And your journey to it starts here — with Agnishila.
               </p>
             </div>
 

@@ -12,9 +12,9 @@ export default function CartPage() {
   const { items, total, itemCount, updateQuantity, removeItem, clearCart, isLoading } = useCart();
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
     }).format(price);
   };
 
@@ -242,11 +242,6 @@ export default function CartPage() {
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Shipping</span>
                     <span className="text-primary-400 font-bold">FREE</span>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Tax</span>
-                    <span className="text-white">Calculated at checkout</span>
                   </div>
                   
                   <div className="border-t border-white/20 pt-4">

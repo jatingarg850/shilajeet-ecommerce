@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Menu, X, ShoppingCart, User, ChevronDown, Heart } from 'lucide-react';
 import AuthModal from './AuthModal';
 import UserProfileDropdown from './UserProfileDropdown';
+import FireCoinsDisplay from './FireCoinsDisplay';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
@@ -64,9 +65,14 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-3">
+            {/* Fire Coins - Only show when authenticated */}
+            {isAuthenticated && user && (
+              <FireCoinsDisplay />
+            )}
+            
             <Link href="/wishlist" className="relative text-white hover:text-primary-400 transition-colors p-2 border border-white/20 hover:border-primary-400/50">
-              <Heart size={18} />
+              <Heart size={16} />
               {wishlistCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-primary-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {wishlistCount}
@@ -74,7 +80,7 @@ export default function Navbar() {
               )}
             </Link>
             <Link href="/cart" className="relative text-white hover:text-primary-400 transition-colors p-2 border border-white/20 hover:border-primary-400/50">
-              <ShoppingCart size={18} className={isLoading ? 'animate-pulse' : ''} />
+              <ShoppingCart size={16} className={isLoading ? 'animate-pulse' : ''} />
               {itemCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-primary-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {itemCount}
@@ -83,7 +89,7 @@ export default function Navbar() {
             </Link>
             
             {authLoading ? (
-              <div className="animate-pulse bg-white/20 h-8 w-20"></div>
+              <div className="animate-pulse bg-white/20 h-8 w-20 rounded"></div>
             ) : isAuthenticated && user ? (
               <UserProfileDropdown user={user} onLogout={logout} />
             ) : (
@@ -93,7 +99,7 @@ export default function Navbar() {
                     setAuthMode('login');
                     setAuthModalOpen(true);
                   }}
-                  className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm"
+                  className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-xs px-3"
                 >
                   Login
                 </button>
@@ -102,7 +108,7 @@ export default function Navbar() {
                     setAuthMode('signup');
                     setAuthModalOpen(true);
                   }}
-                  className="bg-primary-400 text-black px-6 py-2 font-bold uppercase tracking-wider text-sm hover:bg-primary-500 transition-colors"
+                  className="bg-primary-400 text-black px-4 py-2 font-bold uppercase tracking-wider text-xs hover:bg-primary-500 transition-colors"
                 >
                   Sign Up
                 </button>

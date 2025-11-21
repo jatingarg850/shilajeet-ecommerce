@@ -11,15 +11,15 @@ interface OrderSummaryProps {
 
 export default function OrderSummary({ items, total }: OrderSummaryProps) {
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
     }).format(price);
   };
 
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = 0; // Free shipping
-  const tax = subtotal * 0.08; // 8% tax
+  const tax = 0; // No tax
 
   return (
     <motion.div
@@ -76,15 +76,10 @@ export default function OrderSummary({ items, total }: OrderSummaryProps) {
           <span className="text-primary-400 font-bold">FREE</span>
         </div>
         
-        <div className="flex justify-between items-center">
-          <span className="text-gray-400">Tax (8%)</span>
-          <span className="text-white font-bold">{formatPrice(tax)}</span>
-        </div>
-        
         <div className="border-t border-white/20 pt-4">
           <div className="flex justify-between items-center">
             <span className="text-xl font-bold text-white uppercase tracking-wider">Total</span>
-            <span className="text-2xl font-bold text-primary-400">{formatPrice(total + tax)}</span>
+            <span className="text-2xl font-bold text-primary-400">{formatPrice(total)}</span>
           </div>
         </div>
       </div>

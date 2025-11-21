@@ -21,8 +21,10 @@ import {
     Heart,
     Share2,
     Plus,
-    Minus
+    Minus,
+    Flame
 } from 'lucide-react';
+import { getProductFireCoins } from '@/lib/fireCoins';
 import ProductDetailsTabs from '@/components/ProductDetailsTabs';
 import FrequentlyBoughtTogether from '@/components/FrequentlyBoughtTogether';
 import WhyChoose from '@/components/WhyChoose';
@@ -754,9 +756,29 @@ export default function ProductDetailPage() {
                                         </span>
                                     </div>
 
-                                    <div className="text-sm text-gray-400">
+                                    <div className="text-sm text-gray-400 mb-3">
                                         Inclusive of all taxes • Free shipping on all orders
                                     </div>
+
+                                    {/* Fire Coins Badge */}
+                                    <motion.div
+                                        initial={{ scale: 0.9, opacity: 0 }}
+                                        animate={{ scale: 1, opacity: 1 }}
+                                        transition={{ delay: 0.3 }}
+                                        className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 p-4 mt-4"
+                                    >
+                                        <div className="flex items-center justify-center space-x-2">
+                                            <span className="text-gray-300 text-sm">Earn</span>
+                                            <motion.div
+                                                animate={{ rotate: [0, 10, -10, 0] }}
+                                                transition={{ duration: 2, repeat: Infinity }}
+                                            >
+                                                <Flame className="w-5 h-5 text-orange-500" />
+                                            </motion.div>
+                                            <span className="text-2xl font-bold text-white">{getProductFireCoins(product.id)}</span>
+                                            <span className="text-gray-300 text-sm">Coins & redeem it on next app purchase.</span>
+                                        </div>
+                                    </motion.div>
                                 </div>
 
                                 {/* Features */}

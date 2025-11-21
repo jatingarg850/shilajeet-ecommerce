@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { ShoppingCart, Sparkles, Award, Zap, Heart } from 'lucide-react';
+import { ShoppingCart, Sparkles, Award, Zap, Heart, Flame } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import SectionBlend from './SectionBlend';
+import { getProductFireCoins } from '@/lib/fireCoins';
 
 const getIconForBadge = (badge: string) => {
   switch (badge) {
@@ -122,6 +123,19 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         >
           <div className="bg-mauve-gradient text-white px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-mauve">
             {product.badge}
+          </div>
+        </motion.div>
+
+        {/* Fire Coins Badge */}
+        <motion.div
+          initial={{ scale: 0, x: 20 }}
+          animate={{ scale: 1, x: 0 }}
+          transition={{ delay: index * 0.15 + 0.6, type: "spring", stiffness: 200 }}
+          className="absolute top-16 left-4 z-20"
+        >
+          <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-lg">
+            <Flame className="w-4 h-4" />
+            <span>Earn {getProductFireCoins(product.id)} Coins</span>
           </div>
         </motion.div>
 

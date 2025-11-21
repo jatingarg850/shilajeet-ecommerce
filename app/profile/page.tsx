@@ -357,42 +357,6 @@ export default function ProfilePage() {
                         </motion.div>
                     </div>
 
-                    {/* Account Security */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="mt-8 bg-jet-900 border border-white/20 p-8 relative overflow-hidden"
-                    >
-                        <div className="absolute top-0 left-0 w-0 h-0 border-r-[30px] border-r-transparent border-t-[30px] border-t-primary-400/30"></div>
-
-                        <div className="flex items-center justify-between mb-6">
-                            <div className="flex items-center space-x-3">
-                                <Shield className="w-6 h-6 text-primary-400" />
-                                <h3 className="text-2xl font-bold text-white uppercase tracking-wider">
-                                    Account Security
-                                </h3>
-                            </div>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-black border border-white/10 p-6">
-                                <h4 className="text-white font-bold mb-2 uppercase tracking-wider">Password</h4>
-                                <p className="text-gray-400 text-sm mb-4">Last changed 30 days ago</p>
-                                <button className="bg-primary-400 text-black px-6 py-2 font-bold uppercase tracking-wider text-sm hover:bg-primary-500 transition-colors">
-                                    Change Password
-                                </button>
-                            </div>
-
-                            <div className="bg-black border border-white/10 p-6">
-                                <h4 className="text-white font-bold mb-2 uppercase tracking-wider">Two-Factor Authentication</h4>
-                                <p className="text-gray-400 text-sm mb-4">Add an extra layer of security</p>
-                                <button className="border border-white/20 text-white px-6 py-2 font-bold uppercase tracking-wider text-sm hover:border-primary-400 hover:text-primary-400 transition-colors">
-                                    Enable 2FA
-                                </button>
-                            </div>
-                        </div>
-                    </motion.div>
                 </div>
             </section>
 

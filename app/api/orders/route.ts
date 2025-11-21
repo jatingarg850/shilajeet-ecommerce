@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/auth';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
 import Cart from '@/models/Cart';
+import FireCoins from '@/models/FireCoins';
+import { calculateTotalFireCoins } from '@/lib/fireCoins';
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     // Calculate totals
     const subtotal = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
-    const tax = subtotal * 0.08; // 8% tax
+    const tax = 0; // No tax
     const shipping = 0; // Free shipping
     const calculatedTotal = subtotal + tax + shipping;
 
@@ -78,6 +80,42 @@ export async function POST(request: NextRequest) {
       { userId: session.user.id },
       { $set: { items: [] } }
     );
+
+    // Award Fire Coins for the purchase
+    try {
+      const coinsToEarn = calculateTotalFireCoins(items.map((item: any) => ({
+        id: item.id,
+        quantity: item.quantity
+      })));
+
+      if (coinsToEarn > 0) {
+        let fireCoins = await FireCoins.findOne({ userId: session.user.email });
+        
+        if (!fireCoins) {
+          fireCoins = new FireCoins({
+            userId: session.user.email,
+            balance: 0,
+            transactions: []
+          });
+        }
+
+        fireCoins.transactions.push({
+          type: 'earned',
+          amount: coinsToEarn,
+          orderId: order.orderNumber,
+          description: `Earned ${coinsToEarn} Fire Coins from order ${order.orderNumber}`,
+          createdAt: new Date()
+        });
+
+        fireCoins.balance += coinsToEarn;
+        await fireCoins.save();
+
+        console.log(`Awarded ${coinsToEarn} Fire Coins to user ${session.user.email} for order ${order.orderNumber}`);
+      }
+    } catch (coinError) {
+      console.error('Error awarding Fire Coins:', coinError);
+      // Don't fail the order if Fire Coins award fails
+    }
 
     // Send order confirmation email (simulate)
     console.log(`Order confirmation email sent for order ${order.orderNumber}`);
