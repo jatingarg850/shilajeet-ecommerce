@@ -444,8 +444,17 @@ export default function ProductDetailPage() {
 
     const fetchBundleProducts = async () => {
         try {
-            // Fetch specific products for bundle
-            const productIds = ['agnishila-trublk-gold-resin', 'agnishila-ashwagandha-gummies'];
+            // Define bundle products based on current product
+            let productIds: string[] = [];
+            
+            if (product.id === 'agnishila-shilajit-gummies') {
+                // For Shilajit Gummies, only show Ashwagandha Gummies
+                productIds = ['agnishila-ashwagandha-gummies'];
+            } else {
+                // For other products (TruBlk Resin, Ashwagandha), show both gummies
+                productIds = ['agnishila-trublk-gold-resin', 'agnishila-ashwagandha-gummies'];
+            }
+            
             const bundlePromises = productIds
                 .filter(id => id !== product.id) // Exclude current product
                 .map(id => fetch(`/api/products/${id}`).then(res => res.json()));

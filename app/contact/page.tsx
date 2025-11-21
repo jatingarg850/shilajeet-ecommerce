@@ -50,17 +50,17 @@ export default function ContactPage() {
   const contactMethods = [
     {
       icon: <Phone className="w-8 h-8" />,
-      title: 'Call Us',
+      title: 'Toll Free No.',
       description: 'Speak directly with our wellness experts',
-      contact: '+91 98765 43210',
-      action: 'tel:+919876543210'
+      contact: '+91 08071502811',
+      action: 'tel:+9108071502811'
     },
     {
       icon: <Mail className="w-8 h-8" />,
       title: 'Email Us',
       description: 'Send us a detailed message',
-      contact: 'hello@agnishila.com',
-      action: 'mailto:hello@agnishila.com'
+      contact: 'info@agnishila.in',
+      action: 'mailto:info@agnishila.in'
     },
     {
       icon: <MessageCircle className="w-8 h-8" />,
@@ -324,22 +324,14 @@ export default function ContactPage() {
                 </div>
                 
                 <div className="space-y-6">
-                  <div className="bg-black border border-white/10 p-4">
-                    <div className="flex items-start space-x-4">
-                      <MapPin className="w-6 h-6 text-primary-400 mt-1 flex-shrink-0" />
-                      <div>
-                        <h4 className="text-white font-semibold mb-1 uppercase tracking-wider">Visit Us</h4>
-                        <p className="text-gray-400">Himalayan Wellness Center<br />Wellness Valley, India</p>
-                      </div>
-                    </div>
-                  </div>
+                  
 
                   <div className="bg-black border border-white/10 p-4">
                     <div className="flex items-start space-x-4">
                       <Phone className="w-6 h-6 text-primary-400 mt-1 flex-shrink-0" />
                       <div>
-                        <h4 className="text-white font-semibold mb-1 uppercase tracking-wider">Call Us</h4>
-                        <p className="text-gray-400">+91 98765 43210</p>
+                        <h4 className="text-white font-semibold mb-1 uppercase tracking-wider">Toll Free No.</h4>
+                        <p className="text-gray-400">08071502811</p>
                       </div>
                     </div>
                   </div>
@@ -349,7 +341,7 @@ export default function ContactPage() {
                       <Mail className="w-6 h-6 text-primary-400 mt-1 flex-shrink-0" />
                       <div>
                         <h4 className="text-white font-semibold mb-1 uppercase tracking-wider">Email Us</h4>
-                        <p className="text-gray-400">hello@agnishila.com</p>
+                        <p className="text-gray-400">info@agnishila.in</p>
                       </div>
                     </div>
                   </div>

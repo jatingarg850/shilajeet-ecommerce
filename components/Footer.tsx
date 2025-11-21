@@ -72,37 +72,23 @@ export default function Footer() {
             {/* Social Links */}
             <div className="flex space-x-4">
               <a 
-                href="https://facebook.com" 
+                href="https://www.facebook.com/share/19uSv1KKnn/?mibextid=wwXIfr" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-jet-900 border border-white/20 flex items-center justify-center text-gray-400 hover:text-primary-400 hover:border-primary-400/50 transition-all duration-300"
               >
                 <Facebook size={18} />
               </a>
+             
               <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-jet-900 border border-white/20 flex items-center justify-center text-gray-400 hover:text-primary-400 hover:border-primary-400/50 transition-all duration-300"
-              >
-                <Twitter size={18} />
-              </a>
-              <a 
-                href="https://instagram.com" 
+                href="https://www.instagram.com/agnishila?igsh=dnVsenAyenc4ZGo3&utm_source=qr" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-jet-900 border border-white/20 flex items-center justify-center text-gray-400 hover:text-primary-400 hover:border-primary-400/50 transition-all duration-300"
               >
                 <Instagram size={18} />
               </a>
-              <a 
-                href="https://youtube.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-jet-900 border border-white/20 flex items-center justify-center text-gray-400 hover:text-primary-400 hover:border-primary-400/50 transition-all duration-300"
-              >
-                <Youtube size={18} />
-              </a>
+              
             </div>
           </div>
 
@@ -162,11 +148,7 @@ export default function Footer() {
                   Shopping Cart
                 </Link>
               </li>
-              <li>
-                <Link href="/addresses" className="text-gray-300 hover:text-primary-400 transition-colors font-light border-l-2 border-transparent hover:border-primary-400 pl-3 py-1 block">
-                  Addresses
-                </Link>
-              </li>
+            
             </ul>
           </div>
 

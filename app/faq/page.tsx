@@ -90,7 +90,7 @@ export default function FAQPage() {
         {
           id: 'return-policy',
           question: 'What is your return policy?',
-          answer: 'We offer a 30-day return policy for unopened products in original packaging. Due to health and safety regulations, opened products cannot be returned. Defective or damaged items can be returned regardless of condition.'
+          answer: 'We offer a 7-days return policy for unopened products in original packaging. Due to health and safety regulations, opened products cannot be returned. Defective or damaged items can be returned regardless of condition.'
         },
         {
           id: 'refund-process',

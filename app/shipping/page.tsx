@@ -8,25 +8,25 @@ import { Truck, Package, Clock, MapPin, Shield, Globe, CheckCircle, AlertCircle 
 export default function ShippingPolicyPage() {
   const shippingOptions = [
     {
-      title: 'Standard Shipping',
+      title: 'Free Shipping',
       icon: <Package className="w-6 h-6" />,
       duration: '5-7 Business Days',
-      cost: 'FREE on orders ₹999+',
-      description: 'Our standard shipping option for most orders within India'
+      cost: 'FREE',
+      description: 'Complimentary shipping on all orders across India'
     },
     {
-      title: 'Express Shipping',
+      title: 'Express Delivery',
       icon: <Truck className="w-6 h-6" />,
       duration: '2-3 Business Days',
-      cost: '₹199',
-      description: 'Faster delivery for urgent orders'
+      cost: 'FREE',
+      description: 'Faster delivery available for most locations'
     },
     {
-      title: 'Same Day Delivery',
+      title: 'Priority Shipping',
       icon: <Clock className="w-6 h-6" />,
-      duration: 'Same Day',
-      cost: '₹299',
-      description: 'Available in select metro cities (Mumbai, Delhi, Bangalore)'
+      duration: '1-2 Business Days',
+      cost: 'FREE',
+      description: 'Priority delivery for metro cities and major locations'
     }
   ];
 
@@ -109,7 +109,7 @@ export default function ShippingPolicyPage() {
               </h1>
               
               <p className="text-xl text-gray-300 max-w-3xl mx-auto font-light leading-relaxed">
-                Fast, secure, and reliable delivery of your wellness products across India.
+                Enjoy FREE shipping on all orders! Fast, secure, and reliable delivery of your wellness products across India.
               </p>
             </motion.div>
 
@@ -205,7 +205,7 @@ export default function ShippingPolicyPage() {
                 <ul className="space-y-3">
                   <li className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-gray-300">Free shipping on orders above ₹999</span>
+                    <span className="text-gray-300">100% FREE shipping on all orders - No minimum purchase required</span>
                   </li>
                   <li className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
@@ -217,7 +217,11 @@ export default function ShippingPolicyPage() {
                   </li>
                   <li className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-gray-300">SMS and email notifications</span>
+                    <span className="text-gray-300">SMS and email notifications for order updates</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-gray-300">No hidden charges - What you see is what you pay</span>
                   </li>
                 </ul>
               </motion.div>

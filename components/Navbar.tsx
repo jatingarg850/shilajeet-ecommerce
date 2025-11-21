@@ -48,14 +48,14 @@ export default function Navbar() {
               <Link href="/" className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm">
                 Home
               </Link>
+              <Link href="/about" className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm">
+                About us
+              </Link>
               <Link href="/products" className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm">
                 Products
               </Link>
               <Link href="/benefits" className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm">
                 Benefits
-              </Link>
-              <Link href="/about" className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm">
-                About
               </Link>
               <Link href="/contact" className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-sm">
                 Contact
