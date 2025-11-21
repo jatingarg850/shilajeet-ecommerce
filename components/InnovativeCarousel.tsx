@@ -184,16 +184,7 @@ Born in India. Built for global trust.  </p>
                       </div>
                     </motion.div>
 
-                    <motion.button
-                      className="bg-primary-400 hover:bg-primary-500 text-black px-8 py-3 font-bold transition-all duration-300 transform hover:scale-105 uppercase tracking-wider text-sm"
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.6 }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Learn More
-                    </motion.button>
+                    
                   </div>
 
                   {/* Card overlay for non-active slides */}

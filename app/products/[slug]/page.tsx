@@ -27,6 +27,7 @@ import ProductDetailsTabs from '@/components/ProductDetailsTabs';
 import FrequentlyBoughtTogether from '@/components/FrequentlyBoughtTogether';
 import WhyChoose from '@/components/WhyChoose';
 import FAQSection from '@/components/FAQSection';
+import InnovativeCarousel from '@/components/InnovativeCarousel';
 
 interface Review {
     _id: string;
@@ -899,6 +900,7 @@ export default function ProductDetailPage() {
                                 </AnimatePresence>
                             </div>
                         </div>
+                        <InnovativeCarousel/>
 
                         {/* Customer Reviews Section */}
                         <motion.div
