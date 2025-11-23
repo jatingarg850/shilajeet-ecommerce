@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -193,7 +192,7 @@ export default function CartPage() {
                         </div>
 
                         <button
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => removeItem(item.id, item.variant)}
                           disabled={isLoading}
                           className="p-2 text-red-400 hover:text-red-300 transition-colors border border-red-400/30 hover:border-red-400/50 disabled:opacity-50 disabled:cursor-not-allowed"
                         >

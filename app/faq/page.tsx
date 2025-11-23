@@ -292,7 +292,7 @@ export default function FAQPage() {
                   Contact Support
                 </button>
                 <button
-                  onClick={() => window.location.href = 'mailto:support@agnishila.com'}
+                  onClick={() => window.location.href = 'mailto:info@agnishila.in'}
                   className="border border-white/20 text-white px-8 py-3 font-bold uppercase tracking-wider text-sm hover:border-primary-400 hover:text-primary-400 transition-colors"
                 >
                   Email Us

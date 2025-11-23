@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import SectionBlend from './SectionBlend';
 
@@ -243,13 +244,13 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="flex flex-col sm:flex-row gap-6"
             >
-              <button className="bg-mauve-gradient hover:bg-mauve-gradient text-white px-10 py-4 font-bold flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 uppercase tracking-wider">
+              <Link href="/products" className="bg-mauve-gradient hover:bg-mauve-gradient text-white px-10 py-4 font-bold flex items-center justify-center space-x-3 transition-all duration-300 transform hover:scale-105 uppercase tracking-wider">
                 <span>Shop Premium</span>
                 <ArrowRight size={18} />
-              </button>
-              <button className="border-mauve-gradient text-white hover:text-white-to-mauve px-10 py-4 font-bold transition-all duration-300 uppercase tracking-wider">
+              </Link>
+              <Link href="/benefits" className="border-mauve-gradient text-white hover:text-white-to-mauve px-10 py-4 font-bold transition-all duration-300 uppercase tracking-wider text-center">
                 View Research
-              </button>
+              </Link>
             </motion.div>
 
             <motion.div

@@ -29,7 +29,7 @@ type CartAction =
 
 interface CartContextType extends CartState {
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
-  removeItem: (id: string) => void;
+  removeItem: (id: string, variant?: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
   syncCart: () => void;
@@ -276,11 +276,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const removeItem = async (id: string) => {
+  const removeItem = async (id: string, variant?: string) => {
     if (isAuthenticated && user) {
       try {
         dispatch({ type: 'SET_LOADING', payload: true });
-        const dbCart = await cartAPI.remove(id);
+        const dbCart = await cartAPI.remove(id, variant);
         const cartItems = dbCart.items.map((item: any) => ({
           id: item.productId,
           name: item.name,

@@ -135,7 +135,7 @@ export default function SettingsPage() {
                     <label className="block text-gray-400 text-sm mb-2">Contact Email</label>
                     <input
                       type="email"
-                      defaultValue="support@agnishila.com"
+                      defaultValue="info@agnishila.in"
                       className="w-full bg-black/50 border border-white/20 text-white px-4 py-2 focus:border-primary-400 focus:outline-none transition-all text-sm rounded"
                     />
                   </div>

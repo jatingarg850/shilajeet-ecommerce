@@ -81,10 +81,24 @@ const benefits = [
 
 interface InnovativeCarouselProps {
   productName?: string;
+  startIndex?: number;
 }
 
-export default function InnovativeCarousel({ productName }: InnovativeCarouselProps = {}) {
+export default function InnovativeCarousel({ productName, startIndex = 0 }: InnovativeCarouselProps = {}) {
   const slideRef = useRef<HTMLDivElement>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize carousel with startIndex
+  useEffect(() => {
+    if (slideRef.current && !isInitialized && startIndex > 0) {
+      const items = slideRef.current.querySelectorAll('.carousel-item');
+      // Rotate items to start from the specified index
+      for (let i = 0; i < startIndex % items.length; i++) {
+        slideRef.current.appendChild(items[i]);
+      }
+      setIsInitialized(true);
+    }
+  }, [startIndex, isInitialized]);
 
   const nextSlide = () => {
     if (slideRef.current) {
@@ -118,17 +132,18 @@ export default function InnovativeCarousel({ productName }: InnovativeCarouselPr
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-20 px-4"
         >
 
-          <h2 className="text-5xl lg:text-6xl font-bold text-white-to-mauve mb-6">
-            Why Choose {productName || 'AGNISHILA'}?
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white-to-mauve mb-8 leading-tight pb-4">
+            Why Choose {productName || 'TruBlk Shilajit Gold Resin'}?
           </h2>
-          <p className="text-xl text-gray-300 max-w-20xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-6">
             At Agnishila, after years of research we bring the purest form of Himalayan wellness straight to you — Shilajit enters a new era - one defined by proof, purity, and purpose.
-</p><br></br><br/><p className="text-xl text-gray-300 max-w-10xl mx-auto leading-relaxed">
-Introducing {productName || 'Agnishila TruBlk™'} — the gold standard in clinically validated, globally compliant Shilajit.
-Born in India. Built for global trust.  </p>
+          </p>
+          <p className="text-lg sm:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Introducing {productName === 'AGNISHILA' ? 'Agnishila TruBlk™' : productName || 'TruBlk Shilajit Gold Resin'} — the gold standard in clinically validated, globally compliant Shilajit. Born in India. Built for global trust.
+          </p>
         </motion.div>
 
         {/* Enhanced Carousel Container */}

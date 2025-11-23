@@ -150,40 +150,6 @@ export default function ShippingPolicyPage() {
               ))}
             </div>
 
-            {/* Shipping Zones */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="bg-jet-900 border border-white/20 p-8 mb-16 relative overflow-hidden"
-            >
-              <div className="absolute bottom-0 left-0 w-0 h-0 border-r-[30px] border-r-transparent border-b-[30px] border-b-primary-400/30"></div>
-              
-              <h2 className="text-3xl font-bold text-white mb-8 uppercase tracking-wider text-center">
-                Delivery Zones
-              </h2>
-
-              <div className="space-y-6">
-                {shippingZones.map((zone, index) => (
-                  <div key={zone.zone} className="bg-black border border-white/10 p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="text-primary-400">
-                          {zone.icon}
-                        </div>
-                        <h3 className="text-white font-bold text-lg">{zone.zone}</h3>
-                      </div>
-                      <div className="text-primary-400 font-bold">
-                        {zone.duration}
-                      </div>
-                    </div>
-                    <p className="text-gray-300 text-sm">
-                      {zone.cities}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
 
             {/* Important Information */}
             <div className="grid md:grid-cols-2 gap-8">

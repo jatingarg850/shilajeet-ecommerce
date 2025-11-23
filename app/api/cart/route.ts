@@ -133,7 +133,13 @@ export async function DELETE(request: NextRequest) {
     if (productId) {
       // Remove specific item
       cart.items = cart.items.filter(
-        (item: any) => !(item.productId === productId && item.variant === variant)
+        (item: any) => {
+          if (variant) {
+            return !(item.productId === productId && item.variant === variant);
+          } else {
+            return item.productId !== productId;
+          }
+        }
       );
     } else {
       // Clear entire cart

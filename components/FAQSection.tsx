@@ -115,7 +115,7 @@ export default function FAQSection({ faqs = defaultFAQs, title = 'Frequently Ask
                             Contact Us
                         </a>
                         <a
-                            href="mailto:support@agnishila.com"
+                            href="mailto:info@agnishila.in"
                             className="border-2 border-primary-400 text-primary-400 px-8 py-3 font-bold uppercase tracking-wider text-sm hover:bg-primary-400 hover:text-white transition-colors"
                         >
                             Email Support

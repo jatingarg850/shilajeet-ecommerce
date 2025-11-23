@@ -328,44 +328,56 @@ export default function AboutPage() {
             transition={{ duration: 0.5 }}
             className="bg-jet-900 border border-white/20 p-8 lg:p-12"
           >
-            {coreValues.filter(v => v.id === activeValue).map((value) => (
-              <div key={value.id} className="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <div className="flex items-center space-x-4 mb-6">
-                    <div className="text-primary-400">
-                      {value.icon}
-                    </div>
-                    <h3 className="text-3xl font-bold text-white uppercase tracking-wider">
-                      {value.title}
-                    </h3>
-                  </div>
-                  
-                  <p className="text-xl text-gray-300 mb-6 leading-relaxed">
-                    {value.description}
-                  </p>
-                  
-                  <p className="text-gray-400 mb-8 leading-relaxed">
-                    {value.details}
-                  </p>
+            {coreValues.filter(v => v.id === activeValue).map((value) => {
+              // Map value IDs to images
+              const valueImages: { [key: string]: string } = {
+                'purity': '/images/purity.webp',
+                'science': '/images/ashwagandha-dry-root-medicinal-herb-with-fresh-leaves-poison-gooseberry-or-winter-cherry.webp',
+                'purpose': '/images/shutterstock_1207764991_1_-min.webp'
+              };
 
-                  <div className="bg-primary-400/10 border border-primary-400/20 p-4">
-                    <div className="text-primary-400 font-bold text-lg mb-1">{value.stats}</div>
-                    <div className="text-gray-400 text-sm uppercase tracking-wider">Our Standard</div>
+              return (
+                <div key={value.id} className="grid lg:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <div className="flex items-center space-x-4 mb-6">
+                      <div className="text-primary-400">
+                        {value.icon}
+                      </div>
+                      <h3 className="text-3xl font-bold text-white uppercase tracking-wider">
+                        {value.title}
+                      </h3>
+                    </div>
+                    
+                    <p className="text-xl text-gray-300 mb-6 leading-relaxed">
+                      {value.description}
+                    </p>
+                    
+                    <p className="text-gray-400 mb-8 leading-relaxed">
+                      {value.details}
+                    </p>
+
+                    <div className="bg-primary-400/10 border border-primary-400/20 p-4">
+                      <div className="text-primary-400 font-bold text-lg mb-1">{value.stats}</div>
+                      <div className="text-gray-400 text-sm uppercase tracking-wider">Our Standard</div>
+                    </div>
+                  </div>
+
+                  <div className="relative">
+                    <div className="aspect-square bg-jet-800 border border-primary-400/30 overflow-hidden relative">
+                      <img 
+                        src={valueImages[value.id]} 
+                        alt={value.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    </div>
+                    <div className="absolute -top-4 -right-4 w-8 h-8 bg-primary-400 flex items-center justify-center">
+                      <CheckCircle className="w-5 h-5 text-black" />
+                    </div>
                   </div>
                 </div>
-
-                <div className="relative">
-                  <div className="aspect-square bg-gradient-to-br from-primary-400/20 to-primary-600/20 border border-primary-400/30 flex items-center justify-center">
-                    <div className="text-primary-400 transform scale-[3]">
-                      {value.icon}
-                    </div>
-                  </div>
-                  <div className="absolute -top-4 -right-4 w-8 h-8 bg-primary-400 flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-black" />
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </motion.div>
         </div>
       </section>
