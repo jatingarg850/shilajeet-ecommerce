@@ -44,6 +44,12 @@ interface Review {
 
 // Product-specific FAQs
 const getProductFAQs = (productId: string, product: any) => {
+    // If product has FAQs in database, use those
+    if (product.faqs && product.faqs.length > 0) {
+        return product.faqs;
+    }
+    
+    // Otherwise use hardcoded FAQs
     const faqMap: { [key: string]: any[] } = {
         'agnishila-trublk-gold-resin': [
             {
@@ -135,6 +141,68 @@ const getProductFAQs = (productId: string, product: any) => {
             {
                 question: 'What is Agnishila\'s Promise?',
                 answer: 'From sourcing to formulation, we ensure honest, high-quality, and effective wellness products backed by ancient Ayurveda and modern science. We promise purity and potency in every gummy.'
+            }
+        ],
+        'ashwa-glo-gummies': [
+            {
+                question: 'What are Ashwa Glo Gummies?',
+                answer: 'Ashwa Glo Gummies are calming wellness gummies powered by KSM-66 Ashwagandha, designed to reduce stress, improve sleep quality, balance mood, and support daily mental wellness.'
+            },
+            {
+                question: 'How do these gummies help with stress?',
+                answer: 'KSM-66 Ashwagandha is clinically studied to lower cortisol, promote relaxation, reduce anxiety, and support emotional balance.'
+            },
+            {
+                question: 'Can Ashwa Glo Gummies improve sleep?',
+                answer: 'Yes. They help you fall asleep faster, stay asleep longer, and wake up feeling refreshed—without causing drowsiness or dependency.'
+            },
+            {
+                question: 'How many gummies should I take daily?',
+                answer: 'Take 1–2 gummies daily, preferably in the evening or before bedtime.'
+            },
+            {
+                question: 'Are these gummies habit-forming?',
+                answer: 'No. Ashwa Glo Gummies are non-habit forming, safe for daily long-term use, and do not cause withdrawal or dependency.'
+            },
+            {
+                question: 'When will I start noticing results?',
+                answer: 'Many people feel calmer within 7–10 days. Full sleep and stress-relief benefits appear in 3–4 weeks of consistent use.'
+            },
+            {
+                question: 'Can I take them during the day?',
+                answer: 'Yes. You can take 1 gummy during the day for stress relief, and 1 gummy at night for sleep support.'
+            },
+            {
+                question: 'Are Ashwa Glo Gummies safe?',
+                answer: 'Yes. They are made with KSM-66 Ashwagandha, are lab-tested, and manufactured in GMP & HACCP-compliant facilities.'
+            },
+            {
+                question: 'Can women use them?',
+                answer: 'Yes. They are safe for both men and women looking for calmness, mood balance, and better sleep. Not recommended for pregnant or breastfeeding women.'
+            },
+            {
+                question: 'Do they cause morning drowsiness?',
+                answer: 'No. Unlike synthetic sleep aids, Ashwa Glo Gummies help you sleep naturally and wake up fresh—without grogginess.'
+            },
+            {
+                question: 'Can I take them with other supplements?',
+                answer: 'Yes, they can be taken with most vitamins, minerals, and daily supplements. Avoid combining with strong sedatives unless advised by a doctor.'
+            },
+            {
+                question: 'Are they suitable for daily use?',
+                answer: 'Absolutely. They are designed for safe, everyday stress and sleep support.'
+            },
+            {
+                question: 'What do the gummies taste like?',
+                answer: 'Ashwa Glo Gummies have a delicious fruity flavor, making it easy and enjoyable to take daily without bitterness.'
+            },
+            {
+                question: 'How long does one bottle last?',
+                answer: 'Depending on usage, one bottle lasts 30 days.'
+            },
+            {
+                question: 'How should I store the gummies?',
+                answer: 'Store in a cool, dry place, away from direct sunlight. Close the jar/tub tightly after every use.'
             }
         ],
         'agnishila-ashwagandha-gummies': [
@@ -376,6 +444,79 @@ const renderUsageInstructions = (productId: string, product: any) => {
             </div>
         );
     }
+
+    if (productId === 'ashwa-glo-gummies') {
+        return (
+            <div className="space-y-8">
+                {/* Daily Dosage */}
+                {product.dailyDosage && (
+                    <div>
+                        <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                            <span className="text-primary-400">💊</span>
+                            <span>Daily Dosage</span>
+                        </h3>
+                        <div className="bg-black border border-white/10 p-6">
+                            <p className="text-gray-300 leading-relaxed text-lg">
+                                {product.dailyDosage}
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {/* For Best Results */}
+                {product.forBestResults && product.forBestResults.length > 0 && (
+                    <div>
+                        <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                            <span className="text-primary-400">⭐</span>
+                            <span>For Best Results</span>
+                        </h3>
+                        <div className="bg-black border border-white/10 p-6">
+                            <ul className="space-y-3 text-gray-300">
+                                {product.forBestResults.map((tip: string, index: number) => (
+                                    <li key={index} className="flex items-start space-x-3">
+                                        <Check className="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" />
+                                        <span>{tip}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                )}
+
+                {/* Important Notes */}
+                <div>
+                    <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider flex items-center space-x-2">
+                        <span className="text-yellow-400">⚠</span>
+                        <span>Important Notes</span>
+                    </h3>
+                    <div className="bg-black border border-yellow-400/20 p-6">
+                        <ul className="space-y-2 text-gray-300">
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Suitable for adults only (men & women).</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Not recommended for pregnant or breastfeeding women.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Keep out of reach of children.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Store in a cool, dry place, away from direct sunlight.</span>
+                            </li>
+                            <li className="flex items-start space-x-2">
+                                <span className="text-yellow-400">•</span>
+                                <span>Close the jar/tub tightly after every use.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     
     // Default usage for other products
     return (
@@ -450,11 +591,14 @@ export default function ProductDetailPage() {
             let productIds: string[] = [];
             
             if (product.id === 'agnishila-shilajit-gummies') {
-                // For Shilajit Gummies, only show Ashwagandha Gummies
-                productIds = ['agnishila-ashwagandha-gummies'];
-            } else {
-                // For other products (TruBlk Resin, Ashwagandha), show both gummies
-                productIds = ['agnishila-trublk-gold-resin', 'agnishila-ashwagandha-gummies'];
+                // For Shilajit Gummies, show TruBlk Resin and Ashwa Glo Gummies
+                productIds = ['agnishila-trublk-gold-resin', 'ashwa-glo-gummies'];
+            } else if (product.id === 'ashwa-glo-gummies') {
+                // For Ashwa Glo Gummies, show TruBlk Resin and Shilajit Gummies
+                productIds = ['agnishila-trublk-gold-resin', 'agnishila-shilajit-gummies'];
+            } else if (product.id === 'agnishila-trublk-gold-resin') {
+                // For TruBlk Resin, show both gummies
+                productIds = ['agnishila-shilajit-gummies', 'ashwa-glo-gummies'];
             }
             
             const bundlePromises = productIds
@@ -462,6 +606,7 @@ export default function ProductDetailPage() {
                 .map(id => fetch(`/api/products/${id}`).then(res => res.json()));
             
             const bundleData = await Promise.all(bundlePromises);
+            console.log('Bundle products fetched:', bundleData);
             setBundleProducts(bundleData);
         } catch (error) {
             console.error('Error fetching bundle products:', error);
@@ -874,9 +1019,50 @@ export default function ProductDetailPage() {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -20 }}
+                                            className="space-y-8"
                                         >
-                                            <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Product Description</h3>
-                                            <p className="text-gray-300 leading-relaxed">{product.detailedDescription}</p>
+                                            <div>
+                                                <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Product Description</h3>
+                                                <p className="text-gray-300 leading-relaxed whitespace-pre-line">{product.detailedDescription}</p>
+                                            </div>
+
+                                            {/* What It Does Section */}
+                                            {product.whatItDoes && product.whatItDoes.length > 0 && (
+                                                <div className="bg-black border border-white/10 p-6">
+                                                    <h4 className="text-xl font-bold text-white mb-4 uppercase tracking-wider">What It Does</h4>
+                                                    <ul className="space-y-2">
+                                                        {product.whatItDoes.map((item: string, index: number) => (
+                                                            <li key={index} className="flex items-start space-x-3">
+                                                                <Check className="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" />
+                                                                <span className="text-gray-300">{item}</span>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+
+                                            {/* Perfect For Section */}
+                                            {product.perfectFor && product.perfectFor.length > 0 && (
+                                                <div className="bg-black border border-white/10 p-6">
+                                                    <h4 className="text-xl font-bold text-white mb-4 uppercase tracking-wider">Perfect For</h4>
+                                                    <div className="grid md:grid-cols-2 gap-3">
+                                                        {product.perfectFor.map((person: string, index: number) => (
+                                                            <div key={index} className="flex items-center space-x-3">
+                                                                <span className="text-primary-400">✔</span>
+                                                                <span className="text-gray-300">{person}</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Suitable For Section */}
+                                            {product.suitableFor && (
+                                                <div className="bg-black border border-white/10 p-6">
+                                                    <h4 className="text-xl font-bold text-white mb-4 uppercase tracking-wider">Suitable For</h4>
+                                                    <p className="text-gray-300 leading-relaxed">{product.suitableFor}</p>
+                                                </div>
+                                            )}
                                         </motion.div>
                                     )}
 
@@ -907,14 +1093,32 @@ export default function ProductDetailPage() {
                                             exit={{ opacity: 0, y: -20 }}
                                         >
                                             <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">Health Benefits</h3>
-                                            <div className="grid md:grid-cols-2 gap-4">
-                                                {product.benefits.map((benefit: string, index: number) => (
-                                                    <div key={index} className="flex items-center space-x-3 p-3 bg-black border border-white/10">
-                                                        <Star className="w-5 h-5 text-primary-400" />
-                                                        <span className="text-gray-300">{benefit}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            
+                                            {/* Check if product has keyHealthBenefits (rich format) */}
+                                            {product.keyHealthBenefits && product.keyHealthBenefits.length > 0 ? (
+                                                <div className="space-y-6">
+                                                    {product.keyHealthBenefits.map((benefit: any, index: number) => (
+                                                        <div key={index} className="bg-black border border-white/10 p-6">
+                                                            <div className="flex items-start space-x-4">
+                                                                <span className="text-3xl">{benefit.emoji}</span>
+                                                                <div className="flex-1">
+                                                                    <h4 className="text-xl font-bold text-white mb-2">{benefit.title}</h4>
+                                                                    <p className="text-gray-300 leading-relaxed">{benefit.description}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="grid md:grid-cols-2 gap-4">
+                                                    {product.benefits.map((benefit: string, index: number) => (
+                                                        <div key={index} className="flex items-center space-x-3 p-3 bg-black border border-white/10">
+                                                            <Star className="w-5 h-5 text-primary-400" />
+                                                            <span className="text-gray-300">{benefit}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </motion.div>
                                     )}
 
@@ -1132,7 +1336,10 @@ export default function ProductDetailPage() {
                 )}
 
                 {/* Why Choose Section */}
-                <WhyChoose productName={product.name} />
+                <WhyChoose 
+                    productName={product.name} 
+                    whyChooseData={product.whyChoose}
+                />
 
                 {/* FAQ Section */}
                 <FAQSection 
