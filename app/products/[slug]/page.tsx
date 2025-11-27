@@ -587,29 +587,38 @@ export default function ProductDetailPage() {
 
     const fetchBundleProducts = async () => {
         try {
-            // Define bundle products based on current product
-            let productIds: string[] = [];
+            // Define bundle products based on current product - Show only 1 complementary product
+            let productId: string = '';
             
             if (product.id === 'agnishila-shilajit-gummies') {
-                // For Shilajit Gummies, show TruBlk Resin and Ashwa Glo Gummies
-                productIds = ['agnishila-trublk-gold-resin', 'ashwa-glo-gummies'];
+                // For Shilajit Gummies, show TruBlk Resin
+                productId = 'agnishila-trublk-gold-resin';
             } else if (product.id === 'ashwa-glo-gummies') {
-                // For Ashwa Glo Gummies, show TruBlk Resin and Shilajit Gummies
-                productIds = ['agnishila-trublk-gold-resin', 'agnishila-shilajit-gummies'];
+                // For Ashwa Glo Gummies, show TruBlk Resin
+                productId = 'agnishila-trublk-gold-resin';
             } else if (product.id === 'agnishila-trublk-gold-resin') {
-                // For TruBlk Resin, show both gummies
-                productIds = ['agnishila-shilajit-gummies', 'ashwa-glo-gummies'];
+                // For TruBlk Resin, show Shilajit Gummies
+                productId = 'agnishila-shilajit-gummies';
+            } else {
+                // Default: show first available product except current
+                const allProductIds = ['agnishila-trublk-gold-resin', 'agnishila-shilajit-gummies', 'ashwa-glo-gummies'];
+                const available = allProductIds.filter(id => id !== product.id);
+                productId = available[0] || '';
             }
             
-            const bundlePromises = productIds
-                .filter(id => id !== product.id) // Exclude current product
-                .map(id => fetch(`/api/products/${id}`).then(res => res.json()));
-            
-            const bundleData = await Promise.all(bundlePromises);
-            console.log('Bundle products fetched:', bundleData);
-            setBundleProducts(bundleData);
+            if (productId) {
+                // Fetch only 1 complementary product
+                const response = await fetch(`/api/products/${productId}`);
+                const bundleData = await response.json();
+                console.log('Bundle product fetched:', bundleData);
+                // Set only 1 product in array
+                setBundleProducts([bundleData]);
+            } else {
+                setBundleProducts([]);
+            }
         } catch (error) {
             console.error('Error fetching bundle products:', error);
+            setBundleProducts([]);
         }
     };
 
@@ -1135,7 +1144,7 @@ export default function ProductDetailPage() {
                                 </AnimatePresence>
                             </div>
                         </div>
-                        <InnovativeCarousel productName={product.name} startIndex={3} />
+                        <InnovativeCarousel productName={product.name} productId={product.id} startIndex={3} />
 
                         {/* Customer Reviews Section */}
                         <motion.div
@@ -1336,10 +1345,7 @@ export default function ProductDetailPage() {
                 )}
 
                 {/* Why Choose Section */}
-                <WhyChoose 
-                    productName={product.name} 
-                    whyChooseData={product.whyChoose}
-                />
+               
 
                 {/* FAQ Section */}
                 <FAQSection 

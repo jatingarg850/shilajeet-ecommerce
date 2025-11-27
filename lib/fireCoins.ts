@@ -2,7 +2,7 @@
 export const PRODUCT_FIRE_COINS: { [key: string]: number } = {
   'agnishila-trublk-gold-resin': 65,
   'agnishila-shilajit-gummies': 50,
-  'agnishila-ashwagandha-gummies': 54
+  'ashwa-glo-gummies': 54
 };
 
 export function getProductFireCoins(productId: string): number {
