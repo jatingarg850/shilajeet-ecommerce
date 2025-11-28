@@ -132,6 +132,78 @@ const productBenefits: { [key: string]: any[] } = {
       benefit: 'Pure & Potent'
     }
   ],
+  'agnishila-trublk-gold-resin': [
+    {
+      id: 1,
+      icon: <Zap className="w-16 h-16" />,
+      title: 'Pure & Potent Formulations',
+      description: 'High fulvic acid, maximum bioavailability, zero fillers',
+      detail: 'Our TruBlk™ Shilajit embodies the finest expression of Shilajit - contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.',
+      image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&h=600&fit=crop&auto=format',
+      stats: 'TruBlk™',
+      benefit: 'Premium Quality'
+    },
+    {
+      id: 2,
+      icon: <Mountain className="w-16 h-16" />,
+      title: 'Authentic Himalayan Sourcing',
+      description: 'Sourced from untouched high-altitude regions',
+      detail: 'We source Shilajit from the untouched high-altitude Himalayan regions, ensuring purity, strength, and natural energy.',
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&auto=format',
+      stats: '16,000+ Feet',
+      benefit: 'Pure Origin'
+    },
+    {
+      id: 3,
+      icon: <Shield className="w-16 h-16" />,
+      title: 'Lab-Tested for Safety',
+      description: 'FSSAI approved, 3rd-party verified',
+      detail: 'Every batch is FSSAI approved, 3rd-party lab verified and tested for heavy metals, ensuring total safety.',
+      image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=600&fit=crop&auto=format',
+      stats: 'Lab Verified',
+      benefit: 'Total Safety'
+    },
+    {
+      id: 4,
+      icon: <Award className="w-16 h-16" />,
+      title: 'GMP, HACCP & FDA-Compliant Manufacturing',
+      description: 'International benchmarks for excellence',
+      detail: 'Every batch of TruBlk™ undergoes exhaustive screening for heavy metals, solvent residues, microbial contaminants, and adulterants. Manufactured in GMP- and ISO-certified facilities, validated for stability and safety — it meets international benchmarks for excellence. Because the world\'s finest Shilajit deserves uncompromising purity.',
+      image: '/bg/vd.jpg',
+      stats: 'GMP & ISO',
+      benefit: 'Certified'
+    },
+    {
+      id: 5,
+      icon: <Leaf className="w-16 h-16" />,
+      title: 'Modern Wellness Meets Ancient Ayurveda',
+      description: 'Ancient wisdom with cutting-edge technology',
+      detail: 'Agnishila blends ancient wisdom with cutting-edge extraction technology for maximum results.',
+      image: 'https://images.unsplash.com/photo-1545239705-1564e58b9e4a?w=800&h=600&fit=crop&auto=format',
+      stats: '5000+ Years',
+      benefit: 'Ayurvedic'
+    },
+    {
+      id: 6,
+      icon: <Microscope className="w-16 h-16" />,
+      title: 'Transparency You Can Trust',
+      description: 'Clinically evaluated, scientifically standardized',
+      detail: 'No shortcuts. Agnishila TruBlk™ is Clinically Evaluated, Scientifically Standardized & Absolutely Traceable.',
+      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&auto=format',
+      stats: '100%',
+      benefit: 'Traceable'
+    },
+    {
+      id: 7,
+      icon: <Sparkles className="w-16 h-16" />,
+      title: 'Crafted for Everyday Performance',
+      description: 'Trusted by global brands for strength and vitality',
+      detail: 'Agnishila TruBlk™ embodies the finest expression of Shilajit — crafted through precision, validated through science, and trusted by global brands for its strength, stamina, stress relief, or daily vitality.',
+      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&auto=format',
+      stats: 'Daily Use',
+      benefit: 'Performance'
+    }
+  ],
   'default': [
     {
       id: 1,
@@ -223,8 +295,8 @@ const productIntros: { [key: string]: { intro: string; tagline: string } } = {
     tagline: 'Natural Energy & Stamina in Every Gummy'
   },
   'agnishila-trublk-gold-resin': {
-    intro: 'In Agnishila TruBlk Gold Resin, we bring the purest form of Himalayan wellness straight to you — crafted with integrity, backed by science, and perfected with care.',
-    tagline: 'Pure & Potent Formulations for Modern Wellness'
+    intro: 'At Agnishila, after years of research we bring the purest form of Himalayan wellness straight to you — Shilajit enters a new era - one defined by proof, purity, and purpose.',
+    tagline: 'Introducing Agnishila TruBlk™ — the gold standard in clinically validated, globally compliant Shilajit. Born in India. Built for global trust.'
    },
   'default': {
     
