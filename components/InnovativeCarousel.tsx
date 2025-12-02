@@ -77,7 +77,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Pure Shilajit Resin for Real Energy',
       description: 'Authentic Shilajit Resin rich in fulvic minerals',
       detail: 'Unlike ordinary gummies that use low-quality extracts, ShilaBoost is made with authentic Shilajit Resin rich in fulvic minerals — giving you better stamina, strength, and recovery.',
-      image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&h=600&fit=crop&auto=format',
+      image: '/background/realenergy.jpg',
       stats: 'Pure Resin',
       benefit: 'Real Energy'
     },
@@ -127,7 +127,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Agnishila\'s Promise of Purity & Potency',
       description: 'Honest, high-quality, and effective wellness products',
       detail: 'From sourcing to formulation, we ensure honest, high-quality, and effective wellness products backed by ancient Ayurveda and modern science.',
-      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&auto=format',
+      image: '/background/pureand.jpg',
       stats: '100%',
       benefit: 'Pure & Potent'
     }
@@ -139,7 +139,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Pure & Potent Formulations',
       description: 'High fulvic acid, maximum bioavailability, zero fillers',
       detail: 'Our TruBlk™ Shilajit embodies the finest expression of Shilajit - contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.',
-      image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&h=600&fit=crop&auto=format',
+      image: '/background/pureand.jpg',
       stats: 'TruBlk™',
       benefit: 'Premium Quality'
     },
@@ -189,7 +189,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Transparency You Can Trust',
       description: 'Clinically evaluated, scientifically standardized',
       detail: 'No shortcuts. Agnishila TruBlk™ is Clinically Evaluated, Scientifically Standardized & Absolutely Traceable.',
-      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&auto=format',
+      image: '/background/transparency.jpg',
       stats: '100%',
       benefit: 'Traceable'
     },
@@ -211,7 +211,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Pure & Potent Formulations',
       description: 'High fulvic acid, maximum bioavailability, zero fillers',
       detail: 'Our Shilajit and Ashwagandha products contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.',
-      image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&h=600&fit=crop&auto=format',
+      image: '/background/pureand.jpg',
       stats: 'Premium',
       benefit: 'Quality'
     },
@@ -261,7 +261,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Transparency You Can Trust',
       description: 'No shortcuts. No marketing gimmicks.',
       detail: 'No shortcuts. No marketing gimmicks. Only clean, honest ingredients.',
-      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&auto=format',
+      image: '/background/transparency.jpg',
       stats: '100%',
       benefit: 'Transparent'
     },
