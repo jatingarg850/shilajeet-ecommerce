@@ -373,14 +373,14 @@ export default function InnovativeCarousel({ productName, productId, startIndex 
 
         {/* Enhanced Carousel Container */}
         <div className="relative">
-          <div className="carousel-container relative w-full h-[600px] bg-gradient-to-br from-jet-900 to-black rounded-3xl shadow-2xl overflow-hidden border border-white/10">
+          <div className="carousel-container relative w-full h-[500px] md:h-[600px] bg-gradient-to-br from-jet-900 to-black rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-white/10">
 
             {/* Carousel Slide Container */}
             <div ref={slideRef} className="carousel-slide relative w-full h-full">
               {benefits.map((benefit, index) => (
                 <div
                   key={benefit.id}
-                  className="carousel-item absolute w-[320px] h-[420px] top-1/2 transform -translate-y-1/2 rounded-2xl shadow-2xl transition-all duration-500 ease-in-out overflow-hidden"
+                  className="carousel-item absolute w-[280px] md:w-[320px] h-[380px] md:h-[420px] top-1/2 transform -translate-y-1/2 rounded-xl md:rounded-2xl shadow-2xl transition-all duration-500 ease-in-out overflow-hidden"
                   style={{
                     backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${benefit.image})`,
                     backgroundSize: 'cover',
@@ -388,7 +388,7 @@ export default function InnovativeCarousel({ productName, productId, startIndex 
                   }}
                 >
                   {/* Content that appears on the active slide */}
-                  <div className="content absolute top-1/2 left-[80px] w-[500px] text-left text-white transform -translate-y-1/2 hidden pr-8">
+                  <div className="content absolute top-1/2 left-4 md:left-[80px] w-[calc(100%-2rem)] md:w-[500px] text-left text-white transform -translate-y-1/2 hidden pr-4 md:pr-8">
                     <motion.div
                       className="mb-6 text-primary-400"
                       initial={{ opacity: 0, y: 30 }}
@@ -495,36 +495,60 @@ export default function InnovativeCarousel({ productName, productId, startIndex 
 
       {/* Custom Styles */}
       <style jsx>{`
-        .carousel-item:nth-child(1),
-        .carousel-item:nth-child(2) {
-          top: 0;
-          left: 0;
-          transform: translate(0, 0);
-          border-radius: 0;
-          width: 100%;
-          height: 100%;
-          border-radius: 24px;
+        /* Mobile: Show only active slide */
+        @media (max-width: 768px) {
+          .carousel-item:nth-child(1),
+          .carousel-item:nth-child(2) {
+            top: 0;
+            left: 0;
+            transform: translate(0, 0);
+            border-radius: 16px;
+            width: 100%;
+            height: 100%;
+          }
+
+          .carousel-item:nth-child(n + 3) {
+            display: none;
+          }
+
+          .carousel-item:nth-child(2) .content {
+            display: none;
+          }
         }
 
-        .carousel-item:nth-child(2) .content {
-          display: block;
-        }
+        /* Desktop: Show carousel effect */
+        @media (min-width: 769px) {
+          .carousel-item:nth-child(1),
+          .carousel-item:nth-child(2) {
+            top: 0;
+            left: 0;
+            transform: translate(0, 0);
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+          }
 
-        .carousel-item:nth-child(3) {
-          left: 50%;
-        }
+          .carousel-item:nth-child(2) .content {
+            display: block;
+          }
 
-        .carousel-item:nth-child(4) {
-          left: calc(50% + 300px);
-        }
+          .carousel-item:nth-child(3) {
+            left: 50%;
+          }
 
-        .carousel-item:nth-child(5) {
-          left: calc(50% + 600px);
-        }
+          .carousel-item:nth-child(4) {
+            left: calc(50% + 300px);
+          }
 
-        .carousel-item:nth-child(n + 6) {
-          left: calc(50% + 900px);
-          opacity: 0;
+          .carousel-item:nth-child(5) {
+            left: calc(50% + 600px);
+          }
+
+          .carousel-item:nth-child(n + 6) {
+            left: calc(50% + 900px);
+            opacity: 0;
+          }
         }
 
         .content h3,
