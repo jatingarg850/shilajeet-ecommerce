@@ -55,7 +55,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Clean, Pure & Safe',
       description: 'Made in GMP, HACCP & FDA-compliant facilities',
       detail: 'Made in GMP, HACCP & FDA-compliant facilities. Lab-tested for purity, safety & quality.',
-      image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=600&fit=crop&auto=format',
+      image: '/background/GMP,HACCP.png',
       stats: 'Lab Tested',
       benefit: 'Quality Assured'
     },
@@ -65,7 +65,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Perfect for Modern, Busy Lifestyles',
       description: 'Helps manage work stress, anxiety, mood swings',
       detail: 'Helps manage work stress, anxiety, mood swings, and poor sleep naturally.',
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop&auto=format',
+      image: '/background/Formodernwellness.png',
       stats: 'Daily Use',
       benefit: 'Modern Wellness'
     }
@@ -97,7 +97,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Fast-Absorbing & Delicious',
       description: 'No bitter taste. No mixing.',
       detail: 'Each gummy is designed for quick absorption, delivering smooth, sustained energy throughout the day.',
-      image: 'https://images.unsplash.com/photo-1587049352846-4a222e784acc?w=800&h=600&fit=crop&auto=format',
+      image: '/background/fastabsorbing.png',
       stats: 'Fast Acting',
       benefit: 'Quick Absorption'
     },
@@ -169,7 +169,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'GMP, HACCP & FDA-Compliant Manufacturing',
       description: 'International benchmarks for excellence',
       detail: 'Every batch of TruBlk™ undergoes exhaustive screening for heavy metals, solvent residues, microbial contaminants, and adulterants. Manufactured in GMP- and ISO-certified facilities, validated for stability and safety — it meets international benchmarks for excellence. Because the world\'s finest Shilajit deserves uncompromising purity.',
-      image: '/bg/vd.jpg',
+      image: '/background/GMP,HACCP.png',
       stats: 'GMP & ISO',
       benefit: 'Certified'
     },
@@ -241,7 +241,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'GMP, HACCP & FDA-Compliant Manufacturing',
       description: 'International benchmarks for excellence',
       detail: 'We follow the strictest global quality standards so every product delivers consistent results.',
-      image: '/bg/vd.jpg',
+      image: '/background/GMP,HACCP.png',
       stats: 'GMP & ISO',
       benefit: 'Certified'
     },
