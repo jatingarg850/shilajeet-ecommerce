@@ -30,6 +30,7 @@ import FrequentlyBoughtTogether from '@/components/FrequentlyBoughtTogether';
 import WhyChoose from '@/components/WhyChoose';
 import FAQSection from '@/components/FAQSection';
 import InnovativeCarousel from '@/components/InnovativeCarousel';
+import ProductImageSlider from '@/components/ProductImageSlider';
 
 interface Review {
     _id: string;
@@ -819,57 +820,48 @@ export default function ProductDetailPage() {
                         </button>
 
                         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
-                            {/* Product Image */}
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className="bg-jet-900 border border-white/20 p-6 lg:p-8 relative overflow-hidden flex flex-col lg:sticky lg:top-24 lg:self-start"
-                            >
-                                <div className="absolute top-0 right-0 w-0 h-0 border-l-[30px] border-l-transparent border-t-[30px] border-t-primary-400/30"></div>
-
-                                <div className="aspect-square bg-jet-800 flex items-center justify-center mb-6">
-                                    <Image
-                                        src={product.image}
-                                        alt={product.name}
-                                        width={320}
-                                        height={320}
-                                        className="object-contain drop-shadow-2xl"
-                                        priority
-                                    />
-                                </div>
+                            {/* Product Image Slider */}
+                            <div>
+                                <ProductImageSlider 
+                                    productId={product.id}
+                                    productName={product.name}
+                                    frontImage={product.image}
+                                />
 
                                 {/* Product Actions */}
-                                <div className="flex items-center justify-between pt-6 border-t border-white/20">
-                                    <button
-                                        onClick={handleWishlistToggle}
-                                        disabled={wishlistLoading}
-                                        className={`flex items-center space-x-2 transition-colors disabled:opacity-50 ${isInWishlist(product.id)
-                                            ? 'text-primary-400'
-                                            : 'text-gray-400 hover:text-primary-400'
-                                            }`}
-                                    >
-                                        <Heart
-                                            size={20}
-                                            className={isInWishlist(product.id) ? 'fill-current' : ''}
-                                        />
-                                        <span className="text-sm uppercase tracking-wider">
-                                            {wishlistLoading
-                                                ? 'Loading...'
-                                                : isInWishlist(product.id)
-                                                    ? 'In Wishlist'
-                                                    : 'Add to Wishlist'
-                                            }
-                                        </span>
-                                    </button>
-                                    <button
-                                        onClick={handleShare}
-                                        className="flex items-center space-x-2 text-gray-400 hover:text-primary-400 transition-colors"
-                                    >
-                                        <Share2 size={20} />
-                                        <span className="text-sm uppercase tracking-wider">Share</span>
-                                    </button>
+                                <div className="bg-jet-900 border border-white/20 p-6 lg:p-8 relative overflow-hidden flex flex-col">
+                                    <div className="flex items-center justify-between">
+                                        <button
+                                            onClick={handleWishlistToggle}
+                                            disabled={wishlistLoading}
+                                            className={`flex items-center space-x-2 transition-colors disabled:opacity-50 ${isInWishlist(product.id)
+                                                ? 'text-primary-400'
+                                                : 'text-gray-400 hover:text-primary-400'
+                                                }`}
+                                        >
+                                            <Heart
+                                                size={20}
+                                                className={isInWishlist(product.id) ? 'fill-current' : ''}
+                                            />
+                                            <span className="text-sm uppercase tracking-wider">
+                                                {wishlistLoading
+                                                    ? 'Loading...'
+                                                    : isInWishlist(product.id)
+                                                        ? 'In Wishlist'
+                                                        : 'Add to Wishlist'
+                                                }
+                                            </span>
+                                        </button>
+                                        <button
+                                            onClick={handleShare}
+                                            className="flex items-center space-x-2 text-gray-400 hover:text-primary-400 transition-colors"
+                                        >
+                                            <Share2 size={20} />
+                                            <span className="text-sm uppercase tracking-wider">Share</span>
+                                        </button>
+                                    </div>
                                 </div>
-                            </motion.div>
+                            </div>
 
                             {/* Product Info */}
                             <motion.div

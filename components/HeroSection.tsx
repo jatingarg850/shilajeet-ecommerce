@@ -29,9 +29,9 @@ const productImages = [
 ];
 
 const backgroundImages = [
-  "/bg/vd.jpg",
-  "/bg/vd.jpg", // You can add different background images here
-  "/bg/vd.jpg"
+  "/selling/shilajit banner.jpg",
+  "/selling/shilajit banner.jpg",
+  "/selling/shilajit banner.jpg"
 ];
 
 export default function HeroSection() {
