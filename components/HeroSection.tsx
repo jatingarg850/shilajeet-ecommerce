@@ -74,141 +74,170 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-screen h-screen bg-black overflow-hidden">
-      {/* Background Image - Truly Centered */}
-      <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none">
+    <section className="relative min-h-screen bg-black flex items-center justify-center overflow-hidden pt-20">
+      {/* Background Image */}
+      <div className="absolute inset-0">
         <Image
-          src="/selling/shilajit banner.jpg"
+          src="/bg/vd.jpg"
           alt="Hero Background"
-          width={1200}
-          height={800}
+          fill
           style={{
-            objectFit: 'contain',
+            objectFit: 'cover',
             objectPosition: 'center',
             zIndex: 0
           }}
           priority
           quality={90}
         />
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/30 z-10"></div>
+        
+        {/* Section blending */}
+        <SectionBlend position="bottom" height="xl" intensity="medium" />
+
+        {/* Rocky corner formations */}
+        <div className="absolute top-16 left-16 w-24 h-24 border-l-4 border-t-4 border-primary-400/60 z-20" style={{
+          borderImage: 'linear-gradient(45deg, #D4A5B8, #C899AC) 1',
+          filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
+        }}></div>
+        <div className="absolute top-16 right-16 w-24 h-24 border-r-4 border-t-4 border-primary-400/60 z-20" style={{
+          borderImage: 'linear-gradient(-45deg, #D4A5B8, #C899AC) 1',
+          filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
+        }}></div>
+        <div className="absolute bottom-16 left-16 w-24 h-24 border-l-4 border-b-4 border-primary-400/60 z-20" style={{
+          borderImage: 'linear-gradient(135deg, #D4A5B8, #C899AC) 1',
+          filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
+        }}></div>
+        <div className="absolute bottom-16 right-16 w-24 h-24 border-r-4 border-b-4 border-primary-400/60 z-20" style={{
+          borderImage: 'linear-gradient(-135deg, #D4A5B8, #C899AC) 1',
+          filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
+        }}></div>
+
+        {/* Rocky texture overlay */}
+        <div className="absolute inset-0 opacity-15 z-15">
+          <div className="w-full h-full" style={{
+            backgroundImage: `
+              radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 1px, transparent 2px),
+              radial-gradient(circle at 80% 70%, rgba(184, 148, 31, 0.08) 1px, transparent 2px),
+              linear-gradient(45deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+              linear-gradient(-45deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: '150px 150px, 200px 200px, 80px 80px, 120px 120px',
+            backgroundPosition: '0 0, 50px 50px, 0 0, 25px 25px'
+          }} />
+        </div>
+
+        {/* Animated mineral veins */}
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-2 h-20 bg-gradient-to-b from-primary-400/60 via-primary-500/40 to-transparent z-20"
+          animate={{
+            scaleY: [1, 1.3, 1],
+            opacity: [0.5, 1, 0.5],
+            boxShadow: ['0 0 5px rgba(212, 165, 184, 0.3)', '0 0 15px rgba(212, 165, 184, 0.6)', '0 0 5px rgba(212, 165, 184, 0.3)']
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{
+            filter: 'blur(0.5px)',
+            borderRadius: '1px'
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/3 right-1/4 w-20 h-2 bg-gradient-to-r from-primary-400/60 via-primary-500/40 to-transparent z-20"
+          animate={{
+            scaleX: [1, 1.5, 1],
+            opacity: [0.5, 1, 0.5],
+            boxShadow: ['0 0 5px rgba(212, 165, 184, 0.3)', '0 0 15px rgba(212, 165, 184, 0.6)', '0 0 5px rgba(212, 165, 184, 0.3)']
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1.5,
+          }}
+          style={{
+            filter: 'blur(0.5px)',
+            borderRadius: '1px'
+          }}
+        />
+        
+        {/* Floating rock particles */}
+        <motion.div
+          className="absolute top-1/3 right-1/3 w-1 h-1 bg-primary-400/80 rounded-full z-20"
+          animate={{
+            y: [-10, 10, -10],
+            x: [-5, 5, -5],
+            opacity: [0.3, 0.8, 0.3],
+            scale: [0.5, 1, 0.5]
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/2 left-1/3 w-1 h-1 bg-primary-500/60 rounded-full z-20"
+          animate={{
+            y: [10, -10, 10],
+            x: [5, -5, 5],
+            opacity: [0.2, 0.7, 0.2],
+            scale: [0.3, 0.8, 0.3]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
       </div>
-      
-      {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/30 z-10"></div>
-      
-      {/* Section blending */}
-      <SectionBlend position="bottom" height="xl" intensity="medium" />
 
-      {/* Rocky corner formations */}
-      <div className="absolute top-16 left-16 w-24 h-24 border-l-4 border-t-4 border-primary-400/60 z-20" style={{
-        borderImage: 'linear-gradient(45deg, #D4A5B8, #C899AC) 1',
-        filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
-      }}></div>
-      <div className="absolute top-16 right-16 w-24 h-24 border-r-4 border-t-4 border-primary-400/60 z-20" style={{
-        borderImage: 'linear-gradient(-45deg, #D4A5B8, #C899AC) 1',
-        filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
-      }}></div>
-      <div className="absolute bottom-16 left-16 w-24 h-24 border-l-4 border-b-4 border-primary-400/60 z-20" style={{
-        borderImage: 'linear-gradient(135deg, #D4A5B8, #C899AC) 1',
-        filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
-      }}></div>
-      <div className="absolute bottom-16 right-16 w-24 h-24 border-r-4 border-b-4 border-primary-400/60 z-20" style={{
-        borderImage: 'linear-gradient(-135deg, #D4A5B8, #C899AC) 1',
-        filter: 'drop-shadow(0 0 10px rgba(212, 165, 184, 0.3))'
-      }}></div>
-
-      {/* Rocky texture overlay */}
-      <div className="absolute inset-0 opacity-15 z-15">
-        <div className="w-full h-full" style={{
-          backgroundImage: `
-            radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 1px, transparent 2px),
-            radial-gradient(circle at 80% 70%, rgba(184, 148, 31, 0.08) 1px, transparent 2px),
-            linear-gradient(45deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px),
-            linear-gradient(-45deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '150px 150px, 200px 200px, 80px 80px, 120px 120px',
-          backgroundPosition: '0 0, 50px 50px, 0 0, 25px 25px'
-        }} />
-      </div>
-
-      {/* Animated mineral veins */}
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-2 h-20 bg-gradient-to-b from-primary-400/60 via-primary-500/40 to-transparent z-20"
-        animate={{
-          scaleY: [1, 1.3, 1],
-          opacity: [0.5, 1, 0.5],
-          boxShadow: ['0 0 5px rgba(212, 165, 184, 0.3)', '0 0 15px rgba(212, 165, 184, 0.6)', '0 0 5px rgba(212, 165, 184, 0.3)']
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={{
-          filter: 'blur(0.5px)',
-          borderRadius: '1px'
-        }}
-      />
-      <motion.div
-        className="absolute bottom-1/3 right-1/4 w-20 h-2 bg-gradient-to-r from-primary-400/60 via-primary-500/40 to-transparent z-20"
-        animate={{
-          scaleX: [1, 1.5, 1],
-          opacity: [0.5, 1, 0.5],
-          boxShadow: ['0 0 5px rgba(212, 165, 184, 0.3)', '0 0 15px rgba(212, 165, 184, 0.6)', '0 0 5px rgba(212, 165, 184, 0.3)']
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1.5,
-        }}
-        style={{
-          filter: 'blur(0.5px)',
-          borderRadius: '1px'
-        }}
-      />
-      
-      {/* Floating rock particles */}
-      <motion.div
-        className="absolute top-1/3 right-1/3 w-1 h-1 bg-primary-400/80 rounded-full z-20"
-        animate={{
-          y: [-10, 10, -10],
-          x: [-5, 5, -5],
-          opacity: [0.3, 0.8, 0.3],
-          scale: [0.5, 1, 0.5]
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-1/2 left-1/3 w-1 h-1 bg-primary-500/60 rounded-full z-20"
-        animate={{
-          y: [10, -10, 10],
-          x: [5, -5, 5],
-          opacity: [0.2, 0.7, 0.2],
-          scale: [0.3, 0.8, 0.3]
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-      />
-
-      <div className="relative z-30 w-full h-full flex items-center justify-center">
-        <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             className="text-left"
-          ><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex items-center space-x-4 mb-8"
+            >
+              <div className="w-12 h-1 bg-mauve-gradient"></div>
+              <span className="text-white-to-mauve font-medium text-sm uppercase tracking-[0.2em]">
+                Premium Himalayan
+              </span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-6xl lg:text-8xl font-bold text-white mb-8 leading-none tracking-tight"
+            >
+              UNLOCK
+              <span className="block text-white-to-mauve" style={{ display: 'inline-block', width: '100%' }}>ANCIENT</span>
+              <span className="block text-white">POWER</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="text-xl text-gray-300 mb-12 max-w-lg font-light leading-relaxed"
+            >
+              Experience the legendary power of pure Himalayan Shilajit. 
+              Pharmaceutical-grade quality for high-performance individuals who demand excellence.
+            </motion.p>
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -403,7 +432,6 @@ export default function HeroSection() {
               </div>
             </div>
           </motion.div>
-        </div>
         </div>
       </div>
     </section>

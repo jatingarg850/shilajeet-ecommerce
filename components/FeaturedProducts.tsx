@@ -163,7 +163,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         </motion.button>
 
         {/* Product image section */}
-        <div className="relative h-72 overflow-hidden bg-jet-900">
+        <div className="relative overflow-hidden bg-jet-900 h-64">
           {/* Product image */}
           <motion.div
             className="absolute inset-0 flex items-center justify-center"
@@ -179,9 +179,9 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
               <Image
                 src={product.image}
                 alt={product.name}
-                width={192}
-                height={192}
-                className="object-contain drop-shadow-2xl"
+                width={400}
+                height={400}
+                className="w-full h-full object-cover drop-shadow-2xl"
                 priority={index === 0}
               />
             </motion.div>
