@@ -4,7 +4,7 @@ const FireCoinsSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true,
-    index: true
+    unique: true
   },
   balance: {
     type: Number,
@@ -34,8 +34,5 @@ const FireCoinsSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
-
-// Ensure one document per user
-FireCoinsSchema.index({ userId: 1 }, { unique: true });
 
 export default mongoose.models.FireCoins || mongoose.model('FireCoins', FireCoinsSchema);
