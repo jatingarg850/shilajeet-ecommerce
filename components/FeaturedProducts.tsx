@@ -112,7 +112,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         className="relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu flex flex-col h-full cursor-pointer"
       >
         {/* Sharp corner accent */}
-        <div className="absolute top-0 right-0 w-0 h-0 border-l-[24px] border-l-transparent border-t-[24px] border-t-gold-500/30 group-hover:border-t-gold-400/50 transition-all duration-300"></div>
+        <div className="absolute top-0 right-0 w-0 h-0 border-l-[24px] border-l-transparent border-t-[24px] border-t-white/10 group-hover:border-t-white/20 transition-all duration-300"></div>
 
         {/* Badge */}
         <motion.div
@@ -152,7 +152,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           transition={{ delay: index * 0.15 + 0.7, type: "spring", stiffness: 200 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="absolute top-4 right-4 z-20 p-2 bg-black/50 backdrop-blur-sm border border-white/20 hover:border-gold-400/50 transition-all duration-300 disabled:opacity-50"
+          className="absolute top-4 right-4 z-20 p-2 bg-black/50 backdrop-blur-sm border border-white/20 hover:border-white/50 transition-all duration-300 disabled:opacity-50"
         >
           <Heart
             className={`w-5 h-5 transition-all duration-300 ${isInWishlist(product.id)
@@ -162,36 +162,41 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           />
         </motion.button>
 
+        {/* Discount Badge */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: index * 0.15 + 0.8, type: "spring", stiffness: 200 }}
+          className="absolute top-16 right-4 z-20"
+        >
+          <div className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wide border border-green-600/30">
+            {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+          </div>
+        </motion.div>
+
         {/* Product image section */}
-        <div className="relative overflow-hidden bg-jet-900 h-64">
+        <div className="relative overflow-hidden bg-jet-900 w-full">
           {/* Product image */}
           <motion.div
-            className="absolute inset-0 flex items-center justify-center"
+            className="relative w-full flex items-center justify-center"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.4 }}
           >
-            <motion.div
-              animate={{
-                y: isHovered ? -10 : 0,
-              }}
-              transition={{ duration: 0.4 }}
-            >
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={400}
-                height={400}
-                className="w-full h-full object-cover drop-shadow-2xl"
-                priority={index === 0}
-              />
-            </motion.div>
+            <Image
+              src={product.image}
+              alt={product.name}
+              width={300}
+              height={300}
+              className="w-full h-auto object-contain drop-shadow-2xl"
+              priority={index === 0}
+            />
           </motion.div>
         </div>
 
         {/* Content section */}
-        <div className="relative p-8 flex flex-col flex-grow">
+        <div className="relative p-6 flex flex-col flex-grow">
           {/* Rating and price */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <div className="flex space-x-1">
                 {[...Array(5)].map((_, i) => (
@@ -212,7 +217,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           </div>
 
           {/* Product name */}
-          <div className="flex items-center space-x-3 mb-6">
+          <div className="flex items-center space-x-3 mb-4">
             <motion.div
               className="text-white-to-mauve"
               animate={{ rotate: isHovered ? 360 : 0 }}
@@ -224,24 +229,12 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           </div>
 
           {/* Description */}
-          <p className="text-gray-300 text-sm leading-relaxed font-light mb-6">
+          <p className="text-gray-300 text-sm leading-relaxed font-light mb-4 line-clamp-2">
             {product.description}
           </p>
 
           {/* Features */}
-          <div className="flex flex-wrap gap-2 mb-6 flex-grow">
-            {product.features.map((feature: string, i: number) => (
-              <motion.span
-                key={feature}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.15 + 1 + i * 0.1 }}
-                className="text-xs bg-gold-500/10 text-gold-300 px-3 py-1 border border-gold-500/20 normal-case tracking-wider font-medium h-fit"
-              >
-                {feature}
-              </motion.span>
-            ))}
-          </div>
+          
 
           {/* Product Actions */}
           <div className="flex space-x-2 mt-auto">
@@ -249,9 +242,11 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                handleAddToCart();
+                if (product.status !== 'coming-soon') {
+                  handleAddToCart();
+                }
               }}
-              disabled={isAdding}
+              disabled={isAdding || product.status === 'coming-soon'}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="w-full bg-mauve-gradient hover:bg-mauve-shine text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve"
@@ -268,14 +263,14 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
               >
                 <ShoppingCart size={16} />
               </motion.div>
-              <span>{isAdding ? 'Added!' : 'Add to Cart'}</span>
+              <span>{product.status === 'coming-soon' ? 'Coming Soon' : isAdding ? 'Added!' : 'Add to Cart'}</span>
             </motion.button>
           </div>
         </div>
 
         {/* Hover overlay */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-gold-400/5 via-transparent to-gold-600/5 pointer-events-none"
+          className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none"
           animate={{
             opacity: isHovered ? 1 : 0,
           }}
@@ -364,23 +359,23 @@ export default function FeaturedProducts() {
             backgroundSize: '100px 100px, 150px 150px, 80px 80px'
           }}></div>
 
-          {/* Gold mineral veins */}
-          <div className="absolute top-20 left-20 w-32 h-32 border border-gold-400/10 rotate-45" style={{
-            background: 'linear-gradient(45deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
-            boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)'
+          {/* Mineral veins */}
+          <div className="absolute top-20 left-20 w-32 h-32 border border-white/5 rotate-45" style={{
+            background: 'linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%)',
+            boxShadow: '0 0 20px rgba(255, 255, 255, 0.05)'
           }}></div>
-          <div className="absolute bottom-20 right-20 w-24 h-24 border border-gold-300/10 rotate-12" style={{
-            background: 'linear-gradient(-45deg, rgba(184, 148, 31, 0.1) 0%, transparent 50%)',
-            boxShadow: '0 0 15px rgba(184, 148, 31, 0.1)'
+          <div className="absolute bottom-20 right-20 w-24 h-24 border border-white/5 rotate-12" style={{
+            background: 'linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%)',
+            boxShadow: '0 0 15px rgba(255, 255, 255, 0.05)'
           }}></div>
 
           {/* Additional rock formations */}
           <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-stone-800/20 rotate-45 border border-stone-600/10"></div>
           <div className="absolute bottom-1/3 left-1/4 w-20 h-20 bg-stone-700/20 rotate-12 border border-stone-500/10"></div>
 
-          {/* Scattered rock particles */}
-          <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-gold-400/30 rounded-full"></div>
-          <div className="absolute top-2/3 right-1/3 w-1 h-1 bg-amber-500/40 rounded-full"></div>
+          {/* Scattered particles */}
+          <div className="absolute top-1/2 left-1/3 w-2 h-2 bg-white/10 rounded-full"></div>
+          <div className="absolute top-2/3 right-1/3 w-1 h-1 bg-white/15 rounded-full"></div>
           <div className="absolute bottom-1/2 left-2/3 w-3 h-3 bg-stone-600/20 rounded-full"></div>
         </div>
 

@@ -826,41 +826,12 @@ export default function ProductDetailPage() {
                                     productId={product.id}
                                     productName={product.name}
                                     frontImage={product.image}
+                                    images={product.images}
+                                    isInWishlist={isInWishlist}
+                                    onWishlistToggle={handleWishlistToggle}
+                                    onShare={handleShare}
+                                    wishlistLoading={wishlistLoading}
                                 />
-
-                                {/* Product Actions */}
-                                <div className="bg-jet-900 border border-white/20 p-6 lg:p-8 relative overflow-hidden flex flex-col">
-                                    <div className="flex items-center justify-between">
-                                        <button
-                                            onClick={handleWishlistToggle}
-                                            disabled={wishlistLoading}
-                                            className={`flex items-center space-x-2 transition-colors disabled:opacity-50 ${isInWishlist(product.id)
-                                                ? 'text-primary-400'
-                                                : 'text-gray-400 hover:text-primary-400'
-                                                }`}
-                                        >
-                                            <Heart
-                                                size={20}
-                                                className={isInWishlist(product.id) ? 'fill-current' : ''}
-                                            />
-                                            <span className="text-sm uppercase tracking-wider">
-                                                {wishlistLoading
-                                                    ? 'Loading...'
-                                                    : isInWishlist(product.id)
-                                                        ? 'In Wishlist'
-                                                        : 'Add to Wishlist'
-                                                }
-                                            </span>
-                                        </button>
-                                        <button
-                                            onClick={handleShare}
-                                            className="flex items-center space-x-2 text-gray-400 hover:text-primary-400 transition-colors"
-                                        >
-                                            <Share2 size={20} />
-                                            <span className="text-sm uppercase tracking-wider">Share</span>
-                                        </button>
-                                    </div>
-                                </div>
                             </div>
 
                             {/* Product Info */}
@@ -947,7 +918,8 @@ export default function ProductDetailPage() {
                                         <div className="flex items-center space-x-2 bg-jet-900 border border-white/20">
                                             <button
                                                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                                className="p-2 text-white hover:text-primary-400 transition-colors"
+                                                disabled={product.status === 'coming-soon'}
+                                                className="p-2 text-white hover:text-primary-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 <Minus size={16} />
                                             </button>
@@ -956,7 +928,8 @@ export default function ProductDetailPage() {
                                             </span>
                                             <button
                                                 onClick={() => setQuantity(quantity + 1)}
-                                                className="p-2 text-white hover:text-primary-400 transition-colors"
+                                                disabled={product.status === 'coming-soon'}
+                                                className="p-2 text-white hover:text-primary-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 <Plus size={16} />
                                             </button>
@@ -965,11 +938,11 @@ export default function ProductDetailPage() {
 
                                     <button
                                         onClick={handleAddToCart}
-                                        disabled={isAdding}
+                                        disabled={isAdding || product.status === 'coming-soon'}
                                         className="w-full bg-primary-400 text-black py-4 font-bold uppercase tracking-wider text-sm hover:bg-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                                     >
                                         <ShoppingCart size={18} />
-                                        <span>{isAdding ? 'Adding to Cart...' : `Add ${quantity} to Cart`}</span>
+                                        <span>{product.status === 'coming-soon' ? 'Coming Soon' : isAdding ? 'Adding to Cart...' : `Add ${quantity} to Cart`}</span>
                                     </button>
                                 </div>
 

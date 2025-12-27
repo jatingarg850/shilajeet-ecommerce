@@ -6,7 +6,7 @@ import FAQSection from '@/components/FAQSection';
 import { motion } from 'framer-motion';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { ShoppingCart, Star, Heart, Search, Filter, X, ChevronDown, Flame } from 'lucide-react';
+import { ShoppingCart, Heart, Search, Filter, X, ChevronDown, Flame } from 'lucide-react';
 import { useState, useMemo, useEffect } from 'react';
 import { getProductFireCoins } from '@/lib/fireCoins';
 
@@ -180,8 +180,8 @@ export default function ProductsPage() {
         <section className="pt-32 pb-20 bg-transparent relative overflow-hidden">
         {/* Background elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-16 left-16 w-24 h-24 border-l-2 border-t-2 border-gold-500/20"></div>
-          <div className="absolute bottom-16 right-16 w-24 h-24 border-r-2 border-b-2 border-gold-500/20"></div>
+          <div className="absolute top-16 left-16 w-24 h-24 border-l-2 border-t-2 border-white/10"></div>
+          <div className="absolute bottom-16 right-16 w-24 h-24 border-r-2 border-b-2 border-white/10"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -216,7 +216,7 @@ export default function ProductsPage() {
                   placeholder="Search products, features, or benefits..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-jet-900 border border-white/20 text-white pl-12 pr-4 py-4 focus:outline-none focus:border-gold-400 transition-colors placeholder-gray-400"
+                  className="w-full bg-jet-900 border border-white/20 text-white pl-12 pr-4 py-4 focus:outline-none focus:border-white/50 transition-colors placeholder-gray-400"
                 />
                 {searchQuery && (
                   <button
@@ -234,7 +234,7 @@ export default function ProductsPage() {
               <div className="flex items-center space-x-4">
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="md:hidden flex items-center space-x-2 bg-jet-900 border border-white/20 text-white px-4 py-2 hover:border-gold-400 transition-colors"
+                  className="md:hidden flex items-center space-x-2 bg-jet-900 border border-white/20 text-white px-4 py-2 hover:border-white/50 transition-colors"
                 >
                   <Filter className="w-4 h-4" />
                   <span className="text-sm  tracking-wider">Filters</span>
@@ -252,7 +252,7 @@ export default function ProductsPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-jet-900 border border-white/20 text-white px-4 py-2 pr-8 focus:outline-none focus:border-gold-400 transition-colors text-sm uppercase tracking-wider appearance-none cursor-pointer"
+                  className="bg-jet-900 border border-white/20 text-white px-4 py-2 pr-8 focus:outline-none focus:border-white/50 transition-colors text-sm uppercase tracking-wider appearance-none cursor-pointer"
                 >
                   {sortOptions.map(option => (
                     <option key={option.value} value={option.value} className="bg-jet-900">
@@ -273,7 +273,7 @@ export default function ProductsPage() {
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full bg-jet-900 border border-white/20 text-white px-3 py-2 focus:outline-none focus:border-gold-400 transition-colors text-sm"
+                    className="w-full bg-jet-900 border border-white/20 text-white px-3 py-2 focus:outline-none focus:border-white/50 transition-colors text-sm"
                   >
                     {categories.map(category => (
                       <option key={category} value={category} className="bg-jet-900">
@@ -289,7 +289,7 @@ export default function ProductsPage() {
                   <select
                     value={selectedType}
                     onChange={(e) => setSelectedType(e.target.value)}
-                    className="w-full bg-jet-900 border border-white/20 text-white px-3 py-2 focus:outline-none focus:border-gold-400 transition-colors text-sm"
+                    className="w-full bg-jet-900 border border-white/20 text-white px-3 py-2 focus:outline-none focus:border-white/50 transition-colors text-sm"
                   >
                     {types.map(type => (
                       <option key={type} value={type} className="bg-jet-900">
@@ -305,7 +305,7 @@ export default function ProductsPage() {
                   <select
                     value={priceRange}
                     onChange={(e) => setPriceRange(e.target.value)}
-                    className="w-full bg-jet-900 border border-white/20 text-white px-3 py-2 focus:outline-none focus:border-gold-400 transition-colors text-sm"
+                    className="w-full bg-jet-900 border border-white/20 text-white px-3 py-2 focus:outline-none focus:border-white/50 transition-colors text-sm"
                   >
                     {priceRanges.map(range => (
                       <option key={range.value} value={range.value} className="bg-jet-900">
@@ -331,7 +331,7 @@ export default function ProductsPage() {
                 <div className="flex flex-wrap gap-2 mb-6">
                   <span className="text-gray-400 text-sm uppercase tracking-wider">Active filters:</span>
                   {searchQuery && (
-                    <span className="bg-gold-500/20 text-gold-300 px-3 py-1 text-xs border border-gold-500/30 flex items-center space-x-2">
+                    <span className="bg-white/10 text-white px-3 py-1 text-xs border border-white/20 flex items-center space-x-2">
                       <span>Search: "{searchQuery}"</span>
                       <button onClick={() => setSearchQuery('')} className="hover:text-white">
                         <X className="w-3 h-3" />
@@ -339,7 +339,7 @@ export default function ProductsPage() {
                     </span>
                   )}
                   {selectedCategory !== 'All' && (
-                    <span className="bg-gold-500/20 text-gold-300 px-3 py-1 text-xs border border-gold-500/30 flex items-center space-x-2">
+                    <span className="bg-white/10 text-white px-3 py-1 text-xs border border-white/20 flex items-center space-x-2">
                       <span>Category: {selectedCategory}</span>
                       <button onClick={() => setSelectedCategory('All')} className="hover:text-white">
                         <X className="w-3 h-3" />
@@ -347,7 +347,7 @@ export default function ProductsPage() {
                     </span>
                   )}
                   {selectedType !== 'All' && (
-                    <span className="bg-gold-500/20 text-gold-300 px-3 py-1 text-xs border border-gold-500/30 flex items-center space-x-2">
+                    <span className="bg-white/10 text-white px-3 py-1 text-xs border border-white/20 flex items-center space-x-2">
                       <span>Type: {selectedType}</span>
                       <button onClick={() => setSelectedType('All')} className="hover:text-white">
                         <X className="w-3 h-3" />
@@ -355,7 +355,7 @@ export default function ProductsPage() {
                     </span>
                   )}
                   {priceRange !== 'All' && (
-                    <span className="bg-gold-500/20 text-gold-300 px-3 py-1 text-xs border border-gold-500/30 flex items-center space-x-2">
+                    <span className="bg-white/10 text-white px-3 py-1 text-xs border border-white/20 flex items-center space-x-2">
                       <span>Price: {priceRanges.find(r => r.value === priceRange)?.label}</span>
                       <button onClick={() => setPriceRange('All')} className="hover:text-white">
                         <X className="w-3 h-3" />
@@ -363,7 +363,7 @@ export default function ProductsPage() {
                     </span>
                   )}
                   {sortBy !== 'featured' && (
-                    <span className="bg-gold-500/20 text-gold-300 px-3 py-1 text-xs border border-gold-500/30 flex items-center space-x-2">
+                    <span className="bg-white/10 text-white px-3 py-1 text-xs border border-white/20 flex items-center space-x-2">
                       <span>Sort: {sortOptions.find(s => s.value === sortBy)?.label}</span>
                       <button onClick={() => setSortBy('featured')} className="hover:text-white">
                         <X className="w-3 h-3" />
@@ -400,113 +400,176 @@ export default function ProductsPage() {
             </motion.div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredAndSortedProducts.map((product) => (
+              {filteredAndSortedProducts.map((product, index) => (
               <motion.div
                 key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="bg-jet-900 border border-white/20 relative overflow-hidden group hover:border-gold-400/50 transition-all duration-300 cursor-pointer flex flex-col"
-                onClick={() => window.location.href = `/products/${product.id}`}
+                initial={{ opacity: 0, y: 60, rotateX: 15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                transition={{
+                  duration: 0.8,
+                  delay: index * 0.15,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+                viewport={{ once: true }}
+                className="group perspective-1000"
               >
-                <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-gold-500/30 group-hover:border-t-gold-400/50 transition-all duration-300"></div>
-                
-                {/* Fire Coins Badge */}
                 <motion.div
-                  initial={{ scale: 0, x: -20 }}
-                  animate={{ scale: 1, x: 0 }}
-                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                  className="absolute top-4 left-4 z-20"
+                  onClick={() => window.location.href = `/products/${product.id}`}
+                  className="relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu flex flex-col h-full cursor-pointer"
+                  whileHover={{ y: -2 }}
                 >
-                  <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-2.5 py-1 text-xs font-bold flex items-center space-x-1 shadow-lg">
-                    <Flame className="w-3.5 h-3.5" />
-                    <span>+{getProductFireCoins(product.id)}</span>
-                  </div>
-                </motion.div>
+                  {/* Sharp corner accent */}
+                  <div className="absolute top-0 right-0 w-0 h-0 border-l-[24px] border-l-transparent border-t-[24px] border-t-white/10 group-hover:border-t-white/20 transition-all duration-300"></div>
 
-                {/* Wishlist Heart Icon */}
-                <motion.button
-                  onClick={(e) => handleWishlistToggle(e, product)}
-                  disabled={wishlistStates[product.id]}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="absolute top-4 right-4 z-20 p-2 bg-black/50 backdrop-blur-sm border border-white/20 hover:border-gold-400/50 transition-all duration-300 disabled:opacity-50"
-                >
-                  <Heart 
-                    className={`w-5 h-5 transition-all duration-300 ${
-                      isInWishlist(product.id) 
-                        ? 'fill-red-500 text-red-500' 
-                        : 'text-white hover:text-red-500'
-                    }`}
-                  />
-                </motion.button>
-                
-                {/* Product Image */}
-                <div className="h-48 bg-jet-800 flex items-center justify-center p-4">
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-
-                {/* Product Info */}
-                <div className="p-6 flex flex-col flex-grow">
-                  {/* Rating and Price */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-2">
-                      <div className="flex space-x-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-gold-400 text-gold-400" />
-                        ))}
-                      </div>
-                      <span className="text-white font-bold text-sm">{product.rating}</span>
-                      <span className="text-gray-400 text-sm">({product.reviews})</span>
-                    </div>
-                  </div>
-
-                  {/* Product Name */}
-                  <h3 className="text-xl font-bold text-white normal-case tracking-wider mb-4">{product.name}</h3>
-
-                  {/* Description */}
-                  <p className="text-gray-400 text-sm font-light leading-relaxed mb-4">{product.description}</p>
-
-                  {/* Features */}
-                  <div className="flex flex-wrap gap-2 mb-4 flex-grow">
-                    {product.features.map((feature: string) => (
-                      <span
-                        key={feature}
-                        className="text-xs bg-gold-500/10 text-gold-300 px-2 py-1 border border-gold-500/20 normal-case tracking-wider h-fit"
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Price */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
-                      <span className="text-2xl font-bold text-white-to-mauve">₹{product.price}</span>
-                    </div>
-                  </div>
-
-                  {/* Add to Cart Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(product);
-                    }}
-                    disabled={addingStates[product.id]}
-                    className="w-full bg-mauve-gradient hover:bg-mauve-shine text-white py-3 font-bold uppercase tracking-wider text-sm transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve mt-auto"
+                  {/* Badge */}
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: index * 0.15 + 0.5, type: "spring", stiffness: 200 }}
+                    className="absolute top-4 left-4 z-20"
                   >
-                    <ShoppingCart size={16} />
-                    <span>{addingStates[product.id] ? 'Added!' : 'Add to Cart'}</span>
-                  </button>
-                </div>
+                    <div className="bg-mauve-gradient text-white px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-mauve">
+                      {product.badge}
+                    </div>
+                  </motion.div>
+
+                  {/* Fire Coins Badge */}
+                  <motion.div
+                    initial={{ scale: 0, x: 20 }}
+                    animate={{ scale: 1, x: 0 }}
+                    transition={{ delay: index * 0.15 + 0.6, type: "spring", stiffness: 200 }}
+                    className="absolute top-16 left-4 z-20"
+                  >
+                    <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-lg">
+                      <Flame className="w-4 h-4" />
+                      <span>Earn {getProductFireCoins(product.id)} Coins</span>
+                    </div>
+                  </motion.div>
+
+                  {/* Wishlist Heart Icon */}
+                  <motion.button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleWishlistToggle(e, product);
+                    }}
+                    disabled={wishlistStates[product.id]}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: index * 0.15 + 0.7, type: "spring", stiffness: 200 }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="absolute top-4 right-4 z-20 p-2 bg-black/50 backdrop-blur-sm border border-white/20 hover:border-white/50 transition-all duration-300 disabled:opacity-50"
+                  >
+                    <Heart
+                      className={`w-5 h-5 transition-all duration-300 ${isInWishlist(product.id)
+                        ? 'fill-red-500 text-red-500'
+                        : 'text-white hover:text-red-500'
+                        }`}
+                    />
+                  </motion.button>
+
+                  {/* Discount Badge */}
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: index * 0.15 + 0.8, type: "spring", stiffness: 200 }}
+                    className="absolute top-16 right-4 z-20"
+                  >
+                    <div className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wide border border-green-600/30">
+                      {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                    </div>
+                  </motion.div>
+
+                  {/* Product image section */}
+                  <div className="relative overflow-hidden bg-jet-900 w-full">
+                    {/* Product image */}
+                    <motion.div
+                      className="relative w-full flex items-center justify-center"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-auto object-contain drop-shadow-2xl"
+                      />
+                    </motion.div>
+                  </div>
+
+                  {/* Content section */}
+                  <div className="relative p-6 flex flex-col flex-grow">
+                    {/* Rating and price */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-2">
+                        <div className="flex space-x-1">
+                          {[...Array(5)].map((_, i) => (
+                            <div key={i} className="w-1 h-4 bg-mauve-gradient"></div>
+                          ))}
+                        </div>
+                        <span className="text-white font-bold text-sm">{product.rating}</span>
+                      </div>
+
+                      <div className="text-right">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
+                          <span className="text-2xl font-bold text-white-to-mauve tracking-tight">
+                            ₹{product.price}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Product name */}
+                    <h3 className="text-xl font-bold text-white normal-case tracking-wider mb-4">{product.name}</h3>
+
+                    {/* Description */}
+                    <p className="text-gray-300 text-sm leading-relaxed font-light mb-4 line-clamp-2">
+                      {product.description}
+                    </p>
+
+                    {/* Product Actions */}
+                    <motion.button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (product.status !== 'coming-soon') {
+                          handleAddToCart(product);
+                        }
+                      }}
+                      disabled={addingStates[product.id] || product.status === 'coming-soon'}
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full bg-mauve-gradient hover:bg-mauve-shine text-white py-3 px-4 font-bold flex items-center justify-center space-x-2 transition-all duration-300 uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-mauve mt-auto"
+                    >
+                      <motion.div
+                        animate={{
+                          rotate: addingStates[product.id] ? [0, 360] : 0,
+                          scale: addingStates[product.id] ? [1, 1.2, 1] : 1
+                        }}
+                        transition={{
+                          rotate: { duration: 0.6 },
+                          scale: { duration: 0.3, repeat: addingStates[product.id] ? 2 : 0 }
+                        }}
+                      >
+                        <ShoppingCart size={16} />
+                      </motion.div>
+                      <span>{product.status === 'coming-soon' ? 'Coming Soon' : addingStates[product.id] ? 'Added!' : 'Add to Cart'}</span>
+                    </motion.button>
+                  </div>
+
+                  {/* Hover overlay */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5 pointer-events-none"
+                    animate={{
+                      opacity: 0,
+                    }}
+                    whileHover={{
+                      opacity: 1,
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </motion.div>
               </motion.div>
               ))}
             </div>
@@ -514,7 +577,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-        <FAQSection />
+       
 
         <Footer />
       </div>

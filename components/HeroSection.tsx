@@ -9,26 +9,33 @@ import SectionBlend from './SectionBlend';
 
 const productImages = [
   {
-    src: "/images/image-removebg-preview.png",
-    alt: "Premium Shilajit Resin",
-    title: "Pure Resin",
-    subtitle: "Maximum Potency"
+    src: "/out/2.png",
+    alt: "Product 2",
+    title: "Pure & Potent",
+    subtitle: "Lab Tested"
   },
   {
-    src: "/images/image-removebg-preview.png",
-    alt: "Shilajit Capsules",
-    title: "Capsule Form",
-    subtitle: "Daily Convenience"
+    src: "/out/3.png",
+    alt: "Product 3",
+    title: "Natural Wellness",
+    subtitle: "Trusted Brand"
   },
   {
-    src: "/images/image-removebg-preview.png",
-    alt: "Shilajit Powder",
-    title: "Powder Blend",
-    subtitle: "Versatile Use"
+    src: "/out/1.png",
+    alt: "Product 1",
+    title: "Premium Quality",
+    subtitle: "Authentic Himalayan"
+  },
+  {
+    src: "/out/4.png",
+    alt: "Product 4",
+    title: "Maximum Benefits",
+    subtitle: "Proven Results"
   }
 ];
 
 const backgroundImages = [
+  "/selling/shilajit banner.jpg",
   "/selling/shilajit banner.jpg",
   "/selling/shilajit banner.jpg",
   "/selling/shilajit banner.jpg"
@@ -334,12 +341,11 @@ export default function HeroSection() {
                         }}
                         className="absolute inset-0 flex items-center justify-center"
                       >
-                        <div className="relative">
+                        <div className="relative w-96 h-96">
                           <Image
                             src={productImages[currentImageIndex].src}
                             alt={productImages[currentImageIndex].alt}
-                            width={350}
-                            height={350}
+                            fill
                             className="object-contain drop-shadow-2xl filter brightness-110 contrast-125 saturate-110"
                             priority={currentImageIndex === 0}
                           />
