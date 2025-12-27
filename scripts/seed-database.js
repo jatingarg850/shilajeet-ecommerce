@@ -7,11 +7,11 @@ const MONGODB_URI = 'mongodb+srv://developerduco:p2nDgP07paBQewdi@cluster0.sms0o
 const products = [
   {
     id: 'agnishila-trublk-gold-resin',
-    name: 'TruBlk Shilajit Gold Resin',
+    name: 'Something Bold is Coming',
     description: 'TruBlk Shilajit Gold Resin delivers a complete vitality boost by combining Himalayan Shilajit with powerful Ayurvedic herbs and minerals. Together, they enhance your body\'s natural energy, strength, and mental focus.',
     price: 1320,
     originalPrice: 1649,
-    image: '/main/tru_1.jpg',
+    image: '/main/image.png',
     images: [
       '/main/tru_1.jpg',
       '/main/tru_2.jpg',

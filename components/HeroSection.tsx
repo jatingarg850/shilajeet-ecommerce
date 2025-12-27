@@ -9,25 +9,25 @@ import SectionBlend from './SectionBlend';
 
 const productImages = [
   {
-    src: "/out/2.png",
+    src: "/out12/2.png",
     alt: "Product 2",
     title: "Pure & Potent",
     subtitle: "Lab Tested"
   },
   {
-    src: "/out/3.png",
+    src: "/out12/3.png",
     alt: "Product 3",
     title: "Natural Wellness",
     subtitle: "Trusted Brand"
   },
   {
-    src: "/out/1.png",
+    src: "/out12/1.png",
     alt: "Product 1",
     title: "Premium Quality",
     subtitle: "Authentic Himalayan"
   },
   {
-    src: "/out/4.png",
+    src: "/out12/4.png",
     alt: "Product 4",
     title: "Maximum Benefits",
     subtitle: "Proven Results"
