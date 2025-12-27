@@ -34,18 +34,10 @@ const productImages = [
   }
 ];
 
-const backgroundImages = [
-  "/selling/shilajit banner.jpg",
-  "/selling/shilajit banner.jpg",
-  "/selling/shilajit banner.jpg",
-  "/selling/shilajit banner.jpg"
-];
-
 export default function HeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [direction, setDirection] = useState(1);
-  const [backgroundIndex, setBackgroundIndex] = useState(0);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -53,9 +45,7 @@ export default function HeroSection() {
     const interval = setInterval(() => {
       setDirection(1);
       setCurrentImageIndex((prev) => {
-        const newIndex = (prev + 1) % productImages.length;
-        setBackgroundIndex(newIndex);
-        return newIndex;
+        return (prev + 1) % productImages.length;
       });
     }, 3500);
 
@@ -65,18 +55,14 @@ export default function HeroSection() {
   const nextImage = () => {
     setDirection(1);
     setCurrentImageIndex((prev) => {
-      const newIndex = (prev + 1) % productImages.length;
-      setBackgroundIndex(newIndex);
-      return newIndex;
+      return (prev + 1) % productImages.length;
     });
   };
 
   const prevImage = () => {
     setDirection(-1);
     setCurrentImageIndex((prev) => {
-      const newIndex = (prev - 1 + productImages.length) % productImages.length;
-      setBackgroundIndex(newIndex);
-      return newIndex;
+      return (prev - 1 + productImages.length) % productImages.length;
     });
   };
 
@@ -286,7 +272,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative"
+            className="relative z-40"
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
           >
@@ -301,11 +287,11 @@ export default function HeroSection() {
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="relative z-10"
+                className="relative"
               >
                 <div className="w-96 h-96 mx-auto flex items-center justify-center relative">
                   {/* Enhanced mauve glow background */}
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center z-0">
                     <div
                       className="w-80 h-80 rounded-full opacity-40"
                       style={{
@@ -361,7 +347,7 @@ export default function HeroSection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center"
+                  className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center z-30"
                 >
                   <div className="bg-black/70 backdrop-blur-sm border-2 border-primary-400/30 px-6 py-3 cave-shadow" style={{
                     background: 'linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,15,10,0.9) 100%)',
@@ -382,7 +368,7 @@ export default function HeroSection() {
                 onClick={prevImage}
                 whileHover={{ scale: 1.1, x: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-primary-900/40 text-primary-400 p-3 backdrop-blur-sm z-20 transition-all duration-300 border border-primary-400/30"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-primary-900/40 text-primary-400 p-3 backdrop-blur-sm z-50 transition-all duration-300 border border-primary-400/30"
                 style={{
                   background: 'linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(20,15,10,0.8) 100%)',
                   boxShadow: '0 0 15px rgba(212, 165, 184, 0.2)'
@@ -395,7 +381,7 @@ export default function HeroSection() {
                 onClick={nextImage}
                 whileHover={{ scale: 1.1, x: 5 }}
                 whileTap={{ scale: 0.95 }}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-primary-900/40 text-primary-400 p-3 backdrop-blur-sm z-20 transition-all duration-300 border border-primary-400/30"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-primary-900/40 text-primary-400 p-3 backdrop-blur-sm z-50 transition-all duration-300 border border-primary-400/30"
                 style={{
                   background: 'linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(20,15,10,0.8) 100%)',
                   boxShadow: '0 0 15px rgba(212, 165, 184, 0.2)'
@@ -405,7 +391,7 @@ export default function HeroSection() {
               </motion.button>
 
               {/* Sharp Progress Indicator */}
-              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
                 <div className="flex items-center space-x-2">
                   {productImages.map((_, index) => (
                     <motion.button
@@ -413,7 +399,6 @@ export default function HeroSection() {
                       onClick={() => {
                         setDirection(index > currentImageIndex ? 1 : -1);
                         setCurrentImageIndex(index);
-                        setBackgroundIndex(index);
                       }}
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
