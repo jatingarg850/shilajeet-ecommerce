@@ -8,27 +8,22 @@ import { useState, useEffect } from 'react';
 import SectionBlend from './SectionBlend';
 
 const productImages = [
+ 
   {
     src: "/out12/2.png",
-    alt: "Product 2",
-    title: "Pure & Potent",
-    subtitle: "Lab Tested"
-  },
-  {
-    src: "/out12/3.png",
-    alt: "Product 3",
+    alt: "AshwaGlow Gummies",
     title: "Natural Wellness",
     subtitle: "Trusted Brand"
   },
   {
-    src: "/out12/1.png",
-    alt: "Product 1",
+    src: "/out12/3.png",
+    alt: "TruBlk Resin",
     title: "Premium Quality",
     subtitle: "Authentic Himalayan"
   },
   {
     src: "/out12/4.png",
-    alt: "Product 4",
+    alt: "TruBlk Resin",
     title: "Maximum Benefits",
     subtitle: "Proven Results"
   }
@@ -289,11 +284,11 @@ export default function HeroSection() {
                 }}
                 className="relative"
               >
-                <div className="w-96 h-96 mx-auto flex items-center justify-center relative">
+                <div className="w-[450px] h-[450px] mx-auto flex items-center justify-center relative">
                   {/* Enhanced mauve glow background */}
                   <div className="absolute inset-0 flex items-center justify-center z-0">
                     <div
-                      className="w-80 h-80 rounded-full opacity-40"
+                      className="w-96 h-96 rounded-full opacity-40"
                       style={{
                         background: 'radial-gradient(circle, rgba(212, 165, 184, 0.6) 0%, rgba(240, 199, 218, 0.4) 40%, rgba(200, 153, 172, 0.2) 70%, transparent 100%)',
                         filter: 'blur(25px)'
@@ -302,7 +297,7 @@ export default function HeroSection() {
                   </div>
 
                   {/* Product carousel container */}
-                  <div className="relative w-80 h-80 overflow-hidden z-10">
+                  <div className="relative w-[420px] h-[420px] overflow-hidden z-10">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={currentImageIndex}
@@ -327,13 +322,15 @@ export default function HeroSection() {
                         }}
                         className="absolute inset-0 flex items-center justify-center"
                       >
-                        <div className="relative w-96 h-96">
+                        <div className="relative w-[450px] h-[450px]">
                           <Image
                             src={productImages[currentImageIndex].src}
                             alt={productImages[currentImageIndex].alt}
                             fill
-                            className="object-contain drop-shadow-2xl filter brightness-110 contrast-125 saturate-110"
-                            priority={currentImageIndex === 0}
+                            quality={100}
+                            unoptimized
+                            className="object-contain drop-shadow-2xl"
+                            priority
                           />
                         </div>
                       </motion.div>

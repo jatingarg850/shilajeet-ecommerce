@@ -493,6 +493,7 @@ export default function ProductsPage() {
                         src={product.image}
                         alt={product.name}
                         className="w-full h-auto object-contain drop-shadow-2xl"
+                        loading={index === 0 ? "eager" : "lazy"}
                       />
                     </motion.div>
                   </div>

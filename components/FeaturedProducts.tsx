@@ -185,10 +185,12 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             <Image
               src={product.image}
               alt={product.name}
-              width={300}
-              height={300}
+              width={500}
+              height={500}
+              quality={100}
               className="w-full h-auto object-contain drop-shadow-2xl"
               priority={index === 0}
+              unoptimized
             />
           </motion.div>
         </div>

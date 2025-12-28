@@ -59,10 +59,12 @@ export default function ProductImageSlider({
           <Image
             src={imageArray[currentImageIndex]}
             alt={`${productName} - Image ${currentImageIndex + 1}`}
-            width={500}
-            height={500}
-            className="w-full h-full object-contain drop-shadow-2xl filter brightness-110"
+            width={800}
+            height={800}
+            quality={100}
+            className="w-full h-full object-contain drop-shadow-2xl"
             priority
+            unoptimized
           />
         </motion.div>
 
