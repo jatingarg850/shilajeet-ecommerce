@@ -463,16 +463,18 @@ export default function ProductsPage() {
                   </motion.button>
 
                   {/* Discount Badge */}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: index * 0.15 + 0.8, type: "spring", stiffness: 200 }}
-                    className="absolute top-16 right-4 z-20"
-                  >
-                    <div className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wide border border-green-600/30">
-                      {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
-                    </div>
-                  </motion.div>
+                  {product.status !== 'coming-soon' && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: index * 0.15 + 0.8, type: "spring", stiffness: 200 }}
+                      className="absolute top-16 right-4 z-20"
+                    >
+                      <div className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wide border border-green-600/30">
+                        {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                      </div>
+                    </motion.div>
+                  )}
 
                   {/* Product image section */}
                   <div className="relative overflow-hidden bg-jet-900 w-full">
