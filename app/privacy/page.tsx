@@ -111,7 +111,7 @@ export default function PrivacyPolicyPage() {
               </p>
               
               <div className="mt-8 bg-primary-400/10 border border-primary-400/30 p-4 inline-block">
-                <p className="text-primary-300 text-sm">Last updated: November 2025</p>
+                <p className="text-primary-300 text-sm">Last updated: December 2025</p>
               </div>
             </motion.div>
 

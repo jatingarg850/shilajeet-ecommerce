@@ -491,49 +491,55 @@ export default function ProductsPage() {
                     </motion.div>
 
                     {/* Fire Coins Badge - Bottom Left Corner */}
-                    <motion.div
-                      initial={{ scale: 0, y: 20 }}
-                      animate={{ scale: 1, y: 0 }}
-                      transition={{ delay: index * 0.15 + 0.6, type: "spring", stiffness: 200 }}
-                      className="absolute bottom-4 left-4 z-20"
-                    >
-                      <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-lg whitespace-nowrap">
-                        <Flame className="w-4 h-4" />
-                        <span>Earn {getProductFireCoins(product.id)} Coins</span>
-                      </div>
-                    </motion.div>
+                    {product.status !== 'coming-soon' && (
+                      <motion.div
+                        initial={{ scale: 0, y: 20 }}
+                        animate={{ scale: 1, y: 0 }}
+                        transition={{ delay: index * 0.15 + 0.6, type: "spring", stiffness: 200 }}
+                        className="absolute bottom-4 left-4 z-20"
+                      >
+                        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-lg whitespace-nowrap">
+                          <Flame className="w-4 h-4" />
+                          <span>Earn {getProductFireCoins(product.id)} Coins</span>
+                        </div>
+                      </motion.div>
+                    )}
                   </div>
 
                   {/* Content section */}
                   <div className="relative p-6 flex flex-col flex-grow">
                     {/* Rating and price */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-2">
-                        <div className="flex space-x-1">
-                          {[...Array(5)].map((_, i) => (
-                            <div key={i} className="w-1 h-4 bg-mauve-gradient"></div>
-                          ))}
-                        </div>
-                        <span className="text-white font-bold text-sm">{product.rating}</span>
-                      </div>
-
-                      <div className="text-right">
+                    {product.status !== 'coming-soon' && (
+                      <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-2">
-                          <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
-                          <span className="text-2xl font-bold text-white-to-mauve tracking-tight">
-                            ₹{product.price}
-                          </span>
+                          <div className="flex space-x-1">
+                            {[...Array(5)].map((_, i) => (
+                              <div key={i} className="w-1 h-4 bg-mauve-gradient"></div>
+                            ))}
+                          </div>
+                          <span className="text-white font-bold text-sm">{product.rating}</span>
+                        </div>
+
+                        <div className="text-right">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-gray-500 text-sm line-through">₹{product.originalPrice}</span>
+                            <span className="text-2xl font-bold text-white-to-mauve tracking-tight">
+                              ₹{product.price}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Product name */}
                     <h3 className="text-xl font-bold text-white normal-case tracking-wider mb-4">{product.name}</h3>
 
                     {/* Description */}
-                    <p className="text-gray-300 text-sm leading-relaxed font-light mb-4 line-clamp-2">
-                      {product.description}
-                    </p>
+                    {product.status !== 'coming-soon' && (
+                      <p className="text-gray-300 text-sm leading-relaxed font-light mb-4 line-clamp-2">
+                        {product.description}
+                      </p>
+                    )}
 
                     {/* Product Actions */}
                     <motion.button
