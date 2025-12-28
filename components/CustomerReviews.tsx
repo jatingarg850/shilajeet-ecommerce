@@ -12,7 +12,7 @@ const reviews = [
     title: 'IT Professional',
     rating: 5,
     comment: 'TruBlk Shilajit Gold Resin has transformed my energy levels! The combination of Swarna Bhasma and KSM-66 Ashwagandha is incredible. I feel more focused at work and my stamina has improved significantly. The gold-infused resin is worth every rupee.',
-    date: 'November 2024',
+    date: 'November 2025',
     verified: true,
     location: 'Bangalore, India'
   },
@@ -22,7 +22,7 @@ const reviews = [
     title: 'Fitness Enthusiast',
     rating: 5,
     comment: 'The Shilajit Gummies are a game-changer! So convenient and tasty. I take them before my morning workout and the energy boost is amazing. No bitterness like traditional shilajit. Perfect for my busy lifestyle.',
-    date: 'November 2024',
+    date: 'November 2025',
     verified: true,
     location: 'Mumbai, India'
   },
@@ -32,7 +32,7 @@ const reviews = [
     title: 'Business Owner',
     rating: 5,
     comment: 'I\'ve tried many Shilajit brands, but Agnishila TruBlk™ stands out. The lab certification and purity are evident. The Gold Resin with Safed Musli and Brahmi has improved my mental clarity and stress management remarkably.',
-    date: 'October 2024',
+    date: 'October 2025',
     verified: true,
     location: 'Delhi, India'
   },
@@ -42,7 +42,7 @@ const reviews = [
     title: 'Yoga Instructor',
     rating: 5,
     comment: 'Ashwagandha Gummies are perfect for stress relief! The KSM-66 quality is top-notch. I recommend these to all my students. Natural taste, effective results, and helps with sleep quality too.',
-    date: 'October 2024',
+    date: 'October 2025',
     verified: true,
     location: 'Hyderabad, India'
   },
@@ -52,7 +52,7 @@ const reviews = [
     title: 'Gym Trainer',
     rating: 5,
     comment: 'TruBlk Gold Resin is the real deal! The Kaunj and Black Musli combination has boosted my strength training results. Recovery time has reduced and I feel more energetic throughout the day. Highly recommend for athletes.',
-    date: 'September 2024',
+    date: 'September 2025',
     verified: true,
     location: 'Pune, India'
   },
@@ -62,7 +62,7 @@ const reviews = [
     title: 'Corporate Executive',
     rating: 5,
     comment: 'The Shilajit Gummies with Gokhru and Ginger Extract are amazing! Easy to carry, no mess, and the results are fantastic. My energy levels stay consistent throughout long meetings. The FSSAI approval gives me confidence in the quality.',
-    date: 'September 2024',
+    date: 'September 2025',
     verified: true,
     location: 'Ahmedabad, India'
   }

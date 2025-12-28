@@ -10,22 +10,17 @@ import SectionBlend from './SectionBlend';
 const productImages = [
   {
     src: "/out12/2.png",
-    alt: "ShilaBoost Gummies",
-    title: "Pure & Potent",
-    subtitle: "Lab Tested"
+    alt: "Shilajit ShilaBoost Gummies",
+    title: "Shilajit ShilaBoost Gummies",
+    subtitle: ""
   },
   {
     src: "/out12/3.png",
-    alt: "AshwaGlow Gummies",
-    title: "Natural Wellness",
-    subtitle: "Trusted Brand"
+    alt: "KSM-66 AshwaGlow Gummies",
+    title: "KSM-66 AshwaGlow Gummies",
+    subtitle: ""
   },
-  {
-    src: "/out12/4.png",
-    alt: "TruBlk Resin",
-    title: "Premium Quality",
-    subtitle: "Authentic Himalayan"
-  }
+
 ];
 
 export default function HeroSection() {

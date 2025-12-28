@@ -414,9 +414,13 @@ export default function ProductsPage() {
                 className="group perspective-1000"
               >
                 <motion.div
-                  onClick={() => window.location.href = `/products/${product.id}`}
-                  className="relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu flex flex-col h-full cursor-pointer"
-                  whileHover={{ y: -2 }}
+                  onClick={() => {
+                    if (product.status !== 'coming-soon') {
+                      window.location.href = `/products/${product.id}`;
+                    }
+                  }}
+                  className={`relative bg-gradient-to-br from-jet-800 to-black border border-white/20 overflow-hidden transform-gpu flex flex-col h-full ${product.status === 'coming-soon' ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'}`}
+                  whileHover={{ y: product.status === 'coming-soon' ? 0 : -2 }}
                 >
                   {/* Sharp corner accent */}
                   <div className="absolute top-0 right-0 w-0 h-0 border-l-[24px] border-l-transparent border-t-[24px] border-t-white/10 group-hover:border-t-white/20 transition-all duration-300"></div>
@@ -433,18 +437,7 @@ export default function ProductsPage() {
                     </div>
                   </motion.div>
 
-                  {/* Fire Coins Badge */}
-                  <motion.div
-                    initial={{ scale: 0, x: 20 }}
-                    animate={{ scale: 1, x: 0 }}
-                    transition={{ delay: index * 0.15 + 0.6, type: "spring", stiffness: 200 }}
-                    className="absolute top-16 left-4 z-20"
-                  >
-                    <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-lg">
-                      <Flame className="w-4 h-4" />
-                      <span>Earn {getProductFireCoins(product.id)} Coins</span>
-                    </div>
-                  </motion.div>
+
 
                   {/* Wishlist Heart Icon */}
                   <motion.button
@@ -495,6 +488,19 @@ export default function ProductsPage() {
                         className="w-full h-auto object-contain drop-shadow-2xl"
                         loading={index === 0 ? "eager" : "lazy"}
                       />
+                    </motion.div>
+
+                    {/* Fire Coins Badge - Bottom Left Corner */}
+                    <motion.div
+                      initial={{ scale: 0, y: 20 }}
+                      animate={{ scale: 1, y: 0 }}
+                      transition={{ delay: index * 0.15 + 0.6, type: "spring", stiffness: 200 }}
+                      className="absolute bottom-4 left-4 z-20"
+                    >
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-lg whitespace-nowrap">
+                        <Flame className="w-4 h-4" />
+                        <span>Earn {getProductFireCoins(product.id)} Coins</span>
+                      </div>
                     </motion.div>
                   </div>
 

@@ -275,7 +275,7 @@ All pages now show real data from MongoDB!
     "rating": 5,
     "comment": "Excellent product!...",
     "status": "approved",
-    "createdAt": "2024-...",
+    "createdAt": "2025-...",
     "helpful": 12
   }
 ]

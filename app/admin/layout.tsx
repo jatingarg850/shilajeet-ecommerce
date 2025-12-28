@@ -83,7 +83,7 @@ export default function AdminLayout({
           <footer className="border-t border-white/10 bg-black/50 backdrop-blur-sm py-3 px-4 md:px-6 mt-8">
             <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gray-500">
               <div className="flex items-center gap-2">
-                <span>© 2024 Agnishila</span>
+                <span>© 2025 Agnishila</span>
                 <span className="text-gray-700">|</span>
                 <span>All rights reserved</span>
               </div>

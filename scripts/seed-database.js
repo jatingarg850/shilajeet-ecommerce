@@ -318,7 +318,7 @@ const users = [
 
 const orders = [
   {
-    orderNumber: 'ORD-2024-001',
+    orderNumber: 'ORD-2025-001',
     customerName: 'John Doe',
     customerEmail: 'john@example.com',
     customerPhone: '+91 9876543210',
@@ -350,7 +350,7 @@ const orders = [
     updatedAt: new Date()
   },
   {
-    orderNumber: 'ORD-2024-002',
+    orderNumber: 'ORD-2025-002',
     customerName: 'Jane Smith',
     customerEmail: 'jane@example.com',
     customerPhone: '+91 9876543211',
@@ -382,7 +382,7 @@ const orders = [
     updatedAt: new Date()
   },
   {
-    orderNumber: 'ORD-2024-003',
+    orderNumber: 'ORD-2025-003',
     customerName: 'John Doe',
     customerEmail: 'john@example.com',
     customerPhone: '+91 9876543210',
