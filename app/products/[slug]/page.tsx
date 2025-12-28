@@ -592,19 +592,18 @@ export default function ProductDetailPage() {
             let productId: string = '';
             
             if (product.id === 'agnishila-shilajit-gummies') {
-                // For Shilajit Gummies, show TruBlk Resin
-                productId = 'agnishila-trublk-gold-resin';
+                // For Shilajit Gummies, show KSM-66 AshwaGlow Gummies (not coming soon)
+                productId = 'ashwa-glo-gummies';
             } else if (product.id === 'ashwa-glo-gummies') {
-                // For Ashwa Glo Gummies, show TruBlk Resin
-                productId = 'agnishila-trublk-gold-resin';
-            } else if (product.id === 'agnishila-trublk-gold-resin') {
-                // For TruBlk Resin, show Shilajit Gummies
+                // For AshwaGlow Gummies, show Shilajit Gummies (not coming soon)
                 productId = 'agnishila-shilajit-gummies';
+            } else if (product.id === 'agnishila-trublk-gold-resin') {
+                // For TruBlk Resin (coming soon), don't show any bundle
+                productId = '';
             } else {
                 // Default: show first available product except current
-                const allProductIds = ['agnishila-trublk-gold-resin', 'agnishila-shilajit-gummies', 'ashwa-glo-gummies'];
-                const available = allProductIds.filter(id => id !== product.id);
-                productId = available[0] || '';
+                const allProductIds = ['agnishila-shilajit-gummies', 'ashwa-glo-gummies'];
+                productId = allProductIds[0] || '';
             }
             
             if (productId) {
@@ -612,8 +611,12 @@ export default function ProductDetailPage() {
                 const response = await fetch(`/api/products/${productId}`);
                 const bundleData = await response.json();
                 console.log('Bundle product fetched:', bundleData);
-                // Set only 1 product in array
-                setBundleProducts([bundleData]);
+                // Only show if not coming soon
+                if (bundleData.status !== 'coming-soon') {
+                    setBundleProducts([bundleData]);
+                } else {
+                    setBundleProducts([]);
+                }
             } else {
                 setBundleProducts([]);
             }
@@ -895,13 +898,12 @@ export default function ProductDetailPage() {
                                                         <Flame className="w-5 h-5 text-orange-500" />
                                                     </motion.div>
                                                     <span className="text-2xl font-bold text-white">{getProductFireCoins(product.id)}</span>
-                                                    <span className="text-gray-300 text-sm">Coins & redeem it on next app purchase.</span>
+                                                    <span className="text-gray-300 text-sm">Coins & redeem it on next purchase.</span>
                                                 </div>
                                             </motion.div>
                                         </>
                                     )}
-
-                                {/* Features */}
+                                </div>
                                 <div>
                                     <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Key Features</h3>
                                     <div className="grid grid-cols-2 gap-3">

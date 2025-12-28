@@ -54,7 +54,7 @@ const products = [
     id: 'agnishila-shilajit-gummies',
     name: 'Shilajit ShilaBoost Gummies',
     description: 'Delicious and convenient Shilajit gummies for daily wellness. Perfect for busy lifestyles.',
-    price: 1035,
+    price: 1090,
     originalPrice: 1150,
     image: '/first/Shilaboost Front.jpg',
     images: [
@@ -539,9 +539,11 @@ async function seedDatabase() {
 
     // Link reviews to products and insert
     console.log('\nInserting reviews...');
+    // Only assign reviews to available products (not coming-soon)
+    const availableProductIds = [productIds[1], productIds[2]]; // Shilajit Gummies and AshwaGlow Gummies
     const reviewsWithProducts = reviews.map((review, index) => ({
       ...review,
-      productId: productIds[index % productIds.length]
+      productId: availableProductIds[index % availableProductIds.length]
     }));
     const reviewsResult = await db.collection('reviews').insertMany(reviewsWithProducts);
     console.log(`${reviewsResult.insertedCount} reviews inserted!`);

@@ -21,7 +21,10 @@ interface FrequentlyBoughtTogetherProps {
 }
 
 export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }: FrequentlyBoughtTogetherProps) {
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([mainProduct.id, ...bundleProducts.map(p => p.id)]);
+  // Filter out coming soon products from bundle
+  const availableBundleProducts = bundleProducts.filter((p: any) => p.status !== 'coming-soon');
+  
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([mainProduct.id, ...availableBundleProducts.map(p => p.id)]);
   const [isAdding, setIsAdding] = useState(false);
   const { addItem } = useCart();
   const router = useRouter();
@@ -36,7 +39,7 @@ export default function FrequentlyBoughtTogether({ mainProduct, bundleProducts }
     );
   };
 
-  const allProducts = [mainProduct, ...bundleProducts];
+  const allProducts = [mainProduct, ...availableBundleProducts];
   const subtotal = allProducts
     .filter(p => selectedProducts.includes(p.id))
     .reduce((sum, p) => sum + p.price, 0);

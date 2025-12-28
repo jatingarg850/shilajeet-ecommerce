@@ -128,6 +128,20 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           </div>
         </motion.div>
 
+        {/* Discount Badge - Below Badge */}
+        {product.status !== 'coming-soon' && (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: index * 0.15 + 0.6, type: "spring", stiffness: 200 }}
+            className="absolute top-14 left-4 z-20"
+          >
+            <div className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wide border border-green-600/30">
+              {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+            </div>
+          </motion.div>
+        )}
+
 
 
         {/* Wishlist Heart Icon */}
@@ -159,7 +173,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: index * 0.15 + 0.8, type: "spring", stiffness: 200 }}
-            className="absolute top-16 right-4 z-20"
+            className="absolute top-14 left-4 z-20"
           >
             <div className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wide border border-green-600/30">
               {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
@@ -186,25 +200,25 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
               unoptimized
             />
           </motion.div>
+        </div>
 
-          {/* Fire Coins Badge - Bottom Left Corner */}
+        {/* Content section */}
+        <div className="relative p-6 flex flex-col flex-grow">
+          {/* Fire Coins Badge - Above Rating */}
           {product.status !== 'coming-soon' && (
             <motion.div
-              initial={{ scale: 0, y: 20 }}
+              initial={{ scale: 0, y: -10 }}
               animate={{ scale: 1, y: 0 }}
               transition={{ delay: index * 0.15 + 0.6, type: "spring", stiffness: 200 }}
-              className="absolute bottom-4 left-4 z-20"
+              className="mb-4"
             >
-              <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-lg whitespace-nowrap">
+              <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-lg whitespace-nowrap w-fit">
                 <Flame className="w-4 h-4" />
                 <span>Earn {getProductFireCoins(product.id)} Coins</span>
               </div>
             </motion.div>
           )}
-        </div>
 
-        {/* Content section */}
-        <div className="relative p-6 flex flex-col flex-grow">
           {/* Rating and price */}
           {product.status !== 'coming-soon' && (
             <div className="flex items-center justify-between mb-4">

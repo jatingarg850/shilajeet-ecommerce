@@ -195,12 +195,20 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                       className="mb-8"
                     >
                       <div className="flex items-center space-x-3 mb-6">
-                        <div className="w-12 h-12 bg-primary-400 flex items-center justify-center">
-                          <div className="w-6 h-6 bg-black transform rotate-45"></div>
+                        <div className="w-12 h-12 flex items-center justify-center">
+                          <img 
+                            src="/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png" 
+                            alt="Agnishila Logo" 
+                            className="w-full h-full object-contain"
+                          />
                         </div>
                         <div>
-                          <div className="text-xl font-bold text-white tracking-tight">SHILAJIT</div>
-                          <div className="text-xs text-primary-400 uppercase tracking-[0.2em]">Premium</div>
+                          <img 
+                            src="/logo/name.png" 
+                            alt="Agnishila" 
+                            className="h-6 object-contain mb-1"
+                          />
+                          <div className="text-xs text-primary-400 uppercase tracking-[0.2em]">Ignite the fire within</div>
                         </div>
                       </div>
                     </motion.div>
@@ -213,7 +221,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                     >
                       {mode === 'login' ? 'WELCOME' : 'JOIN THE'}
                       <span className="block text-primary-400">
-                        {mode === 'login' ? 'BACK' : 'ELITE'}
+                        {mode === 'login' ? 'BACK' : 'AGNISHILA'}
                       </span>
                     </motion.h2>
 
@@ -224,8 +232,8 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                       className="text-gray-300 text-lg mb-8 font-light leading-relaxed"
                     >
                       {mode === 'login' 
-                        ? 'Access your premium account and continue your wellness journey with pharmaceutical-grade Himalayan Shilajit.'
-                        : 'Join thousands of high-performance individuals who trust our premium Himalayan Shilajit for their wellness needs.'
+                        ? 'Access your Agnishila account and continue your wellness journey with premium Himalayan Shilajit.'
+                        : 'Join thousands of high-performance individuals who trust Agnishila for their premium wellness needs.'
                       }
                     </motion.p>
 

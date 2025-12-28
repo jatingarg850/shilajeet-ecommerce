@@ -58,7 +58,7 @@ export default function BenefitsPage() {
             id: 'immune',
             title: 'Immune Support',
             icon: <Shield className="w-8 h-8" />,
-            image: '/first/purpose.jpeg',
+            image: '/first/immune.png',
             description: 'Strengthen your body\'s natural defense system',
             details: 'Packed with antioxidants and bioactive compounds that help protect against oxidative stress.',
             stats: '100% Natural',
@@ -137,19 +137,22 @@ export default function BenefitsPage() {
             step: '01',
             title: 'Absorption',
             description: 'Fulvic acid enhances nutrient absorption at the cellular level',
-            icon: <ArrowRight className="w-6 h-6" />
+            icon: <ArrowRight className="w-6 h-6" />,
+            image: '/first/absorption.PNG'
         },
         {
             step: '02',
             title: 'Cellular Energy',
             description: 'Minerals support mitochondrial function and ATP production',
-            icon: <ArrowRight className="w-6 h-6" />
+            icon: <ArrowRight className="w-6 h-6" />,
+            image: '/first/purpose.PNG'
         },
         {
             step: '03',
             title: 'Systemic Benefits',
             description: 'Enhanced energy flows throughout your entire system',
-            icon: <CheckCircle className="w-6 h-6" />
+            icon: <CheckCircle className="w-6 h-6" />,
+            image: '/first/systemeticbenefits.PNG'
         }
     ];
 
@@ -326,16 +329,22 @@ export default function BenefitsPage() {
                                 viewport={{ once: true }}
                                 className="relative"
                             >
-                                <div className="bg-jet-900 border border-white/20 p-8 text-center relative overflow-hidden group hover:border-primary-400/50 transition-all duration-300">
+                                <div className="bg-jet-900 border border-white/20 p-8 text-center relative overflow-hidden group hover:border-primary-400/50 transition-all duration-300 flex flex-col h-full">
                                     <div className="absolute top-0 left-0 w-full h-1 bg-primary-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                                     
                                     <div className="text-6xl font-bold text-primary-400/20 mb-4">{step.step}</div>
                                     
-                                    <div className="flex justify-center mb-6">
-                                        <div className="w-16 h-16 bg-primary-400/20 border border-primary-400/30 flex items-center justify-center">
-                                            <div className="text-primary-400">
-                                                {step.icon}
-                                            </div>
+                                    {/* Image Display */}
+                                    <div className="flex justify-center mb-6 flex-grow">
+                                        <div className="w-full max-w-xs h-48 flex items-center justify-center overflow-hidden">
+                                            <Image
+                                                src={step.image}
+                                                alt={step.title}
+                                                width={300}
+                                                height={300}
+                                                className="w-full h-full object-contain"
+                                                unoptimized
+                                            />
                                         </div>
                                     </div>
                                     

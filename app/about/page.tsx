@@ -170,14 +170,7 @@ export default function AboutPage() {
               <Mountain className="w-12 h-12 text-primary-400 mb-6" />
               <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">🔥 Our Origin</h3>
               <p className="text-gray-300 leading-relaxed mb-4">
-                The journey began with a deep reverence for Ayurveda — India's timeless science of life.
-              </p>
-              <p className="text-gray-300 leading-relaxed mb-4">
-                We travelled through the Himalayan trails and ancient texts to rediscover the world's most potent natural compounds — Shilajit, Ashwagandha, Gokshura, Swarna Bhasma, Kesar, and more — ingredients trusted for centuries to restore energy, focus, and longevity.
-              </p>
-              <p className="text-gray-300 leading-relaxed">
-                But we didn't stop there. We combined that ancient knowledge with modern science and clean extraction techniques, ensuring purity, potency, and consistency in every drop of Shilajit, gummy, or capsule.
-              </p>
+             Rooted in reverence for Ayurveda, we journeyed through Himalayan traditions to rediscover powerful natural ingredients. By uniting ancient wisdom with modern science and clean extraction, we deliver pure, potent, and consistent wellness in every form. </p>
             </motion.div>
 
             <motion.div
@@ -190,24 +183,7 @@ export default function AboutPage() {
               <Sparkles className="w-12 h-12 text-primary-400 mb-6" />
               <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">🌄 Our Promise</h3>
               <p className="text-gray-300 leading-relaxed mb-3">
-                Every Agnishila product is:
-              </p>
-              <ul className="space-y-3 text-gray-300">
-                <li className="flex items-start space-x-2">
-                  <span className="text-primary-400">•</span>
-                  <span>🌿 100% Pure & 3rd party Lab-Tested — sourced from the Himalayas, verified for authenticity and safety.</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <span className="text-primary-400">•</span>
-                  <span>⚗ Scientifically Balanced — blending Ayurveda with precision-backed nutrition.</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <span className="text-primary-400">•</span>
-                  <span>✨ Crafted for Modern Life — convenient formats that fit your day, your rhythm, your fire.</span>
-                </li>
-              </ul>
-              <p className="text-gray-300 leading-relaxed mt-4">
-                We don't just create wellness products — we create a daily ritual of renewal.
+              Every Agnishila product is 100% pure and third-party lab tested, responsibly sourced from the Himalayas. Scientifically balanced formulations unite Ayurveda with modern nutrition, crafted for modern lifestyles — not just supplements, but a daily ritual of renewal.
               </p>
             </motion.div>
 
@@ -221,14 +197,7 @@ export default function AboutPage() {
               <Heart className="w-12 h-12 text-primary-400 mb-6" />
               <h3 className="text-2xl font-bold text-white mb-4 uppercase tracking-wider">⚡ Our Purpose</h3>
               <p className="text-gray-300 leading-relaxed mb-4">
-                In a world that's constantly rushing, Agnishila stands as a reminder:
-              </p>
-              <p className="text-primary-400 font-bold text-xl mb-4">
-                Real energy isn't about doing more — it's about being more.
-              </p>
-              <p className="text-gray-300 leading-relaxed">
-                Whether you seek focus, strength, calm, or clarity, Agnishila helps you reconnect with the natural fire within you — steady, grounded, and unstoppable.
-              </p>
+           In a fast-moving world, Agnishila reminds you that real energy isn’t about doing more, but being more. Whether you seek focus, strength, calm, or clarity, we help awaken your natural inner fire — steady, grounded, and enduring. </p>
             </motion.div>
           </div>
         </div>
@@ -332,8 +301,8 @@ export default function AboutPage() {
               // Map value IDs to images
               const valueImages: { [key: string]: string } = {
                 'purity': '/first/purity.jpeg',
-                'science': '/images/ashwagandha-dry-root-medicinal-herb-with-fresh-leaves-poison-gooseberry-or-winter-cherry.webp',
-                'purpose': '/images/shutterstock_1207764991_1_-min.webp'
+                'science': 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=600&fit=crop&auto=format',
+                'purpose': '/first/absorption.PNG'
               };
 
               return (
@@ -363,11 +332,11 @@ export default function AboutPage() {
                   </div>
 
                   <div className="relative">
-                    <div className="aspect-square bg-jet-800 border border-primary-400/30 overflow-hidden relative">
+                    <div className="bg-jet-800 border border-primary-400/30 overflow-hidden relative flex items-center justify-center">
                       <img 
                         src={valueImages[value.id]} 
                         alt={value.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto object-contain"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                     </div>
