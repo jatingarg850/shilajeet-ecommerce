@@ -331,7 +331,7 @@ export default function AboutPage() {
             {coreValues.filter(v => v.id === activeValue).map((value) => {
               // Map value IDs to images
               const valueImages: { [key: string]: string } = {
-                'purity': '/images/purity.webp',
+                'purity': '/first/purity.jpeg',
                 'science': '/images/ashwagandha-dry-root-medicinal-herb-with-fresh-leaves-poison-gooseberry-or-winter-cherry.webp',
                 'purpose': '/images/shutterstock_1207764991_1_-min.webp'
               };

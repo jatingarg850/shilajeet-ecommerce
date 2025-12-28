@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SectionBlend from '@/components/SectionBlend';
 import FAQSection from '@/components/FAQSection';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
     Zap, 
@@ -33,6 +34,7 @@ export default function BenefitsPage() {
             id: 'energy',
             title: 'Enhanced Energy',
             icon: <Zap className="w-8 h-8" />,
+            image: '/first/enhanced.PNG',
             description: 'Natural boost to your daily energy levels without crashes or jitters',
             details: 'Shilajit contains fulvic acid and over 84 minerals that support cellular energy production at the mitochondrial level.',
             stats: '84+ Minerals',
@@ -44,6 +46,7 @@ export default function BenefitsPage() {
             id: 'cognitive',
             title: 'Cognitive Function',
             icon: <Brain className="w-8 h-8" />,
+            image: '/first/cognitive.PNG',
             description: 'Improve mental clarity, focus, and cognitive performance',
             details: 'Rich in compounds that support brain health and enhance cognitive function for peak mental performance.',
             stats: '50+ Studies',
@@ -55,6 +58,7 @@ export default function BenefitsPage() {
             id: 'immune',
             title: 'Immune Support',
             icon: <Shield className="w-8 h-8" />,
+            image: '/first/purpose.jpeg',
             description: 'Strengthen your body\'s natural defense system',
             details: 'Packed with antioxidants and bioactive compounds that help protect against oxidative stress.',
             stats: '100% Natural',
@@ -66,6 +70,7 @@ export default function BenefitsPage() {
             id: 'antiaging',
             title: 'Anti-Aging Properties',
             icon: <Sparkles className="w-8 h-8" />,
+            image: '/first/antiaging.PNG',
             description: 'Support healthy aging and cellular regeneration',
             details: 'Contains powerful antioxidants that help combat free radicals and support healthy aging processes.',
             stats: 'Proven Results',
@@ -77,6 +82,7 @@ export default function BenefitsPage() {
             id: 'performance',
             title: 'Physical Performance',
             icon: <Dumbbell className="w-8 h-8" />,
+            image: '/first/physical.PNG',
             description: 'Enhance stamina, endurance, and recovery',
             details: 'Supports physical performance and faster recovery times for active individuals and athletes.',
             stats: 'Athletic Grade',
@@ -88,6 +94,7 @@ export default function BenefitsPage() {
             id: 'hormonal',
             title: 'Hormonal Balance',
             icon: <Heart className="w-8 h-8" />,
+            image: '/first/hormonal.PNG',
             description: 'Support healthy hormone levels and regulation',
             details: 'Helps maintain optimal hormone balance for overall wellness and vitality.',
             stats: 'Clinically Tested',
@@ -372,10 +379,15 @@ export default function BenefitsPage() {
                                 </div>
 
                                 <div className="relative">
-                                    <div className="aspect-square bg-gradient-to-br from-primary-400/20 to-primary-600/20 border border-primary-400/30 flex items-center justify-center">
-                                        <div className="text-primary-400 transform scale-[3]">
-                                            {benefit.icon}
-                                        </div>
+                                    <div className="bg-gradient-to-br from-primary-400/20 to-primary-600/20 border border-primary-400/30 flex items-center justify-center overflow-hidden">
+                                        <Image
+                                            src={benefit.image}
+                                            alt={benefit.title}
+                                            width={400}
+                                            height={400}
+                                            className="w-full h-auto object-contain"
+                                            unoptimized
+                                        />
                                     </div>
                                     <div className="absolute -top-4 -right-4 w-8 h-8 bg-primary-400 flex items-center justify-center">
                                         <CheckCircle className="w-5 h-5 text-black" />

@@ -96,7 +96,7 @@ const products = [
     description: 'KSM-66 AshwaGlow Gummies are a delicious, modern wellness solution designed to promote stress relief, calmness, and deep restful sleep. Powered by clinically studied KSM-66 Ashwagandha, these gummies help relax the mind, balance stress hormones, and support a healthier sleep cycle — without drowsiness or dependency.',
     tagline: 'KSM-66 AshwaGlow Gummies – Stress Relief & Deep Sleep, The Natural Way',
     subtitle: 'Experience calmness like never before.',
-    price: 999,
+    price: 1190,
     originalPrice: 1399,
     image: '/first/AshwaGlo_Front.jpg',
     images: [
