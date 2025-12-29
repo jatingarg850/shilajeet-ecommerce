@@ -81,7 +81,7 @@ export default function CheckoutPage() {
         address,
         payment: paymentData,
         couponCode: appliedCoupon?.code,
-        idempotencyKey: `${session?.user?.id}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        idempotencyKey: `${user?.id}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       };
 
       const response = await fetch('/api/orders', {
