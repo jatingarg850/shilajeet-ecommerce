@@ -101,6 +101,11 @@ const OrderSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  idempotencyKey: {
+    type: String,
+    required: false,
+    index: true,
+  },
   items: [OrderItemSchema],
   shippingAddress: {
     type: AddressSchema,
@@ -123,6 +128,14 @@ const OrderSchema = new mongoose.Schema({
     required: true,
   },
   shipping: {
+    type: Number,
+    default: 0,
+  },
+  couponCode: {
+    type: String,
+    required: false,
+  },
+  discountAmount: {
     type: Number,
     default: 0,
   },

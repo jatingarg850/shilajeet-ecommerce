@@ -5,6 +5,7 @@ import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
 import Cart from '@/models/Cart';
 import FireCoins from '@/models/FireCoins';
+import Coupon from '@/models/Coupon';
 import { calculateTotalFireCoins } from '@/lib/fireCoins';
 
 export async function POST(request: NextRequest) {
@@ -15,19 +16,73 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { items, address, payment, total } = await request.json();
+    const { items, address, payment, couponCode, idempotencyKey } = await request.json();
 
-    if (!items || !address || !payment || !total) {
+    if (!items || !address || !payment) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     await dbConnect();
 
+    // Check for duplicate order using idempotency key
+    if (idempotencyKey) {
+      const existingOrder = await Order.findOne({ 
+        userId: session.user.id,
+        idempotencyKey 
+      });
+      
+      if (existingOrder) {
+        return NextResponse.json({
+          success: true,
+          order: {
+            orderNumber: existingOrder.orderNumber,
+            total: existingOrder.total,
+            status: existingOrder.status,
+            estimatedDelivery: new Date(existingOrder.createdAt.getTime() + 7 * 24 * 60 * 60 * 1000),
+          }
+        });
+      }
+    }
+
     // Calculate totals
     const subtotal = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
     const tax = 0; // No tax
     const shipping = 0; // Free shipping
-    const calculatedTotal = subtotal + tax + shipping;
+    
+    // Handle coupon if provided
+    let discountAmount = 0;
+    let appliedCoupon = null;
+    
+    if (couponCode) {
+      appliedCoupon = await Coupon.findOne({ code: couponCode.toUpperCase(), active: true });
+      
+      if (appliedCoupon) {
+        // Check if coupon is still valid
+        if (appliedCoupon.expiryDate && new Date(appliedCoupon.expiryDate) < new Date()) {
+          return NextResponse.json({ error: 'Coupon has expired' }, { status: 400 });
+        }
+        
+        if (appliedCoupon.maxUses && appliedCoupon.usedBy.length >= appliedCoupon.maxUses) {
+          return NextResponse.json({ error: 'Coupon usage limit reached' }, { status: 400 });
+        }
+        
+        if (subtotal < appliedCoupon.minOrderAmount) {
+          return NextResponse.json({ error: 'Minimum order amount not met' }, { status: 400 });
+        }
+        
+        // Calculate discount
+        if (appliedCoupon.discountType === 'percentage') {
+          discountAmount = (subtotal * appliedCoupon.discountValue) / 100;
+          if (appliedCoupon.maxDiscount) {
+            discountAmount = Math.min(discountAmount, appliedCoupon.maxDiscount);
+          }
+        } else {
+          discountAmount = appliedCoupon.discountValue;
+        }
+      }
+    }
+    
+    const calculatedTotal = Math.max(0, subtotal + tax + shipping - discountAmount);
 
     // Determine payment method and transaction details
     const isRazorpayPayment = payment.razorpayData && payment.razorpayData.verified;
@@ -55,6 +110,7 @@ export async function POST(request: NextRequest) {
     const order = new Order({
       orderNumber,
       userId: session.user.id,
+      idempotencyKey,
       items: items.map((item: any) => ({
         productId: item.id,
         name: item.name,
@@ -69,11 +125,29 @@ export async function POST(request: NextRequest) {
       subtotal,
       tax,
       shipping,
+      couponCode: couponCode || undefined,
+      discountAmount,
       total: calculatedTotal,
       status: 'confirmed',
     });
 
     await order.save();
+
+    // Update coupon usage if applied
+    if (appliedCoupon) {
+      await Coupon.findByIdAndUpdate(
+        appliedCoupon._id,
+        {
+          $push: {
+            usedBy: {
+              userId: session.user.id,
+              orderId: order._id.toString(),
+              usedAt: new Date(),
+            },
+          },
+        }
+      );
+    }
 
     // Clear user's cart after successful order
     await Cart.findOneAndUpdate(

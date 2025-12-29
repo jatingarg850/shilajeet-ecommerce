@@ -15,7 +15,8 @@ import {
   BarChart3,
   FileText,
   Truck,
-  Mail
+  Mail,
+  Tag
 } from 'lucide-react';
 
 interface AdminSidebarProps {
@@ -28,6 +29,7 @@ const menuItems = [
   { href: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
   { href: '/admin/products', icon: Package, label: 'Products' },
   { href: '/admin/customers', icon: Users, label: 'Customers' },
+  { href: '/admin/coupons', icon: Tag, label: 'Coupons' },
   { href: '/admin/newsletter', icon: Mail, label: 'Newsletter' },
   { href: '/admin/reviews', icon: Star, label: 'Reviews' },
   { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },

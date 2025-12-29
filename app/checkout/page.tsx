@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { useCoupon } from '@/contexts/CouponContext';
 import AuthModal from '@/components/AuthModal';
 import CheckoutSteps from '@/components/CheckoutSteps';
 import AddressForm from '@/components/AddressForm';
@@ -33,6 +34,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { isAuthenticated, user } = useAuth();
   const { items, total, itemCount, clearCart } = useCart();
+  const { appliedCoupon, removeCoupon } = useCoupon();
   
   const [currentStep, setCurrentStep] = useState<CheckoutStep>('auth');
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -73,11 +75,13 @@ export default function CheckoutPage() {
       await new Promise(resolve => setTimeout(resolve, 3000));
       
       // Create order in database
+      // Note: Don't calculate total here - let the backend recalculate to ensure consistency
       const orderData = {
         items,
-        total,
         address,
         payment: paymentData,
+        couponCode: appliedCoupon?.code,
+        idempotencyKey: `${session?.user?.id}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       };
 
       const response = await fetch('/api/orders', {
@@ -90,7 +94,8 @@ export default function CheckoutPage() {
         const responseData = await response.json();
         console.log('Order created successfully:', responseData);
         clearCart();
-        // Redirect to order confirmation page first
+        removeCoupon(); // Clear applied coupon after successful order
+        // Redirect to order confirmation page
         console.log('Redirecting to order confirmation page with order number:', responseData.order.orderNumber);
         router.push(`/order-confirmation?orderNumber=${responseData.order.orderNumber}`);
       } else {
@@ -105,6 +110,9 @@ export default function CheckoutPage() {
       setIsProcessing(false);
     }
   };
+
+  // Calculate final total with coupon discount
+  const finalTotal = Math.max(0, total - (appliedCoupon?.discountAmount || 0));
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -232,7 +240,7 @@ export default function CheckoutPage() {
                     <PaymentForm 
                       onComplete={handlePaymentComplete}
                       isProcessing={isProcessing}
-                      total={total}
+                      total={finalTotal}
                       shippingAddress={address}
                     />
                   </motion.div>

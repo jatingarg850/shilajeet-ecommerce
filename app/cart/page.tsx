@@ -4,11 +4,14 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useCart } from '@/contexts/CartContext';
+import { useCoupon } from '@/contexts/CouponContext';
+import CouponInput from '@/components/CouponInput';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function CartPage() {
   const { items, total, itemCount, updateQuantity, removeItem, clearCart, isLoading } = useCart();
+  const { appliedCoupon } = useCoupon();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -38,13 +41,13 @@ export default function CartPage() {
         <div className="relative z-10">
           <Navbar />
           
-          <section className="pt-32 pb-20 bg-transparent relative overflow-hidden">
+          <section className="pt-32 pb-32 bg-transparent relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-16 left-16 w-24 h-24 border-l-2 border-t-2 border-primary-400/20"></div>
             <div className="absolute bottom-16 right-16 w-24 h-24 border-r-2 border-b-2 border-primary-400/20"></div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative py-8">
             <div className="text-center">
               <div className="flex items-center justify-center space-x-4 mb-8">
                 <div className="w-12 h-1 bg-primary-400"></div>
@@ -108,13 +111,13 @@ export default function CartPage() {
       <div className="relative z-10">
         <Navbar />
         
-        <section className="pt-32 pb-20 bg-transparent relative overflow-hidden">
+        <section className="pt-32 pb-32 bg-transparent relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-16 left-16 w-24 h-24 border-l-2 border-t-2 border-primary-400/20"></div>
           <div className="absolute bottom-16 right-16 w-24 h-24 border-r-2 border-b-2 border-primary-400/20"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative py-8">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center space-x-4 mb-8">
               <div className="w-12 h-1 bg-primary-400"></div>
@@ -150,10 +153,18 @@ export default function CartPage() {
                     
                     <div className="flex items-center space-x-6">
                       {/* Product Image */}
-                      <div className="w-24 h-24 bg-jet-800 border border-white/10 flex items-center justify-center flex-shrink-0">
-                        <div className="w-16 h-16 bg-primary-400/20 flex items-center justify-center">
-                          <div className="w-8 h-8 bg-primary-400 transform rotate-45"></div>
-                        </div>
+                      <div className="w-24 h-24 bg-jet-800 border border-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <div className="w-16 h-16 bg-primary-400/20 flex items-center justify-center">
+                            <div className="w-8 h-8 bg-primary-400 transform rotate-45"></div>
+                          </div>
+                        )}
                       </div>
 
                       {/* Product Details */}
@@ -232,11 +243,21 @@ export default function CartPage() {
                   Order Summary
                 </h2>
 
+                {/* Coupon Input */}
+                <CouponInput orderAmount={total} />
+
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Subtotal ({itemCount} items)</span>
                     <span className="text-white font-bold">{formatPrice(total)}</span>
                   </div>
+                  
+                  {appliedCoupon && (
+                    <div className="flex justify-between items-center text-green-400">
+                      <span>Coupon Discount ({appliedCoupon.code})</span>
+                      <span className="font-bold">-{formatPrice(appliedCoupon.discountAmount)}</span>
+                    </div>
+                  )}
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Shipping</span>
@@ -246,7 +267,9 @@ export default function CartPage() {
                   <div className="border-t border-white/20 pt-4">
                     <div className="flex justify-between items-center">
                       <span className="text-xl font-bold text-white uppercase tracking-wider">Total</span>
-                      <span className="text-2xl font-bold text-primary-400">{formatPrice(total)}</span>
+                      <span className="text-2xl font-bold text-primary-400">
+                        {formatPrice(Math.max(0, total - (appliedCoupon?.discountAmount || 0)))}
+                      </span>
                     </div>
                   </div>
                 </div>

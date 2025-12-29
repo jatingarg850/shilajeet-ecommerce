@@ -243,16 +243,7 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
           )}
 
           {/* Product name */}
-          <div className="flex items-center space-x-3 mb-4">
-            <motion.div
-              className="text-white-to-mauve"
-              animate={{ rotate: isHovered ? 360 : 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              {product.icon}
-            </motion.div>
-            <h3 className="text-xl font-bold text-white normal-case tracking-wider">{product.name}</h3>
-          </div>
+          <h3 className="text-xl font-bold text-white normal-case tracking-wider mb-4">{product.name}</h3>
 
           {/* Description */}
           {product.status !== 'coming-soon' && (

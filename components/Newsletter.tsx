@@ -263,22 +263,7 @@ export default function Newsletter() {
                     transition={{ delay: 0.8 }}
                     className="text-center mt-16 pt-12 border-t border-white/10"
                 >
-                    <div className="flex items-center justify-center space-x-8 text-gray-400">
-                        <div className="text-center">
-                            <div className="text-2xl font-bold text-white-to-mauve mb-1">25,000+</div>
-                            <div className="text-sm uppercase tracking-wider">Subscribers</div>
-                        </div>
-                        <div className="w-1 h-8 bg-white/20"></div>
-                        <div className="text-center">
-                            <div className="text-2xl font-bold text-white-to-mauve mb-1">4.9★</div>
-                            <div className="text-sm uppercase tracking-wider">Rating</div>
-                        </div>
-                        <div className="w-1 h-8 bg-white/20"></div>
-                        <div className="text-center">
-                            <div className="text-2xl font-bold text-white-to-mauve mb-1">Weekly</div>
-                            <div className="text-sm uppercase tracking-wider">Updates</div>
-                        </div>
-                    </div>
+                    
                 </motion.div>
             </div>
         </section>

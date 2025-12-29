@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { ShoppingBag, Package } from 'lucide-react';
 import { CartItem } from '@/contexts/CartContext';
+import { useCoupon } from '@/contexts/CouponContext';
+import CouponInput from '@/components/CouponInput';
 
 interface OrderSummaryProps {
   items: CartItem[];
@@ -10,6 +12,8 @@ interface OrderSummaryProps {
 }
 
 export default function OrderSummary({ items, total }: OrderSummaryProps) {
+  const { appliedCoupon } = useCoupon();
+  
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -20,6 +24,8 @@ export default function OrderSummary({ items, total }: OrderSummaryProps) {
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = 0; // Free shipping
   const tax = 0; // No tax
+  const discount = appliedCoupon?.discountAmount || 0;
+  const finalTotal = Math.max(0, subtotal - discount + tax + shipping);
 
   return (
     <motion.div
@@ -40,9 +46,17 @@ export default function OrderSummary({ items, total }: OrderSummaryProps) {
       <div className="space-y-4 mb-8">
         {items.map((item) => (
           <div key={item.id} className="flex items-center space-x-4 pb-4 border-b border-white/10">
-            {/* Product Image Placeholder */}
-            <div className="w-16 h-16 bg-jet-800 border border-white/10 flex items-center justify-center flex-shrink-0">
-              <Package className="w-8 h-8 text-primary-400/50" />
+            {/* Product Image */}
+            <div className="w-16 h-16 bg-jet-800 border border-white/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <Package className="w-8 h-8 text-primary-400/50" />
+              )}
             </div>
 
             {/* Product Details */}
@@ -64,12 +78,24 @@ export default function OrderSummary({ items, total }: OrderSummaryProps) {
         ))}
       </div>
 
+      {/* Coupon Input */}
+      <div className="mb-8 pb-8 border-b border-white/20">
+        <CouponInput orderAmount={subtotal} />
+      </div>
+
       {/* Totals */}
       <div className="space-y-4 mb-8">
         <div className="flex justify-between items-center">
           <span className="text-gray-400">Subtotal</span>
           <span className="text-white font-bold">{formatPrice(subtotal)}</span>
         </div>
+        
+        {discount > 0 && (
+          <div className="flex justify-between items-center text-green-400">
+            <span>Coupon Discount ({appliedCoupon?.code})</span>
+            <span className="font-bold">-{formatPrice(discount)}</span>
+          </div>
+        )}
         
         <div className="flex justify-between items-center">
           <span className="text-gray-400">Shipping</span>
@@ -79,7 +105,7 @@ export default function OrderSummary({ items, total }: OrderSummaryProps) {
         <div className="border-t border-white/20 pt-4">
           <div className="flex justify-between items-center">
             <span className="text-xl font-bold text-white uppercase tracking-wider">Total</span>
-            <span className="text-2xl font-bold text-primary-400">{formatPrice(total)}</span>
+            <span className="text-2xl font-bold text-primary-400">{formatPrice(finalTotal)}</span>
           </div>
         </div>
       </div>

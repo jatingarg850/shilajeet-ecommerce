@@ -198,7 +198,7 @@ export default function HeroSection() {
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
           >
-            <div className="relative">
+            <div className="relative flex flex-col items-center">
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -243,41 +243,41 @@ export default function HeroSection() {
                   </div>
                 </div>
 
-                {/* Product Info Overlay */}
-                <motion.div
-                  key={`info-${currentImageIndex}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center z-30"
+                {/* Navigation Buttons */}
+                <button
+                  onClick={prevImage}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-primary-400 p-3 z-50 transition-all border border-primary-400/30"
                 >
-                  <div className="bg-black/80 backdrop-blur-sm border border-primary-400/30 px-6 py-3">
-                    <h3 className="text-white font-bold text-lg uppercase tracking-wider">
-                      {productImages[currentImageIndex].title}
-                    </h3>
-                    <p className="text-primary-400 text-sm uppercase tracking-wider">
-                      {productImages[currentImageIndex].subtitle}
-                    </p>
-                  </div>
-                </motion.div>
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-primary-400 p-3 z-50 transition-all border border-primary-400/30"
+                >
+                  <ChevronRight size={20} />
+                </button>
               </motion.div>
 
-              {/* Navigation Buttons */}
-              <button
-                onClick={prevImage}
-                className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-primary-400 p-3 z-50 transition-all border border-primary-400/30"
+              {/* Product Info - Below carousel */}
+              <motion.div
+                key={`info-${currentImageIndex}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="text-center mt-8 z-30"
               >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                onClick={nextImage}
-                className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-primary-400 p-3 z-50 transition-all border border-primary-400/30"
-              >
-                <ChevronRight size={20} />
-              </button>
+                <div className="bg-black/80 backdrop-blur-sm border border-primary-400/30 px-6 py-3">
+                  <h3 className="text-white font-bold text-lg uppercase tracking-wider">
+                    {productImages[currentImageIndex].title}
+                  </h3>
+                  <p className="text-primary-400 text-sm uppercase tracking-wider">
+                    {productImages[currentImageIndex].subtitle}
+                  </p>
+                </div>
+              </motion.div>
 
               {/* Progress Indicator */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-30">
+              <div className="mt-6 z-30">
                 <div className="flex items-center gap-2">
                   {productImages.map((_, index) => (
                     <button

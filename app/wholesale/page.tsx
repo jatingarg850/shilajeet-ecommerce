@@ -192,25 +192,7 @@ export default function WholesalePage() {
                   ))}
                 </ul>
 
-                <div className="bg-primary-400/10 border border-primary-400/30 p-6">
-                  <h3 className="text-white font-bold mb-3 uppercase tracking-wider">
-                    Volume Discounts Available
-                  </h3>
-                  <div className="space-y-2 text-sm text-gray-300">
-                    <div className="flex justify-between">
-                      <span>50-99 units:</span>
-                      <span className="text-primary-400 font-bold">15% discount</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>100-499 units:</span>
-                      <span className="text-primary-400 font-bold">25% discount</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>500+ units:</span>
-                      <span className="text-primary-400 font-bold">35% discount</span>
-                    </div>
-                  </div>
-                </div>
+              
               </motion.div>
 
               {/* Application Form */}
