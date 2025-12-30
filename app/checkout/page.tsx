@@ -92,11 +92,9 @@ export default function CheckoutPage() {
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log('Order created successfully:', responseData);
         clearCart();
         removeCoupon(); // Clear applied coupon after successful order
         // Redirect to order confirmation page
-        console.log('Redirecting to order confirmation page with order number:', responseData.order.orderNumber);
         router.push(`/order-confirmation?orderNumber=${responseData.order.orderNumber}`);
       } else {
         const errorData = await response.json();

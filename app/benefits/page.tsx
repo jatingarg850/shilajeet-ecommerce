@@ -58,7 +58,7 @@ export default function BenefitsPage() {
             id: 'immune',
             title: 'Immune Support',
             icon: <Shield className="w-8 h-8" />,
-            image: '/first/immune.png',
+            image: '/first/immune1.png',
             description: 'Strengthen your body\'s natural defense system',
             details: 'Packed with antioxidants and bioactive compounds that help protect against oxidative stress.',
             stats: '100% Natural',

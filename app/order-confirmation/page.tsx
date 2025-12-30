@@ -48,10 +48,8 @@ function OrderConfirmationContent() {
 
   useEffect(() => {
     const orderNumber = searchParams.get('orderNumber');
-    console.log('Order confirmation page loaded with order number:', orderNumber);
     
     if (!orderNumber) {
-      console.log('No order number found, redirecting to home');
       setHasOrderNumber(false);
       // Use setTimeout to avoid the React warning about updating during render
       setTimeout(() => {

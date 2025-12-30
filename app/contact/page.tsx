@@ -31,7 +31,6 @@ export default function ContactPage() {
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    console.log('Contact form submitted:', formData);
     alert('Thank you for your message! We will get back to you within 24 hours.');
     
     // Reset form

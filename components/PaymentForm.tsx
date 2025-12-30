@@ -87,8 +87,7 @@ export default function PaymentForm({ onComplete, isProcessing, total, shippingA
         alert('Payment failed. Please try again.');
       },
       () => {
-        // Payment dismissed
-        console.log('Payment dismissed by user');
+        // Payment dismissed by user
       }
     );
   };

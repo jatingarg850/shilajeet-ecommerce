@@ -10,8 +10,6 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    console.log('Test Auth - Full Session:', JSON.stringify(session, null, 2));
-    
     if (!session) {
       return NextResponse.json({ 
         error: 'No session found',

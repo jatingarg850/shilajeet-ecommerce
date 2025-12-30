@@ -114,8 +114,6 @@ export default function ReportsPage() {
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     // In real implementation, this would call an API to generate and download the report
-    console.log(`Generating ${reportId} report for period: ${selectedPeriod}`);
-    
     setGenerating(null);
     
     // Show success message

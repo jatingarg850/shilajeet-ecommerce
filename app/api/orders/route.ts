@@ -184,7 +184,6 @@ export async function POST(request: NextRequest) {
         fireCoins.balance += coinsToEarn;
         await fireCoins.save();
 
-        console.log(`Awarded ${coinsToEarn} Fire Coins to user ${session.user.email} for order ${order.orderNumber}`);
       }
     } catch (coinError) {
       console.error('Error awarding Fire Coins:', coinError);
@@ -192,7 +191,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Send order confirmation email (simulate)
-    console.log(`Order confirmation email sent for order ${order.orderNumber}`);
 
     return NextResponse.json({
       success: true,

@@ -100,7 +100,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateUser = (userData: Partial<User>) => {
     // This will trigger a session update
     // In a real app, you might want to update the session data
-    console.log('User updated:', userData);
   };
 
   return (

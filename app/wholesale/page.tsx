@@ -51,7 +51,6 @@ export default function WholesalePage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
-    console.log('Wholesale inquiry submitted:', formData);
     alert('Thank you for your wholesale inquiry! We will contact you within 24 hours.');
   };
 

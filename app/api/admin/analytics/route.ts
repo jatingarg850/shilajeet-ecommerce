@@ -13,20 +13,14 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    console.log('Analytics API - Session:', session);
-    
     if (!session?.user?.id) {
-      console.log('Analytics API - No session or user ID');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     await dbConnect();
     const user = await User.findById(session.user.id);
     
-    console.log('Analytics API - User found:', user ? { id: user._id, role: user.role } : 'null');
-    
     if (!user || user.role !== 'admin') {
-      console.log('Analytics API - User not admin or not found');
       return NextResponse.json({ 
         error: 'Forbidden - Admin access required',
         debug: {

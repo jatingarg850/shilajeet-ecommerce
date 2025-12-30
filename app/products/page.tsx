@@ -46,11 +46,8 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        console.log('Fetching products...');
         const response = await fetch('/api/products');
-        console.log('Response status:', response.status);
         const data = await response.json();
-        console.log('Products data:', data);
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);

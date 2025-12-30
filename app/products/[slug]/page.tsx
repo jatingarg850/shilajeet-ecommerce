@@ -557,12 +557,9 @@ export default function ProductDetailPage() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                console.log('Fetching product with slug:', params.slug);
                 const response = await fetch(`/api/products/${params.slug}`);
-                console.log('Product response status:', response.status);
                 if (response.ok) {
                     const data = await response.json();
-                    console.log('Product data:', data);
                     setProduct(data);
                 } else {
                     console.error('Product not found');
@@ -610,7 +607,6 @@ export default function ProductDetailPage() {
                 // Fetch only 1 complementary product
                 const response = await fetch(`/api/products/${productId}`);
                 const bundleData = await response.json();
-                console.log('Bundle product fetched:', bundleData);
                 // Only show if not coming soon
                 if (bundleData.status !== 'coming-soon') {
                     setBundleProducts([bundleData]);

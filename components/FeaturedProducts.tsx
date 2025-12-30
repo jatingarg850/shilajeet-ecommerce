@@ -107,7 +107,6 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
         whileHover={{ z: 50 }}
         onClick={() => {
           if (product.status !== 'coming-soon') {
-            console.log('Card clicked, navigating to:', product.id);
             router.push(`/products/${product.id}`);
           }
         }}
@@ -307,11 +306,8 @@ export default function FeaturedProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        console.log('Fetching featured products...');
         const response = await fetch('/api/products?featured=true');
-        console.log('Featured response status:', response.status);
         const data = await response.json();
-        console.log('Featured products data:', data);
         // Add icon to each product based on badge
         const productsWithIcons = data.map((product: any) => ({
           ...product,
