@@ -61,7 +61,8 @@ const products = [
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090433/agnishila/first/Shilaboost%20Front.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090432/agnishila/first/Shilaboost%20Back.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090435/agnishila/first/Shilaboost%20_Certificate.jpg',
-      'https://res.cloudinary.com/dsejv31js/image/upload/v1767090436/agnishila/first/Shilaboost%20_Image_2.jpg'
+      'https://res.cloudinary.com/dsejv31js/image/upload/v1767090436/agnishila/first/Shilaboost%20_Image_2.jpg',
+      'https://res.cloudinary.com/dsejv31js/image/upload/v1767113684/agnishila/agnishila/IMG_0523.jpg'
     ],
     rating: 4.8,
     reviews: 892,
