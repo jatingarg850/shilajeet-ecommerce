@@ -105,7 +105,7 @@ export default function ProductDetailsTabs({
               <div className="flex flex-wrap gap-6 items-center mb-6">
                 <div className="w-24 h-24 flex items-center justify-center">
                   <Image 
-                    src="/certification/GMP.png" 
+                    src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090392/agnishila/certification/GMP.png' 
                     alt="GMP Certified" 
                     width={96} 
                     height={96}
@@ -115,7 +115,7 @@ export default function ProductDetailsTabs({
                 </div>
                 <div className="w-24 h-24 flex items-center justify-center">
                   <Image 
-                    src="/certification/HACCP.png" 
+                    src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090393/agnishila/certification/HACCP.png' 
                     alt="HACCP Certified" 
                     width={96} 
                     height={96}
@@ -125,7 +125,7 @@ export default function ProductDetailsTabs({
                 </div>
                 <div className="w-24 h-24 flex items-center justify-center">
                   <Image 
-                    src="/certification/ISO-22000.png" 
+                    src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090394/agnishila/certification/ISO-22000.png' 
                     alt="ISO 22000 Certified" 
                     width={96} 
                     height={96}
@@ -135,7 +135,7 @@ export default function ProductDetailsTabs({
                 </div>
                 <div className="w-24 h-24 flex items-center justify-center">
                   <Image 
-                    src="/certification/FDA.png" 
+                    src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090391/agnishila/certification/FDA.png' 
                     alt="FDA Approved" 
                     width={96} 
                     height={96}

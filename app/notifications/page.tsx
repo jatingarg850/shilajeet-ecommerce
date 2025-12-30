@@ -93,7 +93,7 @@ export default function NotificationsPage() {
                 <div 
                     className="absolute inset-0"
                     style={{
-                        backgroundImage: 'url(/bg/vd.jpg)',
+                        backgroundImage: 'url(https://res.cloudinary.com/dsejv31js/image/upload/v1767090389/agnishila/bg/vd.jpg)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundAttachment: 'fixed'

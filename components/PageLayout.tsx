@@ -21,7 +21,7 @@ export default function PageLayout({
   className = '',
   showNavbar = true,
   showFooter = true,
-  backgroundImage = '/bg/vd.jpg',
+  backgroundImage = 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090389/agnishila/bg/vd.jpg',
   blendTop = true,
   blendBottom = true,
   blendIntensity = 'medium'

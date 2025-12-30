@@ -55,7 +55,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Clean, Pure & Safe',
       description: 'Made in GMP, HACCP & FDA-compliant facilities',
       detail: 'Made in GMP, HACCP & FDA-compliant facilities. Lab-tested for purity, safety & quality.',
-      image: '/background/GMP,HACCP.png',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090380/agnishila/background/GMP%2CHACCP.jpg',
       stats: 'Lab Tested',
       benefit: 'Quality Assured'
     },
@@ -65,7 +65,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Perfect for Modern, Busy Lifestyles',
       description: 'Helps manage work stress, anxiety, mood swings',
       detail: 'Helps manage work stress, anxiety, mood swings, and poor sleep naturally.',
-      image: '/background/Formodernwellness.png',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090379/agnishila/background/Formodernwellness.jpg',
       stats: 'Daily Use',
       benefit: 'Modern Wellness'
     }
@@ -77,7 +77,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Pure Shilajit Resin for Real Energy',
       description: 'Authentic Shilajit Resin rich in fulvic minerals',
       detail: 'Unlike ordinary gummies that use low-quality extracts, ShilaBoost is made with authentic Shilajit Resin rich in fulvic minerals — giving you better stamina, strength, and recovery.',
-      image: '/background/realenergy.jpg',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090383/agnishila/background/realenergy.jpg',
       stats: 'Pure Resin',
       benefit: 'Real Energy'
     },
@@ -97,7 +97,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Fast-Absorbing & Delicious',
       description: 'No bitter taste. No mixing.',
       detail: 'Each gummy is designed for quick absorption, delivering smooth, sustained energy throughout the day.',
-      image: '/background/fastabsorbing.png',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090378/agnishila/background/fastabsorbing.jpg',
       stats: 'Fast Acting',
       benefit: 'Quick Absorption'
     },
@@ -127,7 +127,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Agnishila\'s Promise of Purity & Potency',
       description: 'Honest, high-quality, and effective wellness products',
       detail: 'From sourcing to formulation, we ensure honest, high-quality, and effective wellness products backed by ancient Ayurveda and modern science.',
-      image: '/background/pureand.jpg',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090382/agnishila/background/pureand.jpg',
       stats: '100%',
       benefit: 'Pure & Potent'
     }
@@ -139,7 +139,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Pure & Potent Formulations',
       description: 'High fulvic acid, maximum bioavailability, zero fillers',
       detail: 'Our TruBlk™ Shilajit embodies the finest expression of Shilajit - contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.',
-      image: '/background/pureand.jpg',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090382/agnishila/background/pureand.jpg',
       stats: 'TruBlk™',
       benefit: 'Premium Quality'
     },
@@ -169,7 +169,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'GMP, HACCP & FDA-Compliant Manufacturing',
       description: 'International benchmarks for excellence',
       detail: 'Every batch of TruBlk™ undergoes exhaustive screening for heavy metals, solvent residues, microbial contaminants, and adulterants. Manufactured in GMP- and ISO-certified facilities, validated for stability and safety — it meets international benchmarks for excellence. Because the world\'s finest Shilajit deserves uncompromising purity.',
-      image: '/background/GMP,HACCP.png',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090380/agnishila/background/GMP%2CHACCP.jpg',
       stats: 'GMP & ISO',
       benefit: 'Certified'
     },
@@ -189,7 +189,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Transparency You Can Trust',
       description: 'Clinically evaluated, scientifically standardized',
       detail: 'No shortcuts. Agnishila TruBlk™ is Clinically Evaluated, Scientifically Standardized & Absolutely Traceable.',
-      image: '/background/transparency.jpg',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090385/agnishila/background/transparency.jpg',
       stats: '100%',
       benefit: 'Traceable'
     },
@@ -211,7 +211,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Pure & Potent Formulations',
       description: 'High fulvic acid, maximum bioavailability, zero fillers',
       detail: 'Our Shilajit and Ashwagandha products contain high fulvic acid, maximum bioavailability, and zero unnecessary fillers.',
-      image: '/background/pureand.jpg',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090382/agnishila/background/pureand.jpg',
       stats: 'Premium',
       benefit: 'Quality'
     },
@@ -241,7 +241,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'GMP, HACCP & FDA-Compliant Manufacturing',
       description: 'International benchmarks for excellence',
       detail: 'We follow the strictest global quality standards so every product delivers consistent results.',
-      image: '/background/GMP,HACCP.png',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090380/agnishila/background/GMP%2CHACCP.jpg',
       stats: 'GMP & ISO',
       benefit: 'Certified'
     },
@@ -261,7 +261,7 @@ const productBenefits: { [key: string]: any[] } = {
       title: 'Transparency You Can Trust',
       description: 'No shortcuts. No marketing gimmicks.',
       detail: 'No shortcuts. No marketing gimmicks. Only clean, honest ingredients.',
-      image: '/background/transparency.jpg',
+      image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090385/agnishila/background/transparency.jpg',
       stats: '100%',
       benefit: 'Transparent'
     },

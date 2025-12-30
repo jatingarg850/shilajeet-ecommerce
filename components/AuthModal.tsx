@@ -197,14 +197,14 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                       <div className="flex items-center space-x-3 mb-6">
                         <div className="w-12 h-12 flex items-center justify-center">
                           <img 
-                            src="/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png" 
+                            src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090440/agnishila/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png' 
                             alt="Agnishila Logo" 
                             className="w-full h-full object-contain"
                           />
                         </div>
                         <div>
                           <img 
-                            src="/logo/name.png" 
+                            src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090439/agnishila/logo/name.png' 
                             alt="Agnishila" 
                             className="h-6 object-contain mb-1"
                           />

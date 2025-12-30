@@ -9,13 +9,13 @@ import SectionBlend from './SectionBlend';
 
 const productImages = [
   {
-    src: "/out12/2.png",
+    src: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090441/agnishila/out12/2.png',
     alt: "Shilajit ShilaBoost Gummies",
     title: "Shilajit ShilaBoost Gummies",
     subtitle: ""
   },
   {
-    src: "/out12/3.png",
+    src: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090443/agnishila/out12/3.png',
     alt: "KSM-66 AshwaGlow Gummies",
     title: "KSM-66 AshwaGlow Gummies",
     subtitle: ""
@@ -54,7 +54,7 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/bg/vd.jpg"
+          src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090389/agnishila/bg/vd.jpg'
           alt="Hero Background"
           fill
           style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}

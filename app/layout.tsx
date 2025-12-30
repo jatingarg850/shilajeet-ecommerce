@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   title: 'Agnishila - The Fire Within',
   description: 'Premium Himalayan wellness products to awaken your inner fire. Shilajit, Ashwagandha gummies and more.',
   icons: {
-    icon: '/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png',
-    shortcut: '/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png',
-    apple: '/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png',
+    icon: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090440/agnishila/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png',
+    shortcut: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090440/agnishila/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png',
+    apple: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090440/agnishila/logo/WhatsApp_Image_2025-11-01_at_11.59.11_e8d2c796-removebg-preview.png',
   },
 }
 

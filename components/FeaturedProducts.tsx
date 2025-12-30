@@ -341,7 +341,7 @@ export default function FeaturedProducts() {
       {/* Seamless background continuation */}
       <div className="absolute inset-0">
         <Image
-          src="/bg/vd.jpg"
+          src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090389/agnishila/bg/vd.jpg'
           alt="Rocky Background"
           fill
           style={{

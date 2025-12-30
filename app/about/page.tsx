@@ -90,7 +90,7 @@ export default function AboutPage() {
         <div 
           className="absolute inset-0"
           style={{
-            backgroundImage: 'url(/bg/vd.jpg)',
+            backgroundImage: 'url(https://res.cloudinary.com/dsejv31js/image/upload/v1767090389/agnishila/bg/vd.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed'
@@ -300,9 +300,9 @@ export default function AboutPage() {
             {coreValues.filter(v => v.id === activeValue).map((value) => {
               // Map value IDs to images
               const valueImages: { [key: string]: string } = {
-                'purity': '/first/purity.jpeg',
+                'purity': 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090414/agnishila/first/purity.jpg',
                 'science': 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=600&fit=crop&auto=format',
-                'purpose': '/first/purpose.jpeg'
+                'purpose': 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090416/agnishila/first/purpose.jpg'
               };
 
               return (

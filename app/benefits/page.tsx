@@ -34,7 +34,7 @@ export default function BenefitsPage() {
             id: 'energy',
             title: 'Enhanced Energy',
             icon: <Zap className="w-8 h-8" />,
-            image: '/first/enhanced.PNG',
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090409/agnishila/first/enhanced.jpg',
             description: 'Natural boost to your daily energy levels without crashes or jitters',
             details: 'Shilajit contains fulvic acid and over 84 minerals that support cellular energy production at the mitochondrial level.',
             stats: '84+ Minerals',
@@ -46,7 +46,7 @@ export default function BenefitsPage() {
             id: 'cognitive',
             title: 'Cognitive Function',
             icon: <Brain className="w-8 h-8" />,
-            image: '/first/cognitive.PNG',
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090407/agnishila/first/cognitive.jpg',
             description: 'Improve mental clarity, focus, and cognitive performance',
             details: 'Rich in compounds that support brain health and enhance cognitive function for peak mental performance.',
             stats: '50+ Studies',
@@ -58,7 +58,7 @@ export default function BenefitsPage() {
             id: 'immune',
             title: 'Immune Support',
             icon: <Shield className="w-8 h-8" />,
-            image: '/first/immune1.PNG',
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090411/agnishila/first/immune1.jpg',
             description: 'Strengthen your body\'s natural defense system',
             details: 'Packed with antioxidants and bioactive compounds that help protect against oxidative stress.',
             stats: '100% Natural',
@@ -70,7 +70,7 @@ export default function BenefitsPage() {
             id: 'antiaging',
             title: 'Anti-Aging Properties',
             icon: <Sparkles className="w-8 h-8" />,
-            image: '/first/antiaging.PNG',
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090398/agnishila/first/antiaging.jpg',
             description: 'Support healthy aging and cellular regeneration',
             details: 'Contains powerful antioxidants that help combat free radicals and support healthy aging processes.',
             stats: 'Proven Results',
@@ -82,7 +82,7 @@ export default function BenefitsPage() {
             id: 'performance',
             title: 'Physical Performance',
             icon: <Dumbbell className="w-8 h-8" />,
-            image: '/first/physical.PNG',
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090413/agnishila/first/physical.jpg',
             description: 'Enhance stamina, endurance, and recovery',
             details: 'Supports physical performance and faster recovery times for active individuals and athletes.',
             stats: 'Athletic Grade',
@@ -94,7 +94,7 @@ export default function BenefitsPage() {
             id: 'hormonal',
             title: 'Hormonal Balance',
             icon: <Heart className="w-8 h-8" />,
-            image: '/first/hormonal.PNG',
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090410/agnishila/first/hormonal.jpg',
             description: 'Support healthy hormone levels and regulation',
             details: 'Helps maintain optimal hormone balance for overall wellness and vitality.',
             stats: 'Clinically Tested',
@@ -138,21 +138,21 @@ export default function BenefitsPage() {
             title: 'Absorption',
             description: 'Fulvic acid enhances nutrient absorption at the cellular level',
             icon: <ArrowRight className="w-6 h-6" />,
-            image: '/first/absorption.PNG'
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090396/agnishila/first/absorption.jpg'
         },
         {
             step: '02',
             title: 'Cellular Energy',
             description: 'Minerals support mitochondrial function and ATP production',
             icon: <ArrowRight className="w-6 h-6" />,
-            image: '/first/purpose.PNG'
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090417/agnishila/first/purpose.jpg'
         },
         {
             step: '03',
             title: 'Systemic Benefits',
             description: 'Enhanced energy flows throughout your entire system',
             icon: <CheckCircle className="w-6 h-6" />,
-            image: '/first/systemeticbenefits.PNG'
+            image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090437/agnishila/first/systemeticbenefits.jpg'
         }
     ];
 
@@ -163,7 +163,7 @@ export default function BenefitsPage() {
                 <div 
                     className="absolute inset-0"
                     style={{
-                        backgroundImage: 'url(/bg/vd.jpg)',
+                        backgroundImage: 'url(https://res.cloudinary.com/dsejv31js/image/upload/v1767090389/agnishila/bg/vd.jpg)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundAttachment: 'fixed'
