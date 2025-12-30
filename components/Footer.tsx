@@ -210,11 +210,7 @@ export default function Footer() {
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
             <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-400">
               <p>© 2025 Agnishila. All rights reserved.</p>
-              <div className="flex items-center space-x-1">
-                <span>Made with</span>
-                <span className="text-primary-400">♦</span>
-                <span>in the Himalayas</span>
-              </div>
+             
             </div>
             
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
