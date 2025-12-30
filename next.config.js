@@ -8,6 +8,40 @@ const nextConfig = {
     minimumCacheTTL: 60,
     unoptimized: false,
   },
+  // Memory optimization for build
+  swcMinify: true,
+  productionBrowserSourceMaps: false,
+  compress: true,
+  // Reduce build memory usage
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
+  // Disable static generation for heavy pages
+  staticPageGenerationTimeout: 120,
+  // Optimize webpack
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            vendor: {
+              filename: 'chunks/vendor.js',
+              test: /node_modules/,
+              name: 'vendor',
+              priority: 10,
+              reuseExistingChunk: true,
+              enforce: true,
+            },
+          },
+        },
+      };
+    }
+    return config;
+  },
 }
 
 module.exports = nextConfig
