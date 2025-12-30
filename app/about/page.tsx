@@ -302,7 +302,7 @@ export default function AboutPage() {
               const valueImages: { [key: string]: string } = {
                 'purity': 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090414/agnishila/first/purity.jpg',
                 'science': 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=600&fit=crop&auto=format',
-                'purpose': 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090416/agnishila/first/purpose.jpg'
+                'purpose': '/purpose.jpeg'
               };
 
               return (
