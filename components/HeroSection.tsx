@@ -73,13 +73,13 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="lg:hidden relative order-1"
+            className="lg:hidden relative order-1 w-full"
             onTouchStart={() => setIsAutoPlaying(false)}
             onTouchEnd={() => setIsAutoPlaying(true)}
           >
-            <div className="relative w-full max-w-[280px] mx-auto">
+            <div className="relative w-full max-w-[320px] mx-auto">
               {/* Glow effect */}
-              <div className="absolute inset-0 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center z-0">
                 <div
                   className="w-48 h-48 rounded-full opacity-50"
                   style={{
@@ -89,8 +89,8 @@ export default function HeroSection() {
                 />
               </div>
 
-              {/* Product Image */}
-              <div className="relative w-full aspect-square">
+              {/* Product Image Container */}
+              <div className="relative w-full aspect-square z-10">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentImageIndex}
@@ -98,21 +98,20 @@ export default function HeroSection() {
                     animate={{ opacity: 1, x: 0, scale: 1 }}
                     exit={{ opacity: 0, x: direction > 0 ? -50 : 50, scale: 0.9 }}
                     transition={{ duration: 0.5 }}
-                    className="absolute inset-0"
+                    className="relative w-full h-full"
                   >
-                    <Image
+                    <img
                       src={productImages[currentImageIndex].src}
                       alt={productImages[currentImageIndex].alt}
-                      fill
-                      className="object-contain drop-shadow-2xl"
-                      priority
+                      className="w-full h-full object-contain drop-shadow-2xl"
+                      loading="eager"
                     />
                   </motion.div>
                 </AnimatePresence>
               </div>
 
               {/* Navigation dots */}
-              <div className="flex justify-center gap-2 mt-4">
+              <div className="flex justify-center gap-2 mt-6 z-20 relative">
                 {productImages.map((_, index) => (
                   <button
                     key={index}
@@ -228,14 +227,11 @@ export default function HeroSection() {
                         className="absolute inset-0 flex items-center justify-center"
                       >
                         <div className="relative w-[450px] h-[450px]">
-                          <Image
+                          <img
                             src={productImages[currentImageIndex].src}
                             alt={productImages[currentImageIndex].alt}
-                            fill
-                            quality={100}
-                            unoptimized
-                            className="object-contain drop-shadow-2xl"
-                            priority
+                            className="w-full h-full object-contain drop-shadow-2xl"
+                            loading="eager"
                           />
                         </div>
                       </motion.div>
