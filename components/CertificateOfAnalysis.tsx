@@ -2,67 +2,82 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Download, FileText, CheckCircle, AlertCircle } from 'lucide-react';
+import { FileText, AlertCircle, CheckCircle, Download } from 'lucide-react';
 
 interface Certificate {
   productId: string;
   productName: string;
   batchNumber: string;
-  certificatePdfUrl: string;
+  pdfPath: string;
 }
 
 export default function CertificateOfAnalysis() {
-  const [certificates, setCertificates] = useState<Certificate[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [batchInput, setBatchInput] = useState('');
+  const [message, setMessage] = useState<{ type: 'success' | 'error' | null; text: string }>({ type: null, text: '' });
+  const [downloading, setDownloading] = useState(false);
 
-  useEffect(() => {
-    const fetchCertificates = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/certificates');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch certificates');
-        }
-        
-        const data = await response.json();
-        setCertificates(data);
-      } catch (err) {
-        console.error('Error fetching certificates:', err);
-        setError('Unable to load certificates');
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Local certificates with batch numbers and PDF paths
+  const certificates: Certificate[] = [
+    {
+      productId: 'agnishila-shilajit-gummies',
+      productName: 'Shilajit ShilaBoost Gummies',
+      batchNumber: 'BAKG-0125',
+      pdfPath: '/Agnishila Shilajit Fulvic Acid.pdf',
+    },
+    {
+      productId: 'ashwa-glo-gummies',
+      productName: 'KSM-66 AshwaGlow Gummies',
+      batchNumber: 'BAKA-0126',
+      pdfPath: '/Agnishila Ashwagandha.pdf',
+    },
+  ];
 
-    fetchCertificates();
-  }, []);
+  const handleDownload = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return;
 
-  const handleDownload = (url: string, productName: string) => {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${productName}-Certificate-of-Analysis.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+    const inputBatch = batchInput.trim().toUpperCase();
+    
+    if (!inputBatch) {
+      setMessage({ type: 'error', text: 'Please enter a batch number' });
+      return;
+    }
 
-  if (loading) {
-    return (
-      <section className="py-20 bg-black relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-400"></div>
-          </div>
-        </div>
-      </section>
+    // Find matching certificate
+    const matchingCert = certificates.find(
+      cert => cert.batchNumber.toUpperCase() === inputBatch
     );
-  }
 
-  if (error || certificates.length === 0) {
-    return null;
-  }
+    if (!matchingCert) {
+      setMessage({ type: 'error', text: 'Batch number not found. Please check and try again.' });
+      return;
+    }
+
+    try {
+      setDownloading(true);
+      
+      // Create link to local PDF
+      const link = document.createElement('a');
+      link.href = matchingCert.pdfPath;
+      link.download = `${matchingCert.productName}-Certificate-${matchingCert.batchNumber}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Show success message
+      setMessage({ type: 'success', text: `✓ Downloaded certificate for ${matchingCert.productName}` });
+      setBatchInput('');
+
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setMessage({ type: null, text: '' });
+      }, 3000);
+    } catch (error) {
+      console.error('Download error:', error);
+      setMessage({ type: 'error', text: 'Failed to download certificate. Please try again.' });
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <section className="py-20 bg-black relative overflow-hidden">
@@ -78,7 +93,7 @@ export default function CertificateOfAnalysis() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <div className="flex items-center justify-center space-x-2 mb-4">
             <FileText className="w-6 h-6 text-primary-400" />
@@ -87,100 +102,74 @@ export default function CertificateOfAnalysis() {
           <h2 className="text-4xl lg:text-5xl font-bold text-white uppercase tracking-wider mb-4">
             Certificate of Analysis
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Every batch of Agnishila products is tested for purity and potency. Download the Certificate of Analysis for your product to verify quality and authenticity.
+          <p className="text-gray-400 max-w-2xl mx-auto mb-8">
+            Every batch of Agnishila products is tested for purity and potency. Enter your batch number to download the Certificate of Analysis.
           </p>
+
+          {/* Input Field */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-md mx-auto"
+          >
+            <div className="relative">
+              <input
+                type="text"
+                value={batchInput}
+                onChange={(e) => {
+                  setBatchInput(e.target.value.toUpperCase());
+                  setMessage({ type: null, text: '' });
+                }}
+                onKeyPress={handleDownload}
+                placeholder="Enter batch number (e.g., BAKG-0125)"
+                disabled={downloading}
+                className="w-full bg-black border-2 border-primary-400 text-white px-6 py-4 rounded font-mono font-bold uppercase tracking-wider focus:outline-none focus:border-primary-500 focus:shadow-lg focus:shadow-primary-400/30 transition-all text-center text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              />
+              <p className="text-gray-400 text-xs mt-3 uppercase tracking-wider flex items-center justify-center gap-2">
+                <Download className="w-3 h-3" />
+                Press Enter to download
+              </p>
+            </div>
+
+            {/* Message Display */}
+            {message.type && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className={`mt-4 p-4 rounded flex items-center space-x-3 ${
+                  message.type === 'success'
+                    ? 'bg-green-400/10 border border-green-400/30'
+                    : 'bg-red-400/10 border border-red-400/30'
+                }`}
+              >
+                {message.type === 'success' ? (
+                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                ) : (
+                  <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
+                )}
+                <p className={message.type === 'success' ? 'text-green-400 text-sm font-medium' : 'text-red-400 text-sm font-medium'}>
+                  {message.text}
+                </p>
+              </motion.div>
+            )}
+          </motion.div>
         </motion.div>
-
-        {/* Certificates Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {certificates.map((cert, index) => (
-            <motion.div
-              key={cert.productId}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-jet-900 border border-white/20 p-8 relative overflow-hidden group hover:border-primary-400/50 transition-all duration-300"
-            >
-              {/* Corner accent */}
-              <div className="absolute top-0 right-0 w-0 h-0 border-l-[30px] border-l-transparent border-t-[30px] border-t-primary-400/30 group-hover:border-t-primary-400/60 transition-all duration-300"></div>
-
-              {/* Content */}
-              <div className="relative">
-                {/* Product Name */}
-                <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-                  <CheckCircle className="w-5 h-5 text-primary-400 mr-2 flex-shrink-0" />
-                  {cert.productName}
-                </h3>
-
-                {/* Batch Number */}
-                <div className="bg-black border border-white/10 p-4 mb-6 rounded">
-                  <p className="text-gray-400 text-sm mb-1">Batch Number</p>
-                  <p className="text-primary-400 font-mono font-bold text-lg">{cert.batchNumber}</p>
-                </div>
-
-                {/* Certificate Info */}
-                <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="text-gray-300 text-sm">Lab Tested</p>
-                      <p className="text-gray-500 text-xs">Third-party verified for purity</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="text-gray-300 text-sm">Quality Assured</p>
-                      <p className="text-gray-500 text-xs">Meets all safety standards</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="text-gray-300 text-sm">Potency Verified</p>
-                      <p className="text-gray-500 text-xs">Active ingredients confirmed</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Download Button */}
-                <button
-                  onClick={() => handleDownload(cert.certificatePdfUrl, cert.productName)}
-                  className="w-full bg-primary-400 text-black font-bold py-3 px-4 uppercase tracking-wider text-sm hover:bg-primary-500 transition-colors flex items-center justify-center space-x-2 group/btn"
-                >
-                  <Download className="w-4 h-4 group-hover/btn:translate-y-0.5 transition-transform" />
-                  <span>Download Certificate</span>
-                </button>
-
-                {/* PDF Link */}
-                <a
-                  href={cert.certificatePdfUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 text-center block text-primary-400 hover:text-primary-500 text-sm transition-colors"
-                >
-                  View in Browser →
-                </a>
-              </div>
-            </motion.div>
-          ))}
-        </div>
 
         {/* Info Box */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 bg-primary-400/10 border border-primary-400/30 p-6 rounded"
+          className="bg-primary-400/10 border border-primary-400/30 p-6 rounded max-w-2xl mx-auto"
         >
           <div className="flex items-start space-x-3">
             <AlertCircle className="w-5 h-5 text-primary-400 flex-shrink-0 mt-0.5" />
             <div>
               <p className="text-white font-bold mb-1">Quality Commitment</p>
               <p className="text-gray-300 text-sm">
-                All Agnishila products undergo rigorous third-party testing to ensure purity, potency, and safety. Each batch is assigned a unique batch number for complete traceability. Download the Certificate of Analysis to verify your product's authenticity.
+                All Agnishila products undergo rigorous third-party testing to ensure purity, potency, and safety. Each batch is assigned a unique batch number for complete traceability. Find the batch number on your product packaging and enter it above to download your certificate.
               </p>
             </div>
           </div>

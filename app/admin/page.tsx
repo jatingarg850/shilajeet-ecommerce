@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import AnimatedCounter from '@/components/admin/AnimatedCounter';
+import DelhiveryStats from '@/components/admin/DelhiveryStats';
 import { 
   TrendingUp, 
   ShoppingCart, 
@@ -438,6 +439,9 @@ export default function AdminDashboard() {
           )}
         </div>
       </motion.div>
+
+      {/* Delhivery Shipping Stats */}
+      <DelhiveryStats />
     </div>
   );
 }
