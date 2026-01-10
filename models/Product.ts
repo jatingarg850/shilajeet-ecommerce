@@ -70,6 +70,14 @@ const ProductSchema = new mongoose.Schema({
   certifications: [{
     type: String,
   }],
+  batchNumber: {
+    type: String,
+    required: false,
+  },
+  certificatePdfUrl: {
+    type: String,
+    required: false,
+  },
   inStock: {
     type: Boolean,
     default: true,

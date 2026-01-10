@@ -6,6 +6,7 @@ import Order from '@/models/Order';
 import Cart from '@/models/Cart';
 import FireCoins from '@/models/FireCoins';
 import Coupon from '@/models/Coupon';
+import delhiveryService from '@/lib/delhivery';
 import { calculateTotalFireCoins } from '@/lib/fireCoins';
 
 export async function POST(request: NextRequest) {
@@ -132,6 +133,32 @@ export async function POST(request: NextRequest) {
     });
 
     await order.save();
+
+    // Create Delhivery shipment automatically
+    try {
+      const shipmentData = {
+        orderId: order.orderNumber,
+        customerName: `${address.firstName} ${address.lastName}`,
+        customerPhone: address.phone,
+        customerEmail: address.email,
+        deliveryAddress: `${address.address1}${address.address2 ? ', ' + address.address2 : ''}, ${address.city}, ${address.state} ${address.zipCode}`,
+        deliveryPin: address.zipCode,
+        weight: 0.5,
+        paymentMode: payment.razorpayData?.verified ? 'Prepaid' : 'COD',
+      };
+
+      const shipmentResult = await delhiveryService.createShipment(shipmentData);
+      
+      if (shipmentResult.waybill) {
+        order.trackingNumber = shipmentResult.waybill;
+        order.shippingProvider = 'delhivery';
+        order.trackingStatus = 'pending';
+        await order.save();
+      }
+    } catch (shipmentError) {
+      console.error('Error creating Delhivery shipment:', shipmentError);
+      // Don't fail the order if shipment creation fails
+    }
 
     // Update coupon usage if applied
     if (appliedCoupon) {

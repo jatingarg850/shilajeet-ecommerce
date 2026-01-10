@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import OrderTracking from '@/components/OrderTracking';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 import {
@@ -283,6 +284,17 @@ export default function OrderDetailsPage() {
                             </div>
                         )}
                     </motion.div>
+
+                    {/* Tracking Information */}
+                    {order.trackingNumber && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mb-8"
+                        >
+                            <OrderTracking waybill={order.trackingNumber} />
+                        </motion.div>
+                    )}
 
                     <div className="grid lg:grid-cols-3 gap-8">
                         {/* Order Items */}

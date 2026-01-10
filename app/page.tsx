@@ -7,6 +7,7 @@ import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
 import HowItWorks from '@/components/HowItWorks';
 import FAQSection from '@/components/FAQSection';
+import CertificateOfAnalysis from '@/components/CertificateOfAnalysis';
 
 export default function Home() {
   return (
@@ -34,6 +35,7 @@ export default function Home() {
         <InnovativeCarousel productName="AGNISHILA" />
         <CustomerReviews />
         <FAQSection />
+        <CertificateOfAnalysis />
         <Newsletter />
         <Footer />
       </div>

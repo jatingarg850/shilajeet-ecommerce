@@ -152,6 +152,16 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  shippingProvider: {
+    type: String,
+    enum: ['delhivery', 'other'],
+    default: 'delhivery',
+  },
+  trackingStatus: {
+    type: String,
+    enum: ['pending', 'picked', 'in_transit', 'delivered', 'failed'],
+    default: 'pending',
+  },
   notes: {
     type: String,
     required: false,
