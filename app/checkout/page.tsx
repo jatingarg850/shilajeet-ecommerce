@@ -293,7 +293,7 @@ export default function CheckoutPage() {
           isOpen={authModalOpen}
           onClose={() => setAuthModalOpen(false)}
           onSuccess={handleAuthComplete}
-          initialMode="login"
+          initialMode="signin"
         />
       </div>
     </main>

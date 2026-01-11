@@ -257,7 +257,7 @@ export default function PhoneOTPAuthModal({ isOpen, onClose, initialMode = 'sign
                         onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
                         placeholder="Enter 10-digit phone number"
                         className="flex-1 bg-transparent text-white outline-none placeholder-gray-500"
-                        maxLength="10"
+                        maxLength={10}
                       />
                     </div>
                   </div>
@@ -332,7 +332,7 @@ export default function PhoneOTPAuthModal({ isOpen, onClose, initialMode = 'sign
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
                       placeholder="Enter 4-6 digit OTP"
                       className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white outline-none placeholder-gray-500 focus:border-primary-400 transition-colors text-center text-2xl tracking-widest"
-                      maxLength="6"
+                      maxLength={6}
                     />
                   </div>
 

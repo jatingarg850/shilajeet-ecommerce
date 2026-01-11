@@ -35,9 +35,9 @@ class AuthKeySMSService {
 
   /**
    * Send OTP to phone number
-   * Uses AuthKey.io 2FA API which automatically generates OTP
-   * The 2FA API endpoint: /restapi/request.php?authkey=AUTHKEY&mobile=PHONE&country_code=91&sid=TEMPLATE_ID
-   * AuthKey.io automatically generates OTP and replaces {#2fa#} in template
+   * Uses AuthKey.io POST SMS API with template variables
+   * Template: "Use {#otp#} as your OTP to access your {#company#}, OTP is confidential and valid for 5 mins This sms sent by authkey.io"
+   * AuthKey.io automatically generates OTP and replaces {#otp#} and {#company#} in template
    */
   async sendOTP(phoneNumber: string, countryCode: string = '91', company: string = 'Agnishila'): Promise<SendOTPResponse> {
     try {
@@ -53,18 +53,27 @@ class AuthKeySMSService {
       // Remove any non-digit characters
       const cleanPhone = phoneNumber.replace(/\D/g, '');
 
-      // Use the 2FA API endpoint (GET request)
-      // AuthKey.io automatically generates OTP and replaces {#2fa#} in the template
-      const url = `${this.baseUrl}/restapi/request.php?authkey=${this.authKey}&mobile=${cleanPhone}&country_code=${countryCode}&sid=${this.templateId}`;
+      // Use the POST SMS API endpoint with template variables
+      // This endpoint supports custom template variables like {#otp#} and {#company#}
+      const payload = {
+        country_code: countryCode,
+        mobile: cleanPhone,
+        sid: this.templateId,
+        otp: '', // AuthKey.io will auto-generate OTP and replace {#otp#}
+        company: company, // Will replace {#company#} in template
+      };
 
       console.log('Sending OTP to:', cleanPhone);
       console.log('Using template ID:', this.templateId);
+      console.log('Company:', company);
 
-      const response = await fetch(url, {
-        method: 'GET',
+      const response = await fetch(`${this.baseUrl}/restapi/requestjson.php`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Basic ${this.authKey}`,
         },
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -171,67 +180,6 @@ class AuthKeySMSService {
     }
   }
 
-  /**
-   * Send OTP using POST API (alternative method)
-   * Uses AuthKey.io POST SMS API with template
-   * Template: "Use {#otp#} as your OTP to access your {#company#}, OTP is confidential and valid for 5 mins This sms sent by authkey.io"
-   */
-  async sendOTPPost(phoneNumber: string, countryCode: string = '91', company: string = 'Agnishila'): Promise<SendOTPResponse> {
-    try {
-      const cleanPhone = phoneNumber.replace(/\D/g, '');
-
-      const payload = {
-        country_code: countryCode,
-        mobile: cleanPhone,
-        sid: this.templateId,
-        company: company, // This will replace {#company#} in template
-      };
-
-      console.log('Sending OTP with payload:', payload);
-
-      const response = await fetch(`${this.baseUrl}/restapi/requestjson.php`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${this.authKey}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        console.error('AuthKey.io API error:', response.status);
-        return {
-          success: false,
-          message: 'Failed to send OTP',
-          error: `HTTP ${response.status}`,
-        };
-      }
-
-      const data = await response.json();
-      console.log('AuthKey.io response:', data);
-
-      if (data.LogID) {
-        return {
-          success: true,
-          logId: data.LogID,
-          message: 'OTP sent successfully',
-        };
-      }
-
-      return {
-        success: false,
-        message: data.Message || 'Failed to send OTP',
-        error: data.Message,
-      };
-    } catch (error) {
-      console.error('Error sending OTP (POST):', error);
-      return {
-        success: false,
-        message: 'Error sending OTP',
-        error: error instanceof Error ? error.message : 'Unknown error',
-      };
-    }
-  }
 }
 
 export default new AuthKeySMSService();

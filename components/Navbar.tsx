@@ -16,7 +16,7 @@ export default function Navbar() {
   const { wishlistCount } = useWishlist();
   const [isOpen, setIsOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
 
   return (
     <nav className="bg-black text-white fixed w-full z-50 top-0 border-b border-white/20">
@@ -96,7 +96,7 @@ export default function Navbar() {
               <>
                 <button 
                   onClick={() => {
-                    setAuthMode('login');
+                    setAuthMode('signin');
                     setAuthModalOpen(true);
                   }}
                   className="text-white hover:text-primary-400 transition-colors font-medium uppercase tracking-wider text-xs px-3"
@@ -218,7 +218,7 @@ export default function Navbar() {
                 <>
                   <button
                     onClick={() => {
-                      setAuthMode('login');
+                      setAuthMode('signin');
                       setAuthModalOpen(true);
                       setIsOpen(false);
                     }}

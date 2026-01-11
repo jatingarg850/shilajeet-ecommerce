@@ -1,34 +1,15 @@
 /**
- * Custom NextAuth Provider for Phone-based Authentication
- * This provider handles phone OTP authentication
+ * Custom Phone Authentication Utilities
+ * This module provides helpers for phone-based authentication
  */
 
-import type { Awaitable, User } from 'next-auth';
-import type { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
+import type { User } from 'next-auth';
 
 export interface PhoneAuthUser extends User {
   phone?: string;
   phoneVerified?: boolean;
   authMethod?: 'phone' | 'email';
 }
-
-export const PhoneAuthProvider = (options: OAuthUserConfig<any>): OAuthConfig<any> => ({
-  id: 'phone',
-  name: 'Phone',
-  type: 'oauth',
-  authorization: { params: { prompt: 'login' } },
-  profile(profile: any) {
-    return {
-      id: profile.id,
-      name: profile.name,
-      email: profile.email,
-      phone: profile.phone,
-      phoneVerified: profile.phoneVerified,
-      authMethod: 'phone',
-    };
-  },
-  options,
-});
 
 /**
  * Helper function to create a phone-based session
@@ -43,4 +24,23 @@ export async function createPhoneSession(userId: string, phoneNumber: string) {
     },
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
   };
+}
+
+/**
+ * Validate phone number format
+ */
+export function validatePhoneNumber(phone: string): boolean {
+  const cleanPhone = phone.replace(/\D/g, '');
+  return cleanPhone.length >= 10;
+}
+
+/**
+ * Format phone number for display
+ */
+export function formatPhoneNumber(phone: string): string {
+  const cleanPhone = phone.replace(/\D/g, '');
+  if (cleanPhone.length === 10) {
+    return `+91 ${cleanPhone.slice(0, 5)} ${cleanPhone.slice(5)}`;
+  }
+  return phone;
 }
