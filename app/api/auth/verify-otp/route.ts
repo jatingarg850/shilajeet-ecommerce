@@ -47,10 +47,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify OTP with AuthKey.io
-    const verifyResponse = await authKeySMS.verifyOTP(otp, logId);
-
-    if (!verifyResponse.success) {
+    // Verify OTP against stored OTP
+    if (otp !== otpSession.otp) {
       // Increment attempts
       otpSession.attempts += 1;
       await otpSession.save();

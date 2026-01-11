@@ -6,6 +6,7 @@
 interface SendOTPResponse {
   success: boolean;
   logId?: string;
+  otp?: string;
   message: string;
   error?: string;
 }
@@ -34,10 +35,22 @@ class AuthKeySMSService {
   }
 
   /**
+   * Generate random OTP
+   */
+  private generateOTP(length: number = 6): string {
+    const digits = '0123456789';
+    let otp = '';
+    for (let i = 0; i < length; i++) {
+      otp += digits.charAt(Math.floor(Math.random() * 10));
+    }
+    return otp;
+  }
+
+  /**
    * Send OTP to phone number
-   * Uses AuthKey.io POST SMS API with template variables
+   * Uses AuthKey.io POST SMS API with manual OTP
    * Template: "Use {#otp#} as your OTP to access your {#company#}, OTP is confidential and valid for 5 mins This sms sent by authkey.io"
-   * AuthKey.io automatically generates OTP and replaces {#otp#} and {#company#} in template
+   * We generate the OTP on backend and pass it to AuthKey.io
    */
   async sendOTP(phoneNumber: string, countryCode: string = '91', company: string = 'Agnishila'): Promise<SendOTPResponse> {
     try {
@@ -53,19 +66,25 @@ class AuthKeySMSService {
       // Remove any non-digit characters
       const cleanPhone = phoneNumber.replace(/\D/g, '');
 
-      // Use the POST SMS API endpoint with template variables
+      // Generate OTP on backend
+      const otp = this.generateOTP(6);
+      console.log('Generated OTP:', otp);
+
+      // Use the POST SMS API endpoint with manual OTP
       // This endpoint supports custom template variables like {#otp#} and {#company#}
       const payload = {
         country_code: countryCode,
         mobile: cleanPhone,
         sid: this.templateId,
-        otp: '', // AuthKey.io will auto-generate OTP and replace {#otp#}
+        otp: otp, // Pass the generated OTP
         company: company, // Will replace {#company#} in template
       };
 
       console.log('Sending OTP to:', cleanPhone);
       console.log('Using template ID:', this.templateId);
+      console.log('OTP:', otp);
       console.log('Company:', company);
+      console.log('Payload:', payload);
 
       const response = await fetch(`${this.baseUrl}/restapi/requestjson.php`, {
         method: 'POST',
@@ -96,6 +115,7 @@ class AuthKeySMSService {
           success: true,
           logId: data.LogID,
           message: 'OTP sent successfully',
+          otp: otp, // Return OTP for storage in database
         };
       }
 

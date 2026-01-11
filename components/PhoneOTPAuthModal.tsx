@@ -101,19 +101,20 @@ export default function PhoneOTPAuthModal({ isOpen, onClose, initialMode = 'sign
         return;
       }
 
-      const payload: any = {
+      // For signup, show details form first
+      if (mode === 'signup') {
+        setStep('signup-details');
+        setIsLoading(false);
+        return;
+      }
+
+      // For signin, verify OTP directly
+      const payload = {
         otp,
         logId,
         phoneNumber: phoneNumber.replace(/\D/g, ''),
-        purpose: mode === 'signin' ? 'signin' : 'signup',
+        purpose: 'signin',
       };
-
-      // Add signup details if signing up
-      if (mode === 'signup') {
-        payload.firstName = signupData.firstName;
-        payload.lastName = signupData.lastName;
-        payload.email = signupData.email;
-      }
 
       const response = await fetch('/api/auth/verify-otp', {
         method: 'POST',
@@ -133,25 +134,85 @@ export default function PhoneOTPAuthModal({ isOpen, onClose, initialMode = 'sign
       setSuccess('OTP verified successfully!');
       setStep('success');
 
-      // Auto-login for signin
-      if (mode === 'signin') {
-        // For phone auth, we need to create a session
-        // This will be handled by the backend
-        setTimeout(() => {
-          onClose();
-          if (onSuccess) onSuccess();
-          window.location.reload();
-        }, 1500);
-      } else {
-        // For signup, show success and close
-        setTimeout(() => {
-          onClose();
-          if (onSuccess) onSuccess();
-          window.location.reload();
-        }, 1500);
-      }
+      setTimeout(() => {
+        onClose();
+        if (onSuccess) onSuccess();
+        window.location.reload();
+      }, 1500);
     } catch (err) {
       setError('Error verifying OTP. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignupDetails = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setIsLoading(true);
+
+    try {
+      // Validate signup details
+      if (!signupData.firstName.trim()) {
+        setError('Please enter your first name');
+        setIsLoading(false);
+        return;
+      }
+      if (!signupData.lastName.trim()) {
+        setError('Please enter your last name');
+        setIsLoading(false);
+        return;
+      }
+      if (!signupData.email.trim()) {
+        setError('Please enter your email');
+        setIsLoading(false);
+        return;
+      }
+
+      // Verify email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(signupData.email)) {
+        setError('Please enter a valid email address');
+        setIsLoading(false);
+        return;
+      }
+
+      // Now verify OTP with signup details
+      const payload = {
+        otp,
+        logId,
+        phoneNumber: phoneNumber.replace(/\D/g, ''),
+        purpose: 'signup',
+        firstName: signupData.firstName,
+        lastName: signupData.lastName,
+        email: signupData.email,
+      };
+
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Failed to create account');
+        setIsLoading(false);
+        return;
+      }
+
+      setSuccess('Account created successfully!');
+      setStep('success');
+
+      setTimeout(() => {
+        onClose();
+        if (onSuccess) onSuccess();
+        window.location.reload();
+      }, 1500);
+    } catch (err) {
+      setError('Error creating account. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -213,7 +274,7 @@ export default function PhoneOTPAuthModal({ isOpen, onClose, initialMode = 'sign
                 <p className="text-gray-400 text-sm">
                   {step === 'phone' && 'Enter your phone number to continue'}
                   {step === 'otp' && 'Enter the OTP sent to your phone'}
-                  {step === 'signup-details' && 'Complete your profile'}
+                  {step === 'signup-details' && 'Complete your profile to create account'}
                   {step === 'success' && 'Welcome to Agnishila!'}
                 </p>
               </div>
@@ -343,7 +404,7 @@ export default function PhoneOTPAuthModal({ isOpen, onClose, initialMode = 'sign
 
                   {/* OTP Info */}
                   <div className="text-center text-xs text-gray-500 bg-black/50 p-2 rounded">
-                    You will receive: "Use [OTP] as your OTP to access your Agnishila, OTP is confidential and valid for 5 mins"
+                    You will receive: "Use [OTP] as your OTP to access your Agnishila, OTP is confidential and valid for 5 mins This sms sent by authkey.io"
                   </div>
 
                   {/* Attempts */}
@@ -401,6 +462,80 @@ export default function PhoneOTPAuthModal({ isOpen, onClose, initialMode = 'sign
                   </p>
                   <p className="text-sm text-gray-400">Redirecting...</p>
                 </div>
+              )}
+
+              {/* Signup Details Step */}
+              {step === 'signup-details' && (
+                <form onSubmit={handleSignupDetails} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      value={signupData.firstName}
+                      onChange={(e) => setSignupData({ ...signupData, firstName: e.target.value })}
+                      placeholder="Enter your first name"
+                      className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white outline-none placeholder-gray-500 focus:border-primary-400 transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      value={signupData.lastName}
+                      onChange={(e) => setSignupData({ ...signupData, lastName: e.target.value })}
+                      placeholder="Enter your last name"
+                      className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white outline-none placeholder-gray-500 focus:border-primary-400 transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      value={signupData.email}
+                      onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                      placeholder="Enter your email"
+                      className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white outline-none placeholder-gray-500 focus:border-primary-400 transition-colors"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading || !signupData.firstName.trim() || !signupData.lastName.trim() || !signupData.email.trim()}
+                    className="w-full bg-primary-400 text-black font-bold py-3 px-4 rounded uppercase tracking-wider text-sm hover:bg-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader className="w-4 h-4 animate-spin" />
+                        <span>Creating Account...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Create Account</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStep('otp');
+                      setError('');
+                      setSuccess('');
+                    }}
+                    className="w-full text-primary-400 hover:text-primary-500 font-medium text-sm"
+                  >
+                    Back to OTP
+                  </button>
+                </form>
               )}
             </div>
           </motion.div>

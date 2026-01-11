@@ -38,6 +38,36 @@ export const authOptions: NextAuthOptions = {
           role: user.role,
         };
       }
+    }),
+    // Phone OTP Provider
+    CredentialsProvider({
+      id: 'phone-otp',
+      name: 'Phone OTP',
+      credentials: {
+        phone: { label: 'Phone', type: 'text' },
+        userId: { label: 'User ID', type: 'text' },
+      },
+      async authorize(credentials) {
+        if (!credentials?.phone || !credentials?.userId) {
+          return null;
+        }
+
+        await dbConnect();
+
+        const user = await User.findById(credentials.userId);
+
+        if (!user || user.phone !== credentials.phone) {
+          return null;
+        }
+
+        return {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+        };
+      }
     })
   ],
   session: {
@@ -48,6 +78,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = user.role;
         token.name = user.name;
+        token.phone = user.phone;
       }
       return token;
     },
@@ -56,6 +87,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub;
         session.user.role = token.role as string;
         session.user.name = token.name as string;
+        session.user.phone = token.phone as string;
       }
       return session;
     },

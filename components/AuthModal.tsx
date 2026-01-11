@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { signIn } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Phone, ArrowRight, Shield, Zap, Loader, CheckCircle, AlertCircle, Mail, User } from 'lucide-react';
 
@@ -97,24 +98,20 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
         return;
       }
 
-      const payload: any = {
+      // For signup, show details form first
+      if (mode === 'signup') {
+        setStep('signup-details');
+        setIsLoading(false);
+        return;
+      }
+
+      // For signin, verify OTP directly
+      const payload = {
         otp,
         logId,
         phoneNumber: phoneNumber.replace(/\D/g, ''),
-        purpose: mode === 'signin' ? 'signin' : 'signup',
+        purpose: 'signin',
       };
-
-      // Add signup details if signing up
-      if (mode === 'signup') {
-        if (!signupData.firstName || !signupData.lastName || !signupData.email) {
-          setError('Please fill in all details');
-          setIsLoading(false);
-          return;
-        }
-        payload.firstName = signupData.firstName;
-        payload.lastName = signupData.lastName;
-        payload.email = signupData.email;
-      }
 
       const response = await fetch('/api/auth/verify-otp', {
         method: 'POST',
@@ -131,10 +128,22 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
         return;
       }
 
+      // Sign in with NextAuth using phone-otp provider
+      const signInResult = await signIn('phone-otp', {
+        phone: phoneNumber.replace(/\D/g, ''),
+        userId: data.user.id,
+        redirect: false,
+      });
+
+      if (!signInResult?.ok) {
+        setError('Failed to create session');
+        setIsLoading(false);
+        return;
+      }
+
       setSuccess('OTP verified successfully!');
       setStep('success');
 
-      // Auto-login and redirect
       setTimeout(() => {
         onClose();
         if (onSuccess) onSuccess();
@@ -142,6 +151,91 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
       }, 1500);
     } catch (err) {
       setError('Error verifying OTP. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignupDetails = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setIsLoading(true);
+
+    try {
+      // Validate signup details
+      if (!signupData.firstName.trim()) {
+        setError('Please enter your first name');
+        setIsLoading(false);
+        return;
+      }
+      if (!signupData.lastName.trim()) {
+        setError('Please enter your last name');
+        setIsLoading(false);
+        return;
+      }
+      if (!signupData.email.trim()) {
+        setError('Please enter your email');
+        setIsLoading(false);
+        return;
+      }
+
+      // Verify email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(signupData.email)) {
+        setError('Please enter a valid email address');
+        setIsLoading(false);
+        return;
+      }
+
+      // Now verify OTP with signup details
+      const payload = {
+        otp,
+        logId,
+        phoneNumber: phoneNumber.replace(/\D/g, ''),
+        purpose: 'signup',
+        firstName: signupData.firstName,
+        lastName: signupData.lastName,
+        email: signupData.email,
+      };
+
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Failed to create account');
+        setIsLoading(false);
+        return;
+      }
+
+      // Sign in with NextAuth using phone-otp provider
+      const signInResult = await signIn('phone-otp', {
+        phone: phoneNumber.replace(/\D/g, ''),
+        userId: data.user.id,
+        redirect: false,
+      });
+
+      if (!signInResult?.ok) {
+        setError('Failed to create session');
+        setIsLoading(false);
+        return;
+      }
+
+      setSuccess('Account created successfully!');
+      setStep('success');
+
+      setTimeout(() => {
+        onClose();
+        if (onSuccess) onSuccess();
+        window.location.reload();
+      }, 1500);
+    } catch (err) {
+      setError('Error creating account. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -376,7 +470,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
                       </motion.div>
                     )}
 
-                    <form onSubmit={step === 'otp' ? handleVerifyOTP : handleSendOTP} className="space-y-6">
+                    <form onSubmit={step === 'signup-details' ? handleSignupDetails : (step === 'otp' ? handleVerifyOTP : handleSendOTP)} className="space-y-6">
                       {/* Phone Step */}
                       {step === 'phone' && (
                         <motion.div
@@ -565,6 +659,42 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
                                   <ArrowRight className="w-4 h-4" />
                                 </>
                               )}
+                            </motion.button>
+                          )}
+
+                          {step === 'signup-details' && (
+                            <motion.button
+                              type="submit"
+                              disabled={isLoading || !signupData.firstName.trim() || !signupData.lastName.trim() || !signupData.email.trim()}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="w-full bg-primary-400 text-black font-bold py-3 px-4 rounded uppercase tracking-wider text-sm hover:bg-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                            >
+                              {isLoading ? (
+                                <>
+                                  <Loader className="w-4 h-4 animate-spin" />
+                                  <span>Creating Account...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <span>Create Account</span>
+                                  <ArrowRight className="w-4 h-4" />
+                                </>
+                              )}
+                            </motion.button>
+                          )}
+
+                          {step === 'signup-details' && (
+                            <motion.button
+                              type="button"
+                              onClick={() => {
+                                setStep('otp');
+                                setError('');
+                                setSuccess('');
+                              }}
+                              className="w-full text-primary-400 hover:text-primary-500 font-medium text-sm py-2"
+                            >
+                              Back to OTP
                             </motion.button>
                           )}
 

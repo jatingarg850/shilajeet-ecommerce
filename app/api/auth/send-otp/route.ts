@@ -63,10 +63,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create OTP session
+    // Create OTP session with the generated OTP
     const otpSession = new OTPSession({
       phoneNumber: cleanPhone,
       logId: otpResponse.logId,
+      otp: otpResponse.otp, // Store the generated OTP
       purpose,
       metadata: {
         countryCode,
