@@ -2,109 +2,176 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, Lock, User, Eye, EyeOff, ArrowRight, Shield, Zap } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { X, Phone, ArrowRight, Shield, Zap, Loader, CheckCircle, AlertCircle, Mail, User } from 'lucide-react';
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialMode?: 'login' | 'signup';
+  initialMode?: 'signin' | 'signup';
   onSuccess?: () => void;
 }
 
-export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSuccess }: AuthModalProps) {
-  const { login, register } = useAuth();
-  const [mode, setMode] = useState<'login' | 'signup'>(initialMode);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: ''
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+type AuthStep = 'phone' | 'otp' | 'signup-details' | 'success';
+
+export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onSuccess }: AuthModalProps) {
+  const [mode, setMode] = useState<'signin' | 'signup'>(initialMode);
+  const [step, setStep] = useState<AuthStep>('phone');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [otp, setOtp] = useState('');
+  const [logId, setLogId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState(1);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [otpExpiry, setOtpExpiry] = useState(0);
+  const [attemptsRemaining, setAttemptsRemaining] = useState(5);
 
+  // Signup details
+  const [signupData, setSignupData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+  });
+
+  // Timer for OTP expiry
   useEffect(() => {
-    setMode(initialMode);
-  }, [initialMode]);
+    if (otpExpiry > 0) {
+      const timer = setTimeout(() => setOtpExpiry(otpExpiry - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [otpExpiry]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setIsLoading(true);
 
     try {
-      if (mode === 'login') {
-        const success = await login(formData.email, formData.password);
-        if (success) {
-          onClose();
-          if (onSuccess) onSuccess();
-        } else {
-          setError('Invalid email or password');
-        }
-      } else {
-        // Validate signup form
-        if (formData.password !== formData.confirmPassword) {
-          setError('Passwords do not match');
-          setIsLoading(false);
-          return;
-        }
+      const cleanPhone = phoneNumber.replace(/\D/g, '');
 
-        if (formData.password.length < 6) {
-          setError('Password must be at least 6 characters long');
-          setIsLoading(false);
-          return;
-        }
-
-        const success = await register({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-        });
-
-        if (success) {
-          onClose();
-          if (onSuccess) onSuccess();
-        } else {
-          setError('Registration failed. Please try again.');
-        }
+      if (cleanPhone.length < 10) {
+        setError('Please enter a valid 10-digit phone number');
+        setIsLoading(false);
+        return;
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.');
+
+      const response = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phoneNumber: cleanPhone,
+          countryCode: '91',
+          purpose: mode === 'signin' ? 'signin' : 'signup',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Failed to send OTP');
+        setIsLoading(false);
+        return;
+      }
+
+      setLogId(data.logId);
+      setOtpExpiry(600); // 10 minutes
+      setSuccess('OTP sent successfully! Check your phone.');
+      setStep('otp');
+    } catch (err) {
+      setError('Error sending OTP. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const switchMode = () => {
-    setMode(mode === 'login' ? 'signup' : 'login');
-    setStep(1);
+  const handleVerifyOTP = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError('');
-    setFormData({
-      email: '',
-      password: '',
-      confirmPassword: '',
-      firstName: '',
-      lastName: ''
-    });
-  };
+    setSuccess('');
+    setIsLoading(true);
 
-  const nextStep = () => {
-    if (mode === 'signup' && step === 1) {
-      setStep(2);
+    try {
+      if (otp.length < 4) {
+        setError('Please enter a valid OTP');
+        setIsLoading(false);
+        return;
+      }
+
+      const payload: any = {
+        otp,
+        logId,
+        phoneNumber: phoneNumber.replace(/\D/g, ''),
+        purpose: mode === 'signin' ? 'signin' : 'signup',
+      };
+
+      // Add signup details if signing up
+      if (mode === 'signup') {
+        if (!signupData.firstName || !signupData.lastName || !signupData.email) {
+          setError('Please fill in all details');
+          setIsLoading(false);
+          return;
+        }
+        payload.firstName = signupData.firstName;
+        payload.lastName = signupData.lastName;
+        payload.email = signupData.email;
+      }
+
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Invalid OTP');
+        setAttemptsRemaining(data.attemptsRemaining || 0);
+        setIsLoading(false);
+        return;
+      }
+
+      setSuccess('OTP verified successfully!');
+      setStep('success');
+
+      // Auto-login and redirect
+      setTimeout(() => {
+        onClose();
+        if (onSuccess) onSuccess();
+        window.location.reload();
+      }, 1500);
+    } catch (err) {
+      setError('Error verifying OTP. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const prevStep = () => {
-    if (step === 2) {
-      setStep(1);
-    }
+  const handleResendOTP = async () => {
+    setOtp('');
+    setError('');
+    setSuccess('');
+    await handleSendOTP(new Event('submit') as any);
   };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const switchMode = () => {
+    setMode(mode === 'signin' ? 'signup' : 'signin');
+    setStep('phone');
+    setError('');
+    setSuccess('');
+    setPhoneNumber('');
+    setOtp('');
+    setLogId('');
+    setSignupData({ firstName: '', lastName: '', email: '' });
+  };
+
+  if (!isOpen) return null;
 
   return (
     <AnimatePresence>
@@ -219,9 +286,9 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                       transition={{ delay: 0.5, duration: 0.8 }}
                       className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
                     >
-                      {mode === 'login' ? 'WELCOME' : 'JOIN THE'}
+                      {mode === 'signin' ? 'WELCOME' : 'JOIN THE'}
                       <span className="block text-primary-400">
-                        {mode === 'login' ? 'BACK' : 'AGNISHILA'}
+                        {mode === 'signin' ? 'BACK' : 'AGNISHILA'}
                       </span>
                     </motion.h2>
 
@@ -231,7 +298,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                       transition={{ delay: 0.7, duration: 0.8 }}
                       className="text-gray-300 text-lg mb-8 font-light leading-relaxed"
                     >
-                      {mode === 'login' 
+                      {mode === 'signin' 
                         ? 'Access your Agnishila account and continue your wellness journey with premium Himalayan Shilajit.'
                         : 'Join thousands of high-performance individuals who trust Agnishila for their premium wellness needs.'
                       }
@@ -268,28 +335,119 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                     transition={{ duration: 0.5 }}
                   >
                     <div className="mb-8">
-                      <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wider">
-                        {mode === 'login' ? 'Sign In' : step === 1 ? 'Create Account' : 'Complete Profile'}
+                      <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wider flex items-center space-x-2">
+                        <Phone className="w-6 h-6 text-primary-400" />
+                        <span>
+                          {step === 'phone' && (mode === 'signin' ? 'Sign In' : 'Sign Up')}
+                          {step === 'otp' && 'Verify OTP'}
+                          {step === 'signup-details' && 'Complete Profile'}
+                          {step === 'success' && 'Welcome!'}
+                        </span>
                       </h3>
                       <p className="text-gray-400 font-light">
-                        {mode === 'login' 
-                          ? 'Enter your credentials to access your account'
-                          : step === 1 
-                            ? 'Start your premium wellness journey'
-                            : 'Tell us about yourself'
-                        }
+                        {step === 'phone' && 'Enter your phone number to continue'}
+                        {step === 'otp' && 'Enter the OTP sent to your phone'}
+                        {step === 'signup-details' && 'Tell us about yourself'}
+                        {step === 'success' && 'Account created successfully!'}
                       </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <AnimatePresence mode="wait">
-                        {mode === 'signup' && step === 1 && (
-                          <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className="grid grid-cols-2 gap-4"
-                          >
+                    {/* Error Message */}
+                    {error && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded text-red-400 text-sm flex items-start space-x-2"
+                      >
+                        <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                        <span>{error}</span>
+                      </motion.div>
+                    )}
+
+                    {/* Success Message */}
+                    {success && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-4 p-3 bg-green-500/20 border border-green-500/50 rounded text-green-400 text-sm flex items-start space-x-2"
+                      >
+                        <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                        <span>{success}</span>
+                      </motion.div>
+                    )}
+
+                    <form onSubmit={step === 'otp' ? handleVerifyOTP : handleSendOTP} className="space-y-6">
+                      {/* Phone Step */}
+                      {step === 'phone' && (
+                        <motion.div
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                        >
+                          <label className="block text-gray-300 text-sm font-medium mb-2 uppercase tracking-wider">
+                            Phone Number
+                          </label>
+                          <div className="flex items-center space-x-2 bg-black/50 border border-white/10 rounded px-4 py-3 focus-within:border-primary-400 transition-colors">
+                            <span className="text-gray-400 font-medium">+91</span>
+                            <input
+                              type="tel"
+                              value={phoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
+                              placeholder="Enter 10-digit phone number"
+                              className="flex-1 bg-transparent text-white outline-none placeholder-gray-500"
+                              maxLength="10"
+                              required
+                            />
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* OTP Step */}
+                      {step === 'otp' && (
+                        <motion.div
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          className="space-y-4"
+                        >
+                          <div>
+                            <label className="block text-gray-300 text-sm font-medium mb-2 uppercase tracking-wider">
+                              Enter OTP
+                            </label>
+                            <input
+                              type="text"
+                              value={otp}
+                              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                              placeholder="Enter 4-6 digit OTP"
+                              className="w-full bg-black/50 border border-white/10 rounded px-4 py-3 text-white outline-none placeholder-gray-500 focus:border-primary-400 transition-colors text-center text-2xl tracking-widest"
+                              maxLength="6"
+                              required
+                            />
+                          </div>
+
+                          {/* Timer */}
+                          <div className="text-center text-sm text-gray-400">
+                            OTP expires in: <span className="text-primary-400 font-bold">{formatTime(otpExpiry)}</span>
+                          </div>
+
+                          {/* Attempts */}
+                          {attemptsRemaining < 5 && (
+                            <div className="text-center text-sm text-yellow-400">
+                              Attempts remaining: {attemptsRemaining}
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+
+                      {/* Signup Details Step */}
+                      {step === 'signup-details' && mode === 'signup' && (
+                        <motion.div
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          className="space-y-4"
+                        >
+                          <div className="grid grid-cols-2 gap-4">
                             <div>
                               <label className="block text-gray-300 text-sm font-medium mb-2 uppercase tracking-wider">
                                 First Name
@@ -298,8 +456,8 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                                 <input
                                   type="text"
-                                  value={formData.firstName}
-                                  onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                                  value={signupData.firstName}
+                                  onChange={(e) => setSignupData({...signupData, firstName: e.target.value})}
                                   className="w-full pl-10 pr-4 py-3 bg-black border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary-400 transition-all duration-300"
                                   placeholder="John"
                                   required
@@ -314,169 +472,136 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onSu
                                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                                 <input
                                   type="text"
-                                  value={formData.lastName}
-                                  onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                                  value={signupData.lastName}
+                                  onChange={(e) => setSignupData({...signupData, lastName: e.target.value})}
                                   className="w-full pl-10 pr-4 py-3 bg-black border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary-400 transition-all duration-300"
                                   placeholder="Doe"
                                   required
                                 />
                               </div>
                             </div>
-                          </motion.div>
-                        )}
-
-                        {(mode === 'login' || (mode === 'signup' && step === 2)) && (
-                          <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className="space-y-6"
-                          >
-                            <div>
-                              <label className="block text-gray-300 text-sm font-medium mb-2 uppercase tracking-wider">
-                                Email Address
-                              </label>
-                              <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                                <input
-                                  type="email"
-                                  value={formData.email}
-                                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                  className="w-full pl-10 pr-4 py-3 bg-black border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary-400 transition-all duration-300"
-                                  placeholder="your.email@company.com"
-                                  required
-                                />
-                              </div>
+                          </div>
+                          <div>
+                            <label className="block text-gray-300 text-sm font-medium mb-2 uppercase tracking-wider">
+                              Email Address
+                            </label>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                              <input
+                                type="email"
+                                value={signupData.email}
+                                onChange={(e) => setSignupData({...signupData, email: e.target.value})}
+                                className="w-full pl-10 pr-4 py-3 bg-black border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary-400 transition-all duration-300"
+                                placeholder="your.email@company.com"
+                                required
+                              />
                             </div>
+                          </div>
+                        </motion.div>
+                      )}
 
-                            <div>
-                              <label className="block text-gray-300 text-sm font-medium mb-2 uppercase tracking-wider">
-                                Password
-                              </label>
-                              <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                                <input
-                                  type={showPassword ? 'text' : 'password'}
-                                  value={formData.password}
-                                  onChange={(e) => setFormData({...formData, password: e.target.value})}
-                                  className="w-full pl-10 pr-12 py-3 bg-black border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary-400 transition-all duration-300"
-                                  placeholder="Enter your password"
-                                  required
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => setShowPassword(!showPassword)}
-                                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-                                >
-                                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                                </button>
-                              </div>
-                            </div>
-
-                            {mode === 'signup' && (
-                              <div>
-                                <label className="block text-gray-300 text-sm font-medium mb-2 uppercase tracking-wider">
-                                  Confirm Password
-                                </label>
-                                <div className="relative">
-                                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                                  <input
-                                    type={showConfirmPassword ? 'text' : 'password'}
-                                    value={formData.confirmPassword}
-                                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                                    className="w-full pl-10 pr-12 py-3 bg-black border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary-400 transition-all duration-300"
-                                    placeholder="Confirm your password"
-                                    required
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-                                  >
-                                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-
-                      {/* Error Message */}
-                      {error && (
+                      {/* Success Step */}
+                      {step === 'success' && (
                         <motion.div
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="bg-red-600/20 border border-red-600/30 p-3 text-center"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="text-center space-y-4 py-8"
                         >
-                          <p className="text-red-400 text-sm font-medium">{error}</p>
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', stiffness: 200 }}
+                          >
+                            <CheckCircle className="w-16 h-16 text-green-400 mx-auto" />
+                          </motion.div>
+                          <p className="text-gray-300">
+                            {mode === 'signin' ? 'Signed in successfully!' : 'Account created successfully!'}
+                          </p>
+                          <p className="text-sm text-gray-400">Redirecting...</p>
                         </motion.div>
                       )}
 
                       {/* Action Buttons */}
-                      <div className="space-y-4 pt-4">
-                        {mode === 'signup' && step === 1 ? (
-                          <motion.button
-                            type="button"
-                            onClick={nextStep}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="w-full bg-primary-400 hover:bg-primary-500 text-black py-4 px-6 font-bold flex items-center justify-center space-x-3 transition-all duration-300 uppercase tracking-wider"
-                          >
-                            <span>Continue</span>
-                            <ArrowRight size={18} />
-                          </motion.button>
-                        ) : (
-                          <motion.button
-                            type="submit"
-                            disabled={isLoading}
-                            whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                            whileTap={{ scale: isLoading ? 1 : 0.98 }}
-                            className="w-full bg-primary-400 hover:bg-primary-500 disabled:bg-primary-600 text-black py-4 px-6 font-bold flex items-center justify-center space-x-3 transition-all duration-300 uppercase tracking-wider"
-                          >
-                            {isLoading ? (
-                              <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                className="w-5 h-5 border-2 border-black border-t-transparent rounded-full"
-                              />
-                            ) : (
-                              <>
-                                <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
-                                <ArrowRight size={18} />
-                              </>
-                            )}
-                          </motion.button>
-                        )}
+                      {step !== 'success' && (
+                        <div className="space-y-4 pt-4">
+                          {step === 'phone' && (
+                            <motion.button
+                              type="submit"
+                              disabled={isLoading || phoneNumber.length < 10}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="w-full bg-primary-400 text-black font-bold py-3 px-4 rounded uppercase tracking-wider text-sm hover:bg-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                            >
+                              {isLoading ? (
+                                <>
+                                  <Loader className="w-4 h-4 animate-spin" />
+                                  <span>Sending OTP...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <span>Send OTP</span>
+                                  <ArrowRight className="w-4 h-4" />
+                                </>
+                              )}
+                            </motion.button>
+                          )}
 
-                        {mode === 'signup' && step === 2 && (
-                          <motion.button
-                            type="button"
-                            onClick={prevStep}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="w-full border-2 border-white/20 text-white hover:border-primary-400 hover:text-primary-400 py-4 px-6 font-bold transition-all duration-300 uppercase tracking-wider"
-                          >
-                            Back
-                          </motion.button>
-                        )}
-                      </div>
+                          {step === 'otp' && (
+                            <motion.button
+                              type="submit"
+                              disabled={isLoading || otp.length < 4}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="w-full bg-primary-400 text-black font-bold py-3 px-4 rounded uppercase tracking-wider text-sm hover:bg-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                            >
+                              {isLoading ? (
+                                <>
+                                  <Loader className="w-4 h-4 animate-spin" />
+                                  <span>Verifying...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <span>Verify OTP</span>
+                                  <ArrowRight className="w-4 h-4" />
+                                </>
+                              )}
+                            </motion.button>
+                          )}
+
+                          {/* Resend OTP */}
+                          {step === 'otp' && (
+                            <div className="text-center text-sm text-gray-400">
+                              Didn't receive OTP?{' '}
+                              <button
+                                type="button"
+                                onClick={handleResendOTP}
+                                disabled={isLoading}
+                                className="text-primary-400 hover:text-primary-500 font-medium disabled:opacity-50"
+                              >
+                                Resend
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                       {/* Switch Mode */}
-                      <div className="text-center pt-6 border-t border-white/10">
-                        <p className="text-gray-400 mb-4">
-                          {mode === 'login' ? "Don't have an account?" : "Already have an account?"}
-                        </p>
-                        <motion.button
-                          type="button"
-                          onClick={switchMode}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="text-primary-400 hover:text-primary-300 font-bold uppercase tracking-wider transition-colors"
-                        >
-                          {mode === 'login' ? 'Create Account' : 'Sign In'}
-                        </motion.button>
-                      </div>
+                      {step === 'phone' && (
+                        <div className="text-center pt-6 border-t border-white/10">
+                          <p className="text-gray-400 mb-4">
+                            {mode === 'signin' ? "Don't have an account?" : "Already have an account?"}
+                          </p>
+                          <motion.button
+                            type="button"
+                            onClick={switchMode}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="text-primary-400 hover:text-primary-300 font-bold uppercase tracking-wider transition-colors"
+                          >
+                            {mode === 'signin' ? 'Create Account' : 'Sign In'}
+                          </motion.button>
+                        </div>
+                      )}
                     </form>
                   </motion.div>
                 </div>

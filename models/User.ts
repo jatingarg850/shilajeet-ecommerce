@@ -31,6 +31,16 @@ const UserSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: false,
+    unique: false,
+  },
+  phoneVerified: {
+    type: Boolean,
+    default: false,
+  },
+  authMethod: {
+    type: String,
+    enum: ['email', 'phone'],
+    default: 'email',
   },
   address: {
     type: String,
