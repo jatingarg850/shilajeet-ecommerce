@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       orderId: razorpayOrder.id,
-      amount: razorpayOrder.amount / 100,
+      amount: Number(razorpayOrder.amount) / 100,
       currency: razorpayOrder.currency,
     });
   } catch (error) {
