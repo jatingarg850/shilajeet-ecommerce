@@ -40,6 +40,8 @@ export async function GET(request: NextRequest) {
           id: customer._id,
           name: customer.name,
           email: customer.email,
+          phone: customer.phone || '',
+          address: customer.address || '',
           joinDate: customer.createdAt,
           orderCount,
           totalSpent: totalSpent[0]?.total || 0,
