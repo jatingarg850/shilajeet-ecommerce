@@ -52,7 +52,7 @@ export default function AnimatedCounter({
 
   const formattedValue = decimals > 0 
     ? displayValue.toFixed(decimals)
-    : Math.floor(displayValue).toLocaleString();
+    : Math.floor(displayValue).toLocaleString('en-IN');
 
   return (
     <span className={className}>

@@ -11,32 +11,37 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { amount, currency = 'INR' } = await request.json();
+    const { amount, orderId } = await request.json();
 
-    if (!amount || amount <= 0) {
-      return NextResponse.json({ error: 'Invalid amount' }, { status: 400 });
+    if (!amount || !orderId) {
+      return NextResponse.json(
+        { error: 'Amount and Order ID are required' },
+        { status: 400 }
+      );
     }
 
     // Create Razorpay order
-    const order = await razorpay.orders.create({
-      amount: Math.round(amount * 100), // Razorpay expects amount in paise (smallest currency unit)
-      currency,
-      receipt: `receipt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    const razorpayOrder = await razorpay.orders.create({
+      amount: Math.round(amount * 100), // Convert to paise
+      currency: 'INR',
+      receipt: orderId,
       notes: {
+        orderId,
         userId: session.user.id,
-        userEmail: session.user.email || '',
       },
     });
 
     return NextResponse.json({
-      orderId: order.id,
-      amount: order.amount,
-      currency: order.currency,
-      key: process.env.RAZORPAY_KEY_ID,
+      success: true,
+      orderId: razorpayOrder.id,
+      amount: razorpayOrder.amount / 100,
+      currency: razorpayOrder.currency,
     });
-
   } catch (error) {
     console.error('Error creating Razorpay order:', error);
-    return NextResponse.json({ error: 'Failed to create payment order' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to create payment order' },
+      { status: 500 }
+    );
   }
 }

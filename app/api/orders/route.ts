@@ -85,21 +85,36 @@ export async function POST(request: NextRequest) {
     
     const calculatedTotal = Math.max(0, subtotal + tax + shipping - discountAmount);
 
-    // Determine payment method and transaction details
-    const isRazorpayPayment = payment.razorpayData && payment.razorpayData.verified;
+    // Determine payment mode and method
+    const paymentMode = payment.mode || 'COD'; // Default to COD
+    const isOnlinePayment = paymentMode === 'Prepaid';
+    const isRazorpayPayment = isOnlinePayment && payment.razorpayData && payment.razorpayData.verified;
     
-    const paymentInfo = isRazorpayPayment
+    // Validate online payment
+    if (isOnlinePayment && !isRazorpayPayment) {
+      return NextResponse.json(
+        { error: 'Online payment verification failed' },
+        { status: 400 }
+      );
+    }
+
+    // Build payment info based on mode
+    const paymentInfo = isOnlinePayment
       ? {
-          cardNumber: 'Razorpay Payment',
-          cardholderName: payment.razorpayData.userDetails?.name || 'Razorpay User',
-          paymentMethod: 'Razorpay',
-          transactionId: payment.razorpayData.paymentId,
+          mode: 'Prepaid',
+          method: 'Razorpay',
+          cardNumber: payment.razorpayData?.cardNumber ? '**** **** **** ' + payment.razorpayData.cardNumber.slice(-4) : undefined,
+          cardholderName: payment.razorpayData?.userDetails?.name || 'Online Payment',
+          transactionId: payment.razorpayData?.paymentId,
+          status: 'completed',
         }
       : {
-          cardNumber: payment.cardNumber || 'N/A',
-          cardholderName: payment.cardholderName || 'N/A',
-          paymentMethod: 'Credit Card',
-          transactionId: `txn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          mode: 'COD',
+          method: undefined,
+          cardNumber: undefined,
+          cardholderName: undefined,
+          transactionId: undefined,
+          status: 'pending',
         };
 
     // Generate order number
@@ -144,7 +159,7 @@ export async function POST(request: NextRequest) {
         deliveryAddress: `${address.address1}${address.address2 ? ', ' + address.address2 : ''}, ${address.city}, ${address.state} ${address.zipCode}`,
         deliveryPin: address.zipCode,
         weight: 0.5,
-        paymentMode: payment.razorpayData?.verified ? 'Prepaid' : 'COD',
+        paymentMode: paymentMode === 'Prepaid' ? 'Prepaid' : 'COD',
       };
 
       const shipmentResult = await delhiveryService.createShipment(shipmentData);

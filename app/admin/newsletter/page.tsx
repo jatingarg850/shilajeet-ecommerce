@@ -216,7 +216,7 @@ export default function AdminNewsletterPage() {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-gray-400 text-sm uppercase tracking-wider">{stat.label}</p>
-                                <p className="text-2xl font-bold text-white mt-1">{stat.value.toLocaleString()}</p>
+                                <p className="text-2xl font-bold text-white mt-1">{stat.value.toLocaleString('en-IN')}</p>
                             </div>
                             <stat.icon className={`w-8 h-8 ${stat.color}`} />
                         </div>

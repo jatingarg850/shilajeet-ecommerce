@@ -116,7 +116,7 @@ export default function CustomersPage() {
                 )}
                 <div className="flex items-center gap-2 text-gray-300">
                   <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                  <span className="text-xs">Joined {new Date(customer.createdAt).toLocaleDateString()}</span>
+                  <span className="text-xs">Joined {new Date(customer.createdAt).toLocaleDateString('en-IN')}</span>
                 </div>
               </div>
             </motion.div>

@@ -5,88 +5,115 @@ import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
 import User from '@/models/User';
 
-export const dynamic = 'force-dynamic';
+// Middleware to check admin role
+async function checkAdmin(session: any) {
+  if (!session?.user?.id) {
+    return false;
+  }
 
+  await dbConnect();
+  const user = await User.findById(session.user.id);
+  return user?.role === 'admin';
+}
+
+// GET all orders (admin view)
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user?.id) {
+    if (!(await checkAdmin(session))) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check if user is admin
     await dbConnect();
-    const user = await User.findById(session.user.id);
-    if (!user || user.role !== 'admin') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status');
+    const paymentMode = searchParams.get('paymentMode');
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '20');
+
+    let query: any = {};
+
+    if (status) {
+      query.status = status;
     }
 
-    // Fetch all orders with user details
-    const orders = await Order.find({})
-      .populate('userId', 'name email')
+    if (paymentMode) {
+      query['payment.mode'] = paymentMode;
+    }
+
+    const skip = (page - 1) * limit;
+
+    const orders = await Order.find(query)
       .sort({ createdAt: -1 })
-      .limit(100);
+      .skip(skip)
+      .limit(limit)
+      .populate('userId', 'name email phone');
 
-    // Format orders for admin view
-    const formattedOrders = orders.map(order => ({
-      id: order._id,
-      orderNumber: order.orderNumber,
-      customerName: order.userId?.name || 'Unknown',
-      customerEmail: order.userId?.email || 'Unknown',
-      total: order.total,
-      status: order.status,
-      date: order.createdAt,
-      items: order.items,
-      shippingAddress: order.shippingAddress,
-    }));
+    const total = await Order.countDocuments(query);
 
-    return NextResponse.json(formattedOrders);
-
+    return NextResponse.json({
+      orders,
+      pagination: {
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit),
+      },
+    });
   } catch (error) {
-    console.error('Error fetching admin orders:', error);
+    console.error('Error fetching orders:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
+// PUT - Update order (admin)
 export async function PUT(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user?.id) {
+    if (!(await checkAdmin(session))) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check if user is admin
+    const { orderId, status, paymentMode, paymentStatus, notes } = await request.json();
+
+    if (!orderId) {
+      return NextResponse.json({ error: 'Order ID is required' }, { status: 400 });
+    }
+
     await dbConnect();
-    const user = await User.findById(session.user.id);
-    if (!user || user.role !== 'admin') {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
 
-    const { orderId, status, trackingNumber } = await request.json();
-
-    if (!orderId || !status) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
-
-    const updateData: any = { status };
-    if (trackingNumber) {
-      updateData.trackingNumber = trackingNumber;
-    }
-
-    const order = await Order.findByIdAndUpdate(
-      orderId,
-      updateData,
-      { new: true }
-    );
+    const order = await Order.findById(orderId);
 
     if (!order) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, order });
+    // Update order fields
+    if (status) {
+      order.status = status;
+    }
 
+    if (paymentMode) {
+      order.payment.mode = paymentMode;
+    }
+
+    if (paymentStatus) {
+      order.payment.status = paymentStatus;
+    }
+
+    if (notes) {
+      order.notes = notes;
+    }
+
+    await order.save();
+
+    return NextResponse.json({
+      success: true,
+      order,
+    });
   } catch (error) {
     console.error('Error updating order:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

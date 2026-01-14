@@ -396,7 +396,7 @@ export default function CouponsPage() {
                       {coupon.field || '-'}
                     </td>
                     <td className="px-6 py-4 text-gray-300">
-                      {coupon.expiryDate ? new Date(coupon.expiryDate).toLocaleDateString() : '-'}
+                      {coupon.expiryDate ? new Date(coupon.expiryDate).toLocaleDateString('en-IN') : '-'}
                     </td>
                     <td className="px-6 py-4">
                       {coupon.active ? (

@@ -71,23 +71,34 @@ const AddressSchema = new mongoose.Schema({
 });
 
 const PaymentSchema = new mongoose.Schema({
+  mode: {
+    type: String,
+    enum: ['COD', 'Prepaid'],
+    required: true,
+  },
+  method: {
+    type: String,
+    enum: ['Razorpay', 'Credit Card', 'Debit Card', 'UPI', 'Wallet'],
+    required: false,
+  },
   cardNumber: {
     type: String,
-    required: true,
+    required: false,
     // Store only last 4 digits for security
-    set: (value: string) => '**** **** **** ' + value.slice(-4),
+    set: (value: string) => value ? '**** **** **** ' + value.slice(-4) : undefined,
   },
   cardholderName: {
     type: String,
-    required: true,
-  },
-  paymentMethod: {
-    type: String,
-    default: 'Credit Card',
+    required: false,
   },
   transactionId: {
     type: String,
     required: false,
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'completed', 'failed'],
+    default: 'pending',
   },
 });
 
