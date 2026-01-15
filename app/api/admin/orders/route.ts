@@ -5,6 +5,9 @@ import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
 import User from '@/models/User';
 
+// Mark this route as dynamic
+export const dynamic = 'force-dynamic';
+
 // Middleware to check admin role
 async function checkAdmin(session: any) {
   if (!session?.user?.id) {

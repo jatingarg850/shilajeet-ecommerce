@@ -88,7 +88,7 @@ export default function AdminLayout({
                 <span>All rights reserved</span>
               </div>
               <div className="flex items-center gap-4">
-                <span>Made with ❤️ for Shilajit Excellence</span>
+                <span>Made with ❤️ for Agnishila</span>
               </div>
             </div>
           </footer>

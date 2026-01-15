@@ -37,10 +37,16 @@ interface DashboardStats {
 interface RecentOrder {
   id: string;
   orderNumber: string;
-  customerName: string;
+  userId?: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  customerName?: string;
   total: number;
   status: string;
   date: string;
+  createdAt?: string;
 }
 
 export default function AdminDashboard() {
@@ -67,7 +73,8 @@ export default function AdminDashboard() {
     try {
       // Fetch orders to calculate stats
       const ordersResponse = await fetch('/api/admin/orders');
-      const orders = ordersResponse.ok ? await ordersResponse.json() : [];
+      const ordersData = ordersResponse.ok ? await ordersResponse.json() : { orders: [] };
+      const orders = Array.isArray(ordersData) ? ordersData : (ordersData.orders || []);
       
       // Fetch customers
       const customersResponse = await fetch('/api/admin/customers');
@@ -78,10 +85,10 @@ export default function AdminDashboard() {
       const newsletterData = newsletterResponse.ok ? await newsletterResponse.json() : { statistics: { total: 0 } };
 
       // Calculate stats
-      const totalRevenue = orders.reduce((sum: number, order: any) => sum + order.total, 0);
-      const totalOrders = orders.length;
-      const totalCustomers = customers.length;
-      const totalSubscribers = newsletterData.statistics.total;
+      const totalRevenue = Array.isArray(orders) ? orders.reduce((sum: number, order: any) => sum + (order.total || 0), 0) : 0;
+      const totalOrders = Array.isArray(orders) ? orders.length : 0;
+      const totalCustomers = Array.isArray(customers) ? customers.length : 0;
+      const totalSubscribers = newsletterData.statistics?.total || 0;
 
       // Mock growth data (in real app, compare with previous period)
       const mockStats: DashboardStats = {
@@ -97,7 +104,20 @@ export default function AdminDashboard() {
       };
 
       setStats(mockStats);
-      setRecentOrders(orders.slice(0, 5));
+      
+      // Map orders to RecentOrder format
+      const mappedOrders = Array.isArray(orders) ? orders.slice(0, 5).map((order: any) => ({
+        id: order._id,
+        orderNumber: order.orderNumber,
+        userId: order.userId,
+        customerName: order.userId?.name || 'Unknown Customer',
+        total: order.total,
+        status: order.status,
+        date: order.createdAt,
+        createdAt: order.createdAt,
+      })) : [];
+      
+      setRecentOrders(mappedOrders);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {
@@ -406,10 +426,10 @@ export default function AdminDashboard() {
                         <div className="flex items-center gap-2">
                           <div className="w-8 h-8 bg-primary-400/20 flex items-center justify-center">
                             <span className="text-primary-400 font-bold text-xs">
-                              {order.customerName.charAt(0).toUpperCase()}
+                              {(order.customerName || 'U').charAt(0).toUpperCase()}
                             </span>
                           </div>
-                          <span className="text-gray-300 font-medium">{order.customerName}</span>
+                          <span className="text-gray-300 font-medium">{order.customerName || 'Unknown'}</span>
                         </div>
                       </td>
                       <td className="py-4 px-2">

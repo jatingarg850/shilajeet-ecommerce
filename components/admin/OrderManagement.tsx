@@ -1,15 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronDown, Edit2, Check, X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ShoppingCart, Edit2, Check, X, ExternalLink, Package, Calendar, Phone, Mail } from 'lucide-react';
 
 interface Order {
   _id: string;
   orderNumber: string;
-  userId: {
-    name: string;
-    email: string;
-    phone: string;
+  userId?: {
+    name?: string;
+    email?: string;
+    phone?: string;
   };
   items: Array<{
     name: string;
@@ -47,10 +48,14 @@ export default function OrderManagement() {
       if (filter.paymentMode) params.append('paymentMode', filter.paymentMode);
 
       const response = await fetch(`/api/admin/orders?${params}`);
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
       const data = await response.json();
-      setOrders(data.orders);
+      setOrders(data.orders || []);
     } catch (error) {
       console.error('Error fetching orders:', error);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -60,8 +65,8 @@ export default function OrderManagement() {
     setEditingOrder(order._id);
     setEditData({
       status: order.status,
-      paymentMode: order.payment.mode,
-      paymentStatus: order.payment.status,
+      paymentMode: order.payment?.mode || 'COD',
+      paymentStatus: order.payment?.status || 'pending',
     });
   };
 
@@ -85,34 +90,72 @@ export default function OrderManagement() {
     }
   };
 
-  const getPaymentModeColor = (mode: string) => {
-    return mode === 'COD' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800';
-  };
-
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      confirmed: 'bg-blue-100 text-blue-800',
-      processing: 'bg-purple-100 text-purple-800',
-      shipped: 'bg-indigo-100 text-indigo-800',
-      delivered: 'bg-green-100 text-green-800',
-      cancelled: 'bg-red-100 text-red-800',
+      pending: 'text-yellow-400 bg-yellow-400/20 border-yellow-400/30',
+      confirmed: 'text-green-400 bg-green-400/20 border-green-400/30',
+      processing: 'text-blue-400 bg-blue-400/20 border-blue-400/30',
+      shipped: 'text-primary-400 bg-primary-400/20 border-primary-400/30',
+      delivered: 'text-emerald-400 bg-emerald-400/20 border-emerald-400/30',
+      cancelled: 'text-red-400 bg-red-400/20 border-red-400/30',
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'text-gray-400 bg-gray-400/20 border-gray-400/30';
+  };
+
+  const getPaymentModeColor = (mode: string) => {
+    return mode === 'COD' 
+      ? 'text-blue-400 bg-blue-400/20 border-blue-400/30' 
+      : 'text-green-400 bg-green-400/20 border-green-400/30';
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0
+    }).format(price);
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading orders...</div>;
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="relative w-16 h-16 mx-auto mb-4">
+            <div className="absolute inset-0 border-4 border-primary-400/20 rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-transparent border-t-primary-400 rounded-full animate-spin"></div>
+          </div>
+          <div className="text-white font-bold uppercase tracking-wider text-sm">Loading Orders...</div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-5"
+    >
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl md:text-3xl font-bold text-white uppercase tracking-wider mb-1">Orders</h1>
+        <p className="text-gray-400 text-sm">Manage all customer orders and shipments</p>
+      </div>
+
       {/* Filters */}
-      <div className="flex gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <select
           value={filter.status}
           onChange={(e) => setFilter({ ...filter, status: e.target.value })}
-          className="px-4 py-2 border rounded-lg"
+          className="bg-black/50 border border-white/20 text-white px-4 py-2.5 rounded-lg focus:border-primary-400 focus:outline-none focus:ring-1 focus:ring-primary-400/20 transition-all text-sm hover:bg-black/70"
         >
           <option value="">All Status</option>
           <option value="pending">Pending</option>
@@ -126,7 +169,7 @@ export default function OrderManagement() {
         <select
           value={filter.paymentMode}
           onChange={(e) => setFilter({ ...filter, paymentMode: e.target.value })}
-          className="px-4 py-2 border rounded-lg"
+          className="bg-black/50 border border-white/20 text-white px-4 py-2.5 rounded-lg focus:border-primary-400 focus:outline-none focus:ring-1 focus:ring-primary-400/20 transition-all text-sm hover:bg-black/70"
         >
           <option value="">All Payment Modes</option>
           <option value="COD">Cash on Delivery</option>
@@ -135,123 +178,155 @@ export default function OrderManagement() {
       </div>
 
       {/* Orders Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border p-3 text-left">Order #</th>
-              <th className="border p-3 text-left">Customer</th>
-              <th className="border p-3 text-left">Items</th>
-              <th className="border p-3 text-right">Total</th>
-              <th className="border p-3 text-left">Payment Mode</th>
-              <th className="border p-3 text-left">Status</th>
-              <th className="border p-3 text-left">Tracking</th>
-              <th className="border p-3 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id} className="border-b hover:bg-gray-50">
-                <td className="border p-3 font-semibold">{order.orderNumber}</td>
-                <td className="border p-3">
-                  <div className="text-sm">
-                    <div className="font-medium">{order.userId.name}</div>
-                    <div className="text-gray-600">{order.userId.phone}</div>
-                  </div>
-                </td>
-                <td className="border p-3 text-sm">
-                  {order.items.map((item, i) => (
-                    <div key={i}>{item.quantity}x {item.name}</div>
-                  ))}
-                </td>
-                <td className="border p-3 text-right font-semibold">₹{order.total}</td>
-                <td className="border p-3">
-                  {editingOrder === order._id ? (
-                    <select
-                      value={editData.paymentMode}
-                      onChange={(e) => setEditData({ ...editData, paymentMode: e.target.value })}
-                      className="px-2 py-1 border rounded text-sm"
-                    >
-                      <option value="COD">COD</option>
-                      <option value="Prepaid">Online</option>
-                    </select>
-                  ) : (
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPaymentModeColor(order.payment.mode)}`}>
-                      {order.payment.mode === 'COD' ? 'Cash on Delivery' : 'Online Payment'}
-                    </span>
-                  )}
-                </td>
-                <td className="border p-3">
-                  {editingOrder === order._id ? (
-                    <select
-                      value={editData.status}
-                      onChange={(e) => setEditData({ ...editData, status: e.target.value })}
-                      className="px-2 py-1 border rounded text-sm"
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="confirmed">Confirmed</option>
-                      <option value="processing">Processing</option>
-                      <option value="shipped">Shipped</option>
-                      <option value="delivered">Delivered</option>
-                      <option value="cancelled">Cancelled</option>
-                    </select>
-                  ) : (
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
-                      {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                    </span>
-                  )}
-                </td>
-                <td className="border p-3 text-sm">
-                  {order.trackingNumber ? (
-                    <div>
-                      <div className="font-mono text-xs">{order.trackingNumber}</div>
-                      <a href={`https://track.delhivery.com/track/package/${order.trackingNumber}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs">
-                        Track
-                      </a>
-                    </div>
-                  ) : (
-                    <span className="text-gray-500">-</span>
-                  )}
-                </td>
-                <td className="border p-3 text-center">
-                  {editingOrder === order._id ? (
-                    <div className="flex gap-2 justify-center">
-                      <button
-                        onClick={() => handleSave(order._id)}
-                        className="p-1 text-green-600 hover:bg-green-100 rounded"
-                        title="Save"
-                      >
-                        <Check size={18} />
-                      </button>
-                      <button
-                        onClick={() => setEditingOrder(null)}
-                        className="p-1 text-red-600 hover:bg-red-100 rounded"
-                        title="Cancel"
-                      >
-                        <X size={18} />
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => handleEdit(order)}
-                      className="p-1 text-blue-600 hover:bg-blue-100 rounded"
-                      title="Edit"
-                    >
-                      <Edit2 size={18} />
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {orders.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
-          No orders found
+      {orders.length > 0 ? (
+        <div className="overflow-x-auto">
+          <div className="bg-gradient-to-br from-jet-900 to-jet-800 border border-white/20 rounded-lg overflow-hidden">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-black/50 border-b border-white/10">
+                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Order #</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Customer</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Items</th>
+                  <th className="px-4 py-3 text-right text-xs font-bold text-gray-400 uppercase tracking-wider">Total</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Payment</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                  <th className="px-4 py-3 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Tracking</th>
+                  <th className="px-4 py-3 text-center text-xs font-bold text-gray-400 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order, idx) => (
+                  <motion.tr
+                    key={order._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    className="border-b border-white/10 hover:bg-white/5 transition-colors"
+                  >
+                    <td className="px-4 py-3">
+                      <div className="font-mono text-sm font-semibold text-white">{order.orderNumber}</div>
+                      <div className="text-xs text-gray-500 mt-0.5">{formatDate(order.createdAt)}</div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="text-sm font-medium text-white">{order.userId?.name || 'Unknown'}</div>
+                      <div className="text-xs text-gray-500 flex items-center gap-1 mt-1">
+                        <Phone size={12} />
+                        {order.userId?.phone || '-'}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="text-sm text-gray-300">
+                        {order.items.length} item{order.items.length !== 1 ? 's' : ''}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {order.items.map((item, i) => (
+                          <div key={i}>{item.quantity}x {item.name}</div>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="font-bold text-primary-400">{formatPrice(order.total)}</div>
+                    </td>
+                    <td className="px-4 py-3">
+                      {editingOrder === order._id ? (
+                        <select
+                          value={editData.paymentMode}
+                          onChange={(e) => setEditData({ ...editData, paymentMode: e.target.value })}
+                          className="bg-black/50 border border-white/20 text-white px-2 py-1 rounded text-xs focus:border-primary-400 focus:outline-none"
+                        >
+                          <option value="COD">COD</option>
+                          <option value="Prepaid">Online</option>
+                        </select>
+                      ) : (
+                        <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold border ${getPaymentModeColor(order.payment?.mode || 'COD')}`}>
+                          {order.payment?.mode === 'COD' ? 'COD' : 'Online'}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      {editingOrder === order._id ? (
+                        <select
+                          value={editData.status}
+                          onChange={(e) => setEditData({ ...editData, status: e.target.value })}
+                          className="bg-black/50 border border-white/20 text-white px-2 py-1 rounded text-xs focus:border-primary-400 focus:outline-none"
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="confirmed">Confirmed</option>
+                          <option value="processing">Processing</option>
+                          <option value="shipped">Shipped</option>
+                          <option value="delivered">Delivered</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                      ) : (
+                        <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusColor(order.status)}`}>
+                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      {order.trackingNumber ? (
+                        <div className="flex items-center gap-1">
+                          <div className="text-xs">
+                            <div className="font-mono text-gray-300">{order.trackingNumber}</div>
+                            <a
+                              href={`https://track.delhivery.com/track/package/${order.trackingNumber}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary-400 hover:text-primary-300 text-[10px] flex items-center gap-0.5 mt-0.5"
+                            >
+                              Track <ExternalLink size={10} />
+                            </a>
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-gray-500">-</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      {editingOrder === order._id ? (
+                        <div className="flex gap-1 justify-center">
+                          <button
+                            onClick={() => handleSave(order._id)}
+                            className="p-1.5 text-green-400 hover:bg-green-400/20 rounded transition-colors"
+                            title="Save"
+                          >
+                            <Check size={16} />
+                          </button>
+                          <button
+                            onClick={() => setEditingOrder(null)}
+                            className="p-1.5 text-red-400 hover:bg-red-400/20 rounded transition-colors"
+                            title="Cancel"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleEdit(order)}
+                          className="p-1.5 text-primary-400 hover:bg-primary-400/20 rounded transition-colors"
+                          title="Edit"
+                        >
+                          <Edit2 size={16} />
+                        </button>
+                      )}
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-br from-jet-900 to-jet-800 border border-white/20 rounded-lg p-12 text-center"
+        >
+          <ShoppingCart className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <h3 className="text-lg font-bold text-white mb-2">No Orders Found</h3>
+          <p className="text-gray-400 text-sm">Try adjusting your filters or check back later</p>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }
