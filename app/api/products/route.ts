@@ -38,3 +38,30 @@ export async function GET(request: Request) {
     );
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    await dbConnect();
+
+    const body = await request.json();
+
+    // Generate ID from name if not provided
+    if (!body.id) {
+      body.id = body.name
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w-]/g, '');
+    }
+
+    const product = new Product(body);
+    await product.save();
+
+    return NextResponse.json(product, { status: 201 });
+  } catch (error) {
+    console.error('Error creating product:', error);
+    return NextResponse.json(
+      { error: 'Failed to create product' },
+      { status: 500 }
+    );
+  }
+}

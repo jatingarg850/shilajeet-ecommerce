@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { 
   Package, 
   Plus, 
@@ -18,6 +19,7 @@ import {
 
 interface Product {
   _id: string;
+  id: string;
   name: string;
   price: number;
   category: string;
@@ -27,9 +29,11 @@ interface Product {
 }
 
 export default function ProductsPage() {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -48,18 +52,24 @@ export default function ProductsPage() {
   };
 
   const handleDeleteProduct = async (id: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
-      try {
-        const response = await fetch(`/api/products/${id}`, {
-          method: 'DELETE',
-        });
+    if (!confirm('Are you sure you want to delete this product?')) return;
 
-        if (response.ok) {
-          fetchProducts();
-        }
-      } catch (error) {
-        console.error('Failed to delete product:', error);
+    setDeleting(id);
+    try {
+      const response = await fetch(`/api/products/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setProducts(products.filter(p => p._id !== id));
+      } else {
+        alert('Failed to delete product');
       }
+    } catch (error) {
+      console.error('Failed to delete product:', error);
+      alert('Failed to delete product');
+    } finally {
+      setDeleting(null);
     }
   };
 
@@ -179,7 +189,7 @@ export default function ProductsPage() {
             </div>
             
             <div className="p-4">
-              <h3 className="text-white font-bold text-lg mb-1">{product.name}</h3>
+              <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">{product.name}</h3>
               <p className="text-gray-400 text-xs uppercase tracking-wider mb-2">{product.category}</p>
               
               <div className="flex items-center justify-between mb-3">
@@ -194,13 +204,17 @@ export default function ProductsPage() {
               </div>
 
               <div className="flex gap-2">
-                <button className="flex-1 px-3 py-2 bg-primary-400/20 hover:bg-primary-400/30 text-primary-400 font-bold text-xs uppercase tracking-wider transition-all rounded flex items-center justify-center gap-1">
+                <Link
+                  href={`/admin/products/${product._id}/edit`}
+                  className="flex-1 px-3 py-2 bg-primary-400/20 hover:bg-primary-400/30 text-primary-400 font-bold text-xs uppercase tracking-wider transition-all rounded flex items-center justify-center gap-1"
+                >
                   <Edit className="w-3 h-3" />
                   Edit
-                </button>
+                </Link>
                 <button 
                   onClick={() => handleDeleteProduct(product._id)}
-                  className="px-3 py-2 bg-red-400/20 hover:bg-red-400/30 text-red-400 font-bold text-xs uppercase tracking-wider transition-all rounded"
+                  disabled={deleting === product._id}
+                  className="px-3 py-2 bg-red-400/20 hover:bg-red-400/30 text-red-400 font-bold text-xs uppercase tracking-wider transition-all rounded disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Trash2 className="w-3 h-3" />
                 </button>

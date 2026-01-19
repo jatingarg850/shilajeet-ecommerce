@@ -7,13 +7,13 @@ const MONGODB_URI = 'mongodb+srv://developerduco:p2nDgP07paBQewdi@cluster0.sms0o
 const products = [
   {
     id: 'agnishila-trublk-gold-resin',
-    name: 'Something Powerful is Coming',
+    name: 'Agnishila TruBlk Gold Resin',
     description: 'TruBlk Shilajit Gold Resin delivers a complete vitality boost by combining Himalayan Shilajit with powerful Ayurvedic herbs and minerals. Together, they enhance your body\'s natural energy, strength, and mental focus.',
-    price: 1320,
-    originalPrice: 1649,
-    image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090419/agnishila/first/Resin_Front_1.jpg',
+    price: 1359,
+    originalPrice: 1599,
+    image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090420/agnishila/first/Resin_Front_2.jpg',
     images: [
-      'https://res.cloudinary.com/dsejv31js/image/upload/v1767090419/agnishila/first/Resin_Front_1.jpg',
+ 
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090420/agnishila/first/Resin_Front_2.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090422/agnishila/first/Resin_Front_3.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090423/agnishila/first/Resin_Image_1.jpg',
@@ -44,8 +44,8 @@ const products = [
     ],
     usage: 'Take 300–500 mg (pea-sized amount) once daily. Mix in warm water, milk, or herbal tea. Stir well until fully dissolved. Consume on an empty stomach in the morning for best results. For maximum benefits: Morning dose for energy & stamina, optional evening dose for stress relief & recovery. Athletes can take before workout for enhanced performance. Take daily for 6–8 weeks for best results. Safe for long-term daily use.',
     certifications: ['FSSAI Approved', '3rd Party Lab Verified', 'GMP Certified', 'HACCP Compliant', 'ISO Certified', 'FDA-Compliant Manufacturing', 'Heavy Metal Free'],
-    inStock: false,
-    status: 'coming-soon',
+    inStock: true,
+    status: 'available',
     featured: true,
     createdAt: new Date(),
     updatedAt: new Date()
