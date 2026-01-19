@@ -585,34 +585,32 @@ export default function ProductDetailPage() {
 
     const fetchBundleProducts = async () => {
         try {
-            // Define bundle products based on current product - Show only 1 complementary product
-            let productId: string = '';
+            // Define bundle products based on current product
+            let productIds: string[] = [];
             
-            if (product.id === 'agnishila-shilajit-gummies') {
-                // For Shilajit Gummies, show KSM-66 AshwaGlow Gummies (not coming soon)
-                productId = 'ashwa-glo-gummies';
+            if (product.id === 'agnishila-trublk-gold-resin') {
+                // For TruBlk Resin (product 1), show Shilajit Gummies (2) and AshwaGlow Gummies (3)
+                productIds = ['agnishila-shilajit-gummies', 'ashwa-glo-gummies'];
+            } else if (product.id === 'agnishila-shilajit-gummies') {
+                // For Shilajit Gummies (product 2), show TruBlk Resin (1) and AshwaGlow Gummies (3)
+                productIds = ['agnishila-trublk-gold-resin', 'ashwa-glo-gummies'];
             } else if (product.id === 'ashwa-glo-gummies') {
-                // For AshwaGlow Gummies, show Shilajit Gummies (not coming soon)
-                productId = 'agnishila-shilajit-gummies';
-            } else if (product.id === 'agnishila-trublk-gold-resin') {
-                // For TruBlk Resin (coming soon), don't show any bundle
-                productId = '';
-            } else {
-                // Default: show first available product except current
-                const allProductIds = ['agnishila-shilajit-gummies', 'ashwa-glo-gummies'];
-                productId = allProductIds[0] || '';
+                // For AshwaGlow Gummies (product 3), show TruBlk Resin (1) and Shilajit Gummies (2)
+                productIds = ['agnishila-trublk-gold-resin', 'agnishila-shilajit-gummies'];
             }
             
-            if (productId) {
-                // Fetch only 1 complementary product
-                const response = await fetch(`/api/products/${productId}`);
-                const bundleData = await response.json();
-                // Only show if not coming soon
-                if (bundleData.status !== 'coming-soon') {
-                    setBundleProducts([bundleData]);
-                } else {
-                    setBundleProducts([]);
+            if (productIds.length > 0) {
+                // Fetch all complementary products
+                const bundleData = [];
+                for (const productId of productIds) {
+                    const response = await fetch(`/api/products/${productId}`);
+                    const data = await response.json();
+                    // Only show if not coming soon
+                    if (data.status !== 'coming-soon') {
+                        bundleData.push(data);
+                    }
                 }
+                setBundleProducts(bundleData);
             } else {
                 setBundleProducts([]);
             }

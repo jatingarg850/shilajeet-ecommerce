@@ -11,16 +11,17 @@ const products = [
     description: 'TruBlk Shilajit Gold Resin delivers a complete vitality boost by combining Himalayan Shilajit with powerful Ayurvedic herbs and minerals. Together, they enhance your body\'s natural energy, strength, and mental focus.',
     price: 1359,
     originalPrice: 1599,
-    image: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090420/agnishila/first/Resin_Front_2.jpg',
+    image: 'https://res.cloudinary.com/dpojtbeve/image/upload/v1768844253/Trublk_Website_Poster_800-580_4_z4kdbq.jpg',
     images: [
- 
+      'https://res.cloudinary.com/dpojtbeve/image/upload/v1768844253/Trublk_Website_Poster_800-580_4_z4kdbq.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090420/agnishila/first/Resin_Front_2.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090422/agnishila/first/Resin_Front_3.jpg',
+            'https://res.cloudinary.com/dsejv31js/image/upload/v1767090429/agnishila/first/Resin_Image_5.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090423/agnishila/first/Resin_Image_1.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090425/agnishila/first/Resin_Image_2.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090426/agnishila/first/Resin_Image_3.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090427/agnishila/first/Resin_Image_4.jpg',
-      'https://res.cloudinary.com/dsejv31js/image/upload/v1767090429/agnishila/first/Resin_Image_5.jpg',
+
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090430/agnishila/first/Resin_Image_6.jpg'
     ],
     rating: 4.9,
@@ -60,7 +61,7 @@ const products = [
     images: [
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090433/agnishila/first/Shilaboost%20Front.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090432/agnishila/first/Shilaboost%20Back.jpg',
-      'https://res.cloudinary.com/dsejv31js/image/upload/v1767090435/agnishila/first/Shilaboost%20_Certificate.jpg',
+      'https://res.cloudinary.com/dpojtbeve/image/upload/v1768846181/Shilaboost__Certificate_otxgmt.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090436/agnishila/first/Shilaboost%20_Image_2.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767113684/agnishila/agnishila/IMG_0523.jpg'
     ],
@@ -102,7 +103,7 @@ const products = [
     images: [
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090402/agnishila/first/AshwaGlo_Front.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090400/agnishila/first/AshwaGlo_Back.jpg',
-      'https://res.cloudinary.com/dsejv31js/image/upload/v1767090399/agnishila/first/AshwaGlo%20_Certificate.jpg',
+      'https://res.cloudinary.com/dpojtbeve/image/upload/v1768846181/AshwaGlo__Certificate_g4uuna.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090403/agnishila/first/AshwaGlo_Image_1.jpg',
       'https://res.cloudinary.com/dsejv31js/image/upload/v1767090405/agnishila/first/AshwaGlo_Image_2.jpg'
     ],

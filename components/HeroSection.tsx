@@ -20,6 +20,12 @@ const productImages = [
     title: "KSM-66 AshwaGlow Gummies",
     subtitle: ""
   },
+   {
+    src: 'Untitleddesign.png',
+    alt: "Agnishila TruBlk Gold Resin",
+    title: "Agnishila TruBlk Gold Resin",
+    subtitle: ""
+  },
 
 ];
 
