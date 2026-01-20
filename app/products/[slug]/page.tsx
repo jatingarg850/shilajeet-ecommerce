@@ -589,14 +589,14 @@ export default function ProductDetailPage() {
             let productIds: string[] = [];
             
             if (product.id === 'agnishila-trublk-gold-resin') {
-                // For TruBlk Resin (product 1), show Shilajit Gummies (2) and AshwaGlow Gummies (3)
-                productIds = ['agnishila-shilajit-gummies', 'ashwa-glo-gummies'];
-            } else if (product.id === 'agnishila-shilajit-gummies') {
-                // For Shilajit Gummies (product 2), show TruBlk Resin (1) and AshwaGlow Gummies (3)
-                productIds = ['agnishila-trublk-gold-resin', 'ashwa-glo-gummies'];
+                // For TruBlk Resin, show only AshwaGlow Gummies
+                productIds = ['ashwa-glo-gummies'];
             } else if (product.id === 'ashwa-glo-gummies') {
-                // For AshwaGlow Gummies (product 3), show TruBlk Resin (1) and Shilajit Gummies (2)
-                productIds = ['agnishila-trublk-gold-resin', 'agnishila-shilajit-gummies'];
+                // For AshwaGlow Gummies, show only TruBlk Resin
+                productIds = ['agnishila-trublk-gold-resin'];
+            } else if (product.id === 'agnishila-shilajit-gummies') {
+                // For Shilajit Gummies, show only AshwaGlow Gummies
+                productIds = ['ashwa-glo-gummies'];
             }
             
             if (productIds.length > 0) {
