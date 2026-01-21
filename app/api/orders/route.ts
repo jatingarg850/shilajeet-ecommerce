@@ -156,23 +156,89 @@ export async function POST(request: NextRequest) {
         customerName: `${address.firstName} ${address.lastName}`,
         customerPhone: address.phone,
         customerEmail: address.email,
-        deliveryAddress: `${address.address1}${address.address2 ? ', ' + address.address2 : ''}, ${address.city}, ${address.state} ${address.zipCode}`,
+        deliveryAddress: `${address.address1}${address.address2 ? ', ' + address.address2 : ''}`,
+        deliveryCity: address.city,
+        deliveryState: address.state,
         deliveryPin: address.zipCode,
-        weight: 0.5,
-        paymentMode: paymentMode === 'Prepaid' ? 'Prepaid' : 'COD',
+        weight: 0.5, // 500 grams
+        paymentMode: (paymentMode === 'Prepaid' ? 'Prepaid' : 'COD') as 'COD' | 'Prepaid',
+        codAmount: paymentMode === 'COD' ? calculatedTotal : 0,
+        productsDesc: items.map((item: any) => item.name).join(', '),
+        quantity: items.reduce((sum: number, item: any) => sum + item.quantity, 0).toString(),
+        shippingMode: 'Surface' as 'Surface' | 'Express',
+        transportSpeed: 'D' as 'D' | 'F',
       };
+
+      console.log('Attempting to create Delhivery shipment with data:', shipmentData);
 
       const shipmentResult = await delhiveryService.createShipment(shipmentData);
       
+      console.log('Delhivery shipment result:', shipmentResult);
+
       if (shipmentResult.waybill) {
         order.trackingNumber = shipmentResult.waybill;
         order.shippingProvider = 'delhivery';
         order.trackingStatus = 'pending';
+        order.delhiveryData = {
+          waybill: shipmentResult.waybill,
+          shipmentId: shipmentResult.shipmentId,
+          trackingUrl: shipmentResult.trackingUrl,
+        };
+
+        // Fetch expected TAT from Delhivery
+        try {
+          const warehousePin = process.env.DELHIVERY_WAREHOUSE_PIN || '110035';
+          const tatResult = await delhiveryService.getExpectedTAT(
+            warehousePin,
+            address.zipCode,
+            'S', // Surface mode
+            new Date().toISOString().split('T')[0] + ' 10:00'
+          );
+
+          if (tatResult.success && tatResult.data) {
+            const tatData = tatResult.data;
+            const expectedDeliveryDays = tatData.tat || 5; // Default to 5 days
+            const expectedDeliveryDate = new Date();
+            expectedDeliveryDate.setDate(expectedDeliveryDate.getDate() + expectedDeliveryDays);
+
+            order.delhiveryData.expectedDeliveryDate = expectedDeliveryDate;
+            order.delhiveryData.expectedDeliveryDays = expectedDeliveryDays;
+            order.shippingStats = {
+              estimatedDelivery: expectedDeliveryDate,
+            };
+          }
+        } catch (tatError) {
+          console.error('Error fetching TAT:', tatError);
+          // Set default 5-day delivery
+          const defaultDeliveryDate = new Date();
+          defaultDeliveryDate.setDate(defaultDeliveryDate.getDate() + 5);
+          order.delhiveryData.expectedDeliveryDate = defaultDeliveryDate;
+          order.delhiveryData.expectedDeliveryDays = 5;
+          order.shippingStats = {
+            estimatedDelivery: defaultDeliveryDate,
+          };
+        }
+
+        await order.save();
+      } else {
+        console.warn('No waybill returned from Delhivery:', shipmentResult);
+        // Set default delivery date even if no waybill
+        const defaultDeliveryDate = new Date();
+        defaultDeliveryDate.setDate(defaultDeliveryDate.getDate() + 5);
+        order.shippingStats = {
+          estimatedDelivery: defaultDeliveryDate,
+        };
         await order.save();
       }
     } catch (shipmentError) {
       console.error('Error creating Delhivery shipment:', shipmentError);
-      // Don't fail the order if shipment creation fails
+      // Set default delivery date even if shipment creation fails
+      const defaultDeliveryDate = new Date();
+      defaultDeliveryDate.setDate(defaultDeliveryDate.getDate() + 5);
+      order.shippingStats = {
+        estimatedDelivery: defaultDeliveryDate,
+      };
+      await order.save();
     }
 
     // Update coupon usage if applied
@@ -237,10 +303,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       order: {
+        _id: order._id.toString(),
         orderNumber: order.orderNumber,
         total: order.total,
         status: order.status,
-        estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+        trackingNumber: order.trackingNumber,
+        estimatedDelivery: order.shippingStats?.estimatedDelivery || new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+        delhiveryData: order.delhiveryData,
+        shippingStats: order.shippingStats,
       }
     });
 

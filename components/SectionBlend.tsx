@@ -83,13 +83,13 @@ export default function SectionBlend({
         <>
           {/* Primary top blend */}
           <div 
-            className={`absolute top-0 left-0 right-0 ${heightClass} gradient-feather z-10 ${className}`}
+            className={`absolute top-0 left-0 right-0 ${heightClass} gradient-feather z-10 ${className} pointer-events-none`}
             style={topBlendStyle}
           />
           
           {/* Secondary feathered edge */}
           <div 
-            className="absolute top-0 left-0 right-0 h-32 z-9"
+            className="absolute top-0 left-0 right-0 h-32 z-9 pointer-events-none"
             style={{
               background: `
                 linear-gradient(to bottom, 
@@ -110,13 +110,13 @@ export default function SectionBlend({
         <>
           {/* Primary bottom blend */}
           <div 
-            className={`absolute bottom-0 left-0 right-0 ${heightClass} gradient-feather z-15 ${className}`}
+            className={`absolute bottom-0 left-0 right-0 ${heightClass} gradient-feather z-15 ${className} pointer-events-none`}
             style={bottomBlendStyle}
           />
           
           {/* Secondary feathered edge */}
           <div 
-            className="absolute bottom-0 left-0 right-0 h-32 z-14"
+            className="absolute bottom-0 left-0 right-0 h-32 z-14 pointer-events-none"
             style={{
               background: `
                 linear-gradient(to bottom, 

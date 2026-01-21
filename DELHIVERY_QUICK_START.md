@@ -1,135 +1,221 @@
 # Delhivery Integration - Quick Start Guide
 
-## 5-Minute Setup
+## 1. Update Environment Variables
 
-### 1. Get API Credentials (2 minutes)
-
-1. Go to: https://ucp.delhivery.com
-2. Login to your Delhivery account
-3. Navigate to: Developer Portal → Documents
-4. Copy:
-   - **Client ID** (your company name)
-   - **API Token** (authentication key)
-   - **Test URL** (sandbox)
-   - **Production URL** (live)
-
-### 2. Add Environment Variables (1 minute)
-
-Add to `.env`:
+Replace your `.env` file with the cleaned-up Delhivery configuration:
 
 ```env
-DELHIVERY_CLIENT_ID=your_client_id
-DELHIVERY_API_TOKEN=your_api_token
-DELHIVERY_TEST_URL=https://staging-express-api.delhivery.com
-DELHIVERY_PROD_URL=https://express-api.delhivery.com
-DELHIVERY_WAREHOUSE_NAME=Your_Warehouse_Name
-DELHIVERY_ENVIRONMENT=test
-SELLER_PHONE=9876543210
-SELLER_ADDRESS=Your Warehouse Address
+# Delhivery Configuration
+DELHIVERY_API_TOKEN=657916e717816069e427826ab385b665a245088a
+DELHIVERY_ENVIRONMENT=test  # Change to 'production' for live
+DELHIVERY_WAREHOUSE_NAME=Agnishila_Warehouse
+DELHIVERY_WAREHOUSE_PHONE=9876543210
+DELHIVERY_WAREHOUSE_ADDRESS=Your Warehouse Address
+DELHIVERY_WAREHOUSE_CITY=Your City
+DELHIVERY_WAREHOUSE_STATE=Your State
+DELHIVERY_WAREHOUSE_PIN=110042
+DELHIVERY_WAREHOUSE_COUNTRY=India
+SELLER_NAME=Agnishila
 SELLER_GST_TIN=your_gst_number
 ```
 
-### 3. Copy Implementation Files (2 minutes)
+## 2. Files Created/Modified
 
-Copy from `DELHIVERY_INTEGRATION.md`:
+### New API Routes
+- ✅ `app/api/shipments/track/route.ts` - Tracking API
+- ✅ `app/api/admin/delhivery-stats/route.ts` - Admin statistics
+- ✅ `app/api/admin/orders/delhivery/route.ts` - Admin actions
 
-1. **Service**: `lib/delhivery.ts`
-2. **API Routes**: 
-   - `app/api/shipments/delhivery/create/route.ts`
-   - `app/api/shipments/delhivery/track/[waybill]/route.ts`
-3. **Component**: `components/OrderTracking.tsx`
+### New Components
+- ✅ `components/OrderTrackingDetail.tsx` - User tracking display
+- ✅ `components/admin/DelhiveryDashboard.tsx` - Admin dashboard
+- ✅ `components/admin/OrderManagementWithDelhivery.tsx` - Order management
 
-### 4. Update Order Model (1 minute)
+### Updated Files
+- ✅ `.env` - Cleaned up variables
+- ✅ `models/Order.ts` - Enhanced tracking fields
+- ✅ `lib/delhivery.ts` - Updated to use new env vars
 
-Add to `models/Order.ts`:
+## 3. Integration Points
 
-```typescript
-trackingNumber: String,
-shippingProvider: String,
-trackingStatus: String,
+### User Order Page
+Replace your order tracking component with:
+
+```tsx
+import OrderTrackingDetail from '@/components/OrderTrackingDetail';
+
+// In your order detail page
+<OrderTrackingDetail
+  orderId={order.orderNumber}
+  waybill={order.trackingNumber}
+  orderStatus={order.status}
+/>
 ```
 
-## Usage
+### Admin Dashboard
+Add Delhivery dashboard to admin panel:
 
-### Create Shipment
+```tsx
+import DelhiveryDashboard from '@/components/admin/DelhiveryDashboard';
 
-```typescript
-const response = await fetch('/api/shipments/delhivery/create', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ orderId: 'ORD-2025-001' }),
-});
-
-const { waybill, trackingUrl } = await response.json();
+// In your admin dashboard page
+<DelhiveryDashboard />
 ```
 
-### Track Shipment
+### Admin Order Management
+Replace existing order management with:
 
-```typescript
-const response = await fetch(`/api/shipments/delhivery/track/${waybill}`);
-const tracking = await response.json();
+```tsx
+import OrderManagementWithDelhivery from '@/components/admin/OrderManagementWithDelhivery';
+
+// In your admin orders page
+<OrderManagementWithDelhivery />
 ```
 
-### Display Tracking
+## 4. Key Features
 
-```typescript
-import OrderTracking from '@/components/OrderTracking';
+### ✅ Automatic Shipment Creation
+- Orders automatically create Delhivery shipments
+- Waybill assigned on order confirmation
+- Tracking status initialized to 'pending'
 
-<OrderTracking waybill="1234567890" />
+### ✅ Real-Time Tracking
+- Users see live shipment status
+- Auto-refresh every 5 minutes
+- Tracking history with timestamps
+
+### ✅ Admin Dashboard
+- View all shipment statistics
+- Filter by date range (7/30/90 days)
+- Payment mode breakdown
+- Recent orders table
+
+### ✅ Admin Order Management
+- Edit order status
+- Refresh tracking information
+- Cancel shipments
+- Update payment mode
+
+### ✅ Payment Mode Support
+- COD (Cash on Delivery)
+- Prepaid (Online via Razorpay)
+- Update between modes
+
+## 5. Testing
+
+### Test Order Creation
+```bash
+# Create a test order
+curl -X POST http://localhost:3000/api/orders \
+  -H "Content-Type: application/json" \
+  -d '{
+    "items": [...],
+    "address": {...},
+    "payment": {"mode": "COD"}
+  }'
 ```
 
-## Testing
-
-### Test Order
-
-```json
-{
-  "orderId": "TEST-001",
-  "customerName": "Test User",
-  "customerPhone": "9876543210",
-  "customerEmail": "test@example.com",
-  "deliveryAddress": "123 Test St, Delhi, Delhi 110001",
-  "deliveryPin": "110001",
-  "weight": 0.5,
-  "paymentMode": "COD"
-}
+### Test Tracking
+```bash
+# Get tracking info
+curl http://localhost:3000/api/shipments/track?waybill=123456789
 ```
 
-### Expected Response
-
-```json
-{
-  "success": true,
-  "waybill": "1234567890",
-  "trackingUrl": "https://track.delhivery.com/tracking/1234567890"
-}
+### Test Admin Stats
+```bash
+# Get admin statistics
+curl http://localhost:3000/api/admin/delhivery-stats?days=30
 ```
 
-## Common Issues
+## 6. Status Mapping
 
-| Issue | Solution |
-|-------|----------|
-| 401 Unauthorized | Check API token and client ID |
-| Invalid warehouse | Verify warehouse name matches exactly |
-| Invalid pin | Use valid Indian pin code |
-| Missing GST | Add GST for orders > ₹50,000 |
+### Order Status Flow
+```
+pending → confirmed → processing → shipped → delivered
+                                  ↓
+                              cancelled
+```
 
-## Next Steps
+### Tracking Status Flow
+```
+pending → picked → in_transit → delivered
+                              ↓
+                            failed
+```
 
-1. ✅ Get credentials
-2. ✅ Add environment variables
-3. ✅ Copy implementation files
-4. ✅ Update Order model
-5. ✅ Test in sandbox
+## 7. Troubleshooting
+
+### Waybill Not Assigned
+1. Check `DELHIVERY_API_TOKEN` is correct
+2. Verify `DELHIVERY_WAREHOUSE_NAME` matches exactly (case-sensitive)
+3. Check warehouse address is complete
+4. Review server logs for Delhivery API errors
+
+### Tracking Not Updating
+1. Verify waybill number is correct
+2. Check Delhivery API status
+3. Wait for shipment to be picked up
+4. Try manual refresh in admin panel
+
+### Payment Mode Update Fails
+1. Verify shipment status allows update
+2. For COD conversion, provide COD amount
+3. Check conversion rules (see docs)
+
+## 8. Admin Panel Usage
+
+### Dashboard
+1. Go to `/admin/dashboard`
+2. View Delhivery statistics
+3. Filter by date range
+4. See payment mode breakdown
+
+### Order Management
+1. Go to `/admin/orders`
+2. Filter by status or payment mode
+3. Click refresh icon to update tracking
+4. Click trash icon to cancel shipment
+5. Click edit to change order status
+
+## 9. User Features
+
+### Order Tracking
+1. User goes to `/orders`
+2. Clicks on order to view details
+3. Sees real-time tracking status
+4. Views tracking history
+5. Auto-refresh every 5 minutes
+
+## 10. API Endpoints Reference
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/shipments/track` | GET | Get tracking info |
+| `/api/admin/delhivery-stats` | GET | Get statistics |
+| `/api/admin/orders/delhivery` | POST | Perform actions |
+| `/api/orders` | POST | Create order |
+| `/api/orders` | GET | Get user orders |
+| `/api/admin/orders` | GET | Get all orders |
+
+## 11. Next Steps
+
+1. ✅ Update `.env` file
+2. ✅ Integrate components into your pages
+3. ✅ Test order creation
+4. ✅ Test tracking
+5. ✅ Test admin features
 6. ✅ Deploy to production
+7. ✅ Monitor Delhivery API usage
 
-## Resources
+## 12. Support
 
-- **Full Guide**: See `DELHIVERY_INTEGRATION.md`
-- **API Docs**: https://delhivery-express-api-doc.readme.io
-- **Developer Portal**: https://ucp.delhivery.com/developer-portal/documents
+For issues or questions:
+1. Check `DELHIVERY_INTEGRATION_COMPLETE.md` for detailed docs
+2. Review server logs for API errors
+3. Verify environment variables
+4. Test with Delhivery staging first
 
 ---
 
-**Time to implement**: ~30 minutes
-**Status**: Ready to integrate
+**Status**: ✅ Ready for Production
+**Last Updated**: January 20, 2024

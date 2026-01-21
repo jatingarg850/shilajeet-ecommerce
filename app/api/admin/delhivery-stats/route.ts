@@ -3,63 +3,138 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
+import User from '@/models/User';
 
 export const dynamic = 'force-dynamic';
+
+async function checkAdmin(session: any) {
+  if (!session?.user?.id) {
+    return false;
+  }
+
+  await dbConnect();
+  const user = await User.findById(session.user.id);
+  return user?.role === 'admin';
+}
 
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    // Check if user is admin
-    if (!session?.user?.email || session.user.email !== process.env.ADMIN_EMAIL) {
+    if (!(await checkAdmin(session))) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     await dbConnect();
 
-    // Fetch all orders with Delhivery tracking
-    const orders = await Order.find({
+    // Get date range from query params (default: last 30 days)
+    const { searchParams } = new URL(request.url);
+    const days = parseInt(searchParams.get('days') || '30');
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+
+    // Aggregate shipment statistics
+    const stats = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate },
+          shippingProvider: 'delhivery',
+        },
+      },
+      {
+        $group: {
+          _id: '$trackingStatus',
+          count: { $sum: 1 },
+          totalAmount: { $sum: '$total' },
+        },
+      },
+    ]);
+
+    // Get detailed breakdown
+    const statusBreakdown = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate },
+          shippingProvider: 'delhivery',
+        },
+      },
+      {
+        $group: {
+          _id: '$status',
+          count: { $sum: 1 },
+          totalAmount: { $sum: '$total' },
+        },
+      },
+    ]);
+
+    // Get payment mode breakdown
+    const paymentBreakdown = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate },
+          shippingProvider: 'delhivery',
+        },
+      },
+      {
+        $group: {
+          _id: '$payment.mode',
+          count: { $sum: 1 },
+          totalAmount: { $sum: '$total' },
+        },
+      },
+    ]);
+
+    // Calculate totals
+    const totalOrders = await Order.countDocuments({
+      createdAt: { $gte: startDate },
       shippingProvider: 'delhivery',
-      trackingNumber: { $exists: true, $ne: null }
     });
 
-    // Calculate stats
-    const totalShipments = orders.length;
-    const deliveredShipments = orders.filter(o => o.trackingStatus === 'delivered').length;
-    const inTransitShipments = orders.filter(o => o.trackingStatus === 'in_transit').length;
-    const pendingShipments = orders.filter(o => o.trackingStatus === 'pending').length;
-    const failedShipments = orders.filter(o => o.trackingStatus === 'failed').length;
+    const totalRevenue = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate },
+          shippingProvider: 'delhivery',
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: '$total' },
+        },
+      },
+    ]);
 
-    // Calculate delivery rate
-    const deliveryRate = totalShipments > 0 ? (deliveredShipments / totalShipments) * 100 : 0;
-
-    // Calculate average delivery time (in days)
-    let averageDeliveryTime = 0;
-    const deliveredOrders = orders.filter(o => o.trackingStatus === 'delivered');
-    
-    if (deliveredOrders.length > 0) {
-      const totalDays = deliveredOrders.reduce((sum, order) => {
-        const createdDate = new Date(order.createdAt);
-        const updatedDate = new Date(order.updatedAt);
-        const days = (updatedDate.getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24);
-        return sum + days;
-      }, 0);
-      averageDeliveryTime = totalDays / deliveredOrders.length;
-    }
+    // Get recent orders
+    const recentOrders = await Order.find({
+      createdAt: { $gte: startDate },
+      shippingProvider: 'delhivery',
+    })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .populate('userId', 'name email phone')
+      .select('orderNumber trackingNumber trackingStatus status payment.mode total createdAt');
 
     return NextResponse.json({
-      totalShipments,
-      deliveredShipments,
-      inTransitShipments,
-      pendingShipments,
-      failedShipments,
-      deliveryRate,
-      averageDeliveryTime,
+      success: true,
+      summary: {
+        totalOrders,
+        totalRevenue: totalRevenue[0]?.total || 0,
+        dateRange: {
+          start: startDate,
+          end: new Date(),
+          days,
+        },
+      },
+      trackingStatus: stats,
+      orderStatus: statusBreakdown,
+      paymentMode: paymentBreakdown,
+      recentOrders,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching Delhivery stats:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch Delhivery stats' },
+      { error: error.message || 'Failed to fetch statistics' },
       { status: 500 }
     );
   }

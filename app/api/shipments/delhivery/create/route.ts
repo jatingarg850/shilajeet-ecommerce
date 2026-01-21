@@ -5,6 +5,8 @@ import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
 import delhiveryService from '@/lib/delhivery';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -38,19 +40,59 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Create shipment with Delhivery
+    // Prepare shipment data according to Delhivery API spec
     const shipmentData = {
       orderId: order.orderNumber,
       customerName: `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}`,
       customerPhone: order.shippingAddress.phone,
       customerEmail: order.shippingAddress.email,
-      deliveryAddress: `${order.shippingAddress.address1}${order.shippingAddress.address2 ? ', ' + order.shippingAddress.address2 : ''}, ${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}`,
+      deliveryAddress: `${order.shippingAddress.address1}${order.shippingAddress.address2 ? ', ' + order.shippingAddress.address2 : ''}`,
+      deliveryCity: order.shippingAddress.city,
+      deliveryState: order.shippingAddress.state,
       deliveryPin: order.shippingAddress.zipCode,
-      weight: 0.5, // Default weight for products
-      paymentMode: order.payment.paymentMethod === 'Razorpay' ? 'Prepaid' : 'COD',
+      
+      // Weight in grams (default 500g for wellness products)
+      weight: 0.5,
+      
+      // Payment mode based on payment method
+      paymentMode: (order.payment?.mode === 'COD' ? 'COD' : 'Prepaid') as 'COD' | 'Prepaid',
+      
+      // COD amount if applicable
+      codAmount: order.payment?.mode === 'COD' ? order.total : 0,
+      
+      // Product information
+      productsDesc: order.items.map((item: any) => `${item.quantity}x ${item.name}`).join(', '),
+      quantity: order.items.reduce((sum: number, item: any) => sum + item.quantity, 0).toString(),
+      
+      // Shipping preferences
+      shippingMode: 'Surface' as 'Surface' | 'Express',
+      transportSpeed: 'D' as 'D' | 'F', // Standard delivery
+      // Shipment dimensions (in cm)
+      shipmentHeight: 15,
+      shipmentWidth: 15,
+      shipmentLength: 20,
+      
+      // Return address (for reverse logistics if needed)
+      returnName: process.env.SELLER_NAME || 'Agnishila',
+      returnAddress: process.env.SELLER_ADDRESS || '',
+      returnCity: process.env.SELLER_CITY || '',
+      returnState: process.env.SELLER_STATE || '',
+      returnPin: process.env.SELLER_PIN || '',
+      returnPhone: process.env.SELLER_PHONE || '',
+      
+      // Special handling
+      fragile_shipment: false,
+      plastic_packaging: false,
+      dangerous_good: false,
     };
 
     const result = await delhiveryService.createShipment(shipmentData);
+
+    if (!result.success) {
+      return NextResponse.json({
+        error: result.message || 'Failed to create shipment'
+      }, { status: 400 });
+    }
 
     // Save waybill to order
     order.trackingNumber = result.waybill;
@@ -61,10 +103,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       waybill: result.waybill,
-      trackingUrl: `https://track.delhivery.com/tracking/${result.waybill}`,
+      shipmentId: result.shipmentId,
+      trackingUrl: result.trackingUrl,
+      message: result.message || 'Shipment created successfully'
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating shipment:', error);
-    return NextResponse.json({ error: 'Failed to create shipment' }, { status: 500 });
+    return NextResponse.json({
+      error: error.message || 'Failed to create shipment'
+    }, { status: 500 });
   }
 }

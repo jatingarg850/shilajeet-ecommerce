@@ -60,18 +60,22 @@ export const useRazorpay = () => {
     };
   }, []);
 
-  const createOrder = async (amount: number, currency: string = 'INR') => {
+  const createOrder = async (amount: number, orderId?: string) => {
     try {
       const response = await fetch('/api/payment/create-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount, currency }),
+        body: JSON.stringify({ 
+          amount, 
+          orderId: orderId || `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create order');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create order');
       }
 
       return await response.json();

@@ -173,6 +173,31 @@ const OrderSchema = new mongoose.Schema({
     enum: ['pending', 'picked', 'in_transit', 'delivered', 'failed'],
     default: 'pending',
   },
+  // Delhivery tracking data
+  delhiveryData: {
+    waybill: String,
+    shipmentId: String,
+    trackingUrl: String,
+    expectedDeliveryDate: Date,
+    expectedDeliveryDays: Number,
+    currentStatus: String,
+    lastUpdate: Date,
+    scans: [{
+      status: String,
+      location: String,
+      timestamp: Date,
+      remarks: String,
+    }],
+  },
+  // Shipping stats
+  shippingStats: {
+    pickedDate: Date,
+    inTransitDate: Date,
+    deliveredDate: Date,
+    attemptCount: Number,
+    lastLocation: String,
+    estimatedDelivery: Date,
+  },
   notes: {
     type: String,
     required: false,

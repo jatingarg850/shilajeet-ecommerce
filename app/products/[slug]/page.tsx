@@ -813,7 +813,7 @@ export default function ProductDetailPage() {
                             className="flex items-center space-x-2 text-gray-400 hover:text-primary-400 transition-colors mb-8"
                         >
                             <ArrowLeft size={20} />
-                            <span className="text-sm uppercase tracking-wider">Back to Products</span>
+                            <span className="text-sm uppercase tracking-wider">Back</span>
                         </button>
 
                         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
