@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { items, address, payment, couponCode, idempotencyKey } = await request.json();
+    const { items, address, payment, couponCode, redeemedCoins, idempotencyKey } = await request.json();
 
     if (!items || !address || !payment) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -83,7 +83,18 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    const calculatedTotal = Math.max(0, subtotal + tax + shipping - discountAmount);
+    // Handle coin redemption if provided
+    let coinDiscount = 0;
+    if (redeemedCoins && redeemedCoins > 0) {
+      // Validate user has enough coins
+      const userCoins = await FireCoins.findOne({ userId: session.user.email });
+      if (!userCoins || userCoins.balance < redeemedCoins) {
+        return NextResponse.json({ error: 'Insufficient fire coins balance' }, { status: 400 });
+      }
+      coinDiscount = redeemedCoins;
+    }
+    
+    const finalTotal = Math.max(0, subtotal + tax + shipping - discountAmount - coinDiscount);
 
     // Determine payment mode and method
     const paymentMode = payment.mode || 'COD'; // Default to COD
@@ -142,8 +153,8 @@ export async function POST(request: NextRequest) {
       tax,
       shipping,
       couponCode: couponCode || undefined,
-      discountAmount,
-      total: calculatedTotal,
+      discountAmount: discountAmount + coinDiscount,
+      total: finalTotal,
       status: 'confirmed',
     });
 
@@ -162,7 +173,7 @@ export async function POST(request: NextRequest) {
         deliveryPin: address.zipCode,
         weight: 0.5, // 500 grams
         paymentMode: (paymentMode === 'Prepaid' ? 'Prepaid' : 'COD') as 'COD' | 'Prepaid',
-        codAmount: paymentMode === 'COD' ? calculatedTotal : 0,
+        codAmount: paymentMode === 'COD' ? finalTotal : 0,
         productsDesc: items.map((item: any) => item.name).join(', '),
         quantity: items.reduce((sum: number, item: any) => sum + item.quantity, 0).toString(),
         shippingMode: 'Surface' as 'Surface' | 'Express',
@@ -232,13 +243,17 @@ export async function POST(request: NextRequest) {
       }
     } catch (shipmentError) {
       console.error('Error creating Delhivery shipment:', shipmentError);
-      // Set default delivery date even if shipment creation fails
+      // Don't fail the order if shipment creation fails - just set default delivery date
+      // This allows orders to be created even if Delhivery API has issues
       const defaultDeliveryDate = new Date();
       defaultDeliveryDate.setDate(defaultDeliveryDate.getDate() + 5);
       order.shippingStats = {
         estimatedDelivery: defaultDeliveryDate,
       };
+      order.status = 'confirmed'; // Still mark as confirmed even if shipment creation fails
       await order.save();
+      
+      console.warn('Order created successfully but Delhivery shipment creation failed. Order will need manual shipment creation.');
     }
 
     // Update coupon usage if applied

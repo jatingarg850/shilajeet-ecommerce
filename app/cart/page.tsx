@@ -5,13 +5,16 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useCart } from '@/contexts/CartContext';
 import { useCoupon } from '@/contexts/CouponContext';
+import { useCartCoins } from '@/contexts/CartCoinsContext';
 import CouponInput from '@/components/CouponInput';
+import CoinRedemption from '@/components/CoinRedemption';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function CartPage() {
   const { items, total, itemCount, updateQuantity, removeItem, clearCart, isLoading } = useCart();
   const { appliedCoupon } = useCoupon();
+  const { redeemedCoins, setRedeemedCoins } = useCartCoins();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -246,6 +249,15 @@ export default function CartPage() {
                 {/* Coupon Input */}
                 <CouponInput orderAmount={total} />
 
+                {/* Coin Redemption */}
+                <div className="mb-8">
+                  <CoinRedemption 
+                    maxRedeemable={total - (appliedCoupon?.discountAmount || 0)}
+                    onRedemptionChange={setRedeemedCoins}
+                    appliedCoins={redeemedCoins}
+                  />
+                </div>
+
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Subtotal ({itemCount} items)</span>
@@ -258,6 +270,13 @@ export default function CartPage() {
                       <span className="font-bold">-{formatPrice(appliedCoupon.discountAmount)}</span>
                     </div>
                   )}
+
+                  {redeemedCoins > 0 && (
+                    <div className="flex justify-between items-center text-orange-400">
+                      <span>Fire Coins Discount</span>
+                      <span className="font-bold">-{formatPrice(redeemedCoins)}</span>
+                    </div>
+                  )}
                   
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Shipping</span>
@@ -268,7 +287,7 @@ export default function CartPage() {
                     <div className="flex justify-between items-center">
                       <span className="text-xl font-bold text-white uppercase tracking-wider">Total</span>
                       <span className="text-2xl font-bold text-primary-400">
-                        {formatPrice(Math.max(0, total - (appliedCoupon?.discountAmount || 0)))}
+                        {formatPrice(Math.max(0, total - (appliedCoupon?.discountAmount || 0) - redeemedCoins))}
                       </span>
                     </div>
                   </div>

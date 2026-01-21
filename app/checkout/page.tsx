@@ -7,6 +7,8 @@ import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { useCoupon } from '@/contexts/CouponContext';
+import { useCartCoins } from '@/contexts/CartCoinsContext';
+import { useFireCoins } from '@/contexts/FireCoinsContext';
 import AuthModal from '@/components/AuthModal';
 import CheckoutSteps from '@/components/CheckoutSteps';
 import AddressForm from '@/components/AddressForm';
@@ -35,6 +37,8 @@ export default function CheckoutPage() {
   const { isAuthenticated, user } = useAuth();
   const { items, total, itemCount, clearCart } = useCart();
   const { appliedCoupon, removeCoupon } = useCoupon();
+  const { redeemedCoins, clearRedeemedCoins } = useCartCoins();
+  const { redeemCoins } = useFireCoins();
   
   const [currentStep, setCurrentStep] = useState<CheckoutStep>('auth');
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -81,6 +85,7 @@ export default function CheckoutPage() {
         address,
         payment: paymentData,
         couponCode: appliedCoupon?.code,
+        redeemedCoins: redeemedCoins,
         idempotencyKey: `${user?.id}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       };
 
@@ -92,8 +97,16 @@ export default function CheckoutPage() {
 
       if (response.ok) {
         const responseData = await response.json();
+        
+        // Redeem coins if any were used
+        if (redeemedCoins > 0) {
+          await redeemCoins(redeemedCoins, responseData.order.orderNumber);
+        }
+        
         clearCart();
-        removeCoupon(); // Clear applied coupon after successful order
+        removeCoupon();
+        clearRedeemedCoins();
+        
         // Redirect to order confirmation page
         router.push(`/order-confirmation?orderNumber=${responseData.order.orderNumber}`);
       } else {
@@ -109,8 +122,8 @@ export default function CheckoutPage() {
     }
   };
 
-  // Calculate final total with coupon discount
-  const finalTotal = Math.max(0, total - (appliedCoupon?.discountAmount || 0));
+  // Calculate final total with coupon and coin discounts
+  const finalTotal = Math.max(0, total - (appliedCoupon?.discountAmount || 0) - redeemedCoins);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {

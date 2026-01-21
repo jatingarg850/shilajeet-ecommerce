@@ -4,6 +4,7 @@ import './globals.css'
 import { Providers } from './providers'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { CartProvider } from '@/contexts/CartContext'
+import { CartCoinsProvider } from '@/contexts/CartCoinsContext'
 import { WishlistProvider } from '@/contexts/WishlistContext'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -29,9 +30,11 @@ export default function RootLayout({
         <Providers>
           <AuthProvider>
             <CartProvider>
-              <WishlistProvider>
-                {children}
-              </WishlistProvider>
+              <CartCoinsProvider>
+                <WishlistProvider>
+                  {children}
+                </WishlistProvider>
+              </CartCoinsProvider>
             </CartProvider>
           </AuthProvider>
         </Providers>
