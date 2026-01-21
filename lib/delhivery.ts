@@ -83,7 +83,7 @@ class DelhiveryService {
     };
   }
 
-  async createShipment(orderData: ShipmentData) {
+  async createShipment(orderData: ShipmentData, retryCount = 0) {
     try {
       const customerPhones = Array.isArray(orderData.customerPhone)
         ? orderData.customerPhone
@@ -95,40 +95,36 @@ class DelhiveryService {
 
       const shipmentPayload: any = {
         name: orderData.customerName,
-        order: orderData.orderId,
-        phone: customerPhones,
         add: orderData.deliveryAddress,
-        pin: parseInt(orderData.deliveryPin),
+        pin: orderData.deliveryPin,
         city: orderData.deliveryCity,
         state: orderData.deliveryState,
         country: 'India',
+        phone: customerPhones[0] || orderData.customerPhone,
+        order: orderData.orderId,
         payment_mode: orderData.paymentMode || 'Prepaid',
-        address_type: 'home',
-        shipping_mode: orderData.shippingMode || 'Surface',
-        transport_speed: orderData.transportSpeed || 'D',
-        shipment_height: orderData.shipmentHeight || 10,
-        shipment_width: orderData.shipmentWidth || 10,
-        shipment_length: orderData.shipmentLength || 10,
-        weight: orderData.weight ? Math.round(orderData.weight * 1000) : 500,
+        return_pin: process.env.DELHIVERY_WAREHOUSE_PIN || '110035',
+        return_city: process.env.DELHIVERY_WAREHOUSE_CITY || 'Delhi',
+        return_phone: process.env.DELHIVERY_WAREHOUSE_PHONE || '8448893545',
+        return_add: process.env.DELHIVERY_WAREHOUSE_ADDRESS || '',
+        return_state: process.env.DELHIVERY_WAREHOUSE_STATE || 'Delhi',
+        return_country: 'India',
         products_desc: orderData.productsDesc || 'Wellness Products',
-        quantity: orderData.quantity || '1',
         hsn_code: orderData.hsn_code || '30049090',
         cod_amount: orderData.codAmount || 0,
-        seller_name: process.env.SELLER_NAME || 'NK INTERNATIONAL',
+        order_date: new Date().toISOString().split('T')[0],
+        total_amount: orderData.codAmount || 0,
         seller_add: process.env.DELHIVERY_WAREHOUSE_ADDRESS || '',
+        seller_name: process.env.SELLER_NAME || 'NK INTERNATIONAL',
         seller_inv: orderData.seller_inv || '',
-        seller_gst_tin: process.env.SELLER_GST_TIN || '07TACPB3424K1Z9',
-        return_name: orderData.returnName || process.env.SELLER_NAME || 'NK INTERNATIONAL',
-        return_address: orderData.returnAddress || process.env.DELHIVERY_RETURN_ADDRESS || process.env.DELHIVERY_WAREHOUSE_ADDRESS || '',
-        return_city: orderData.returnCity || process.env.DELHIVERY_RETURN_CITY || process.env.DELHIVERY_WAREHOUSE_CITY || 'Delhi',
-        return_state: orderData.returnState || process.env.DELHIVERY_RETURN_STATE || process.env.DELHIVERY_WAREHOUSE_STATE || 'Delhi',
-        return_country: orderData.returnCountry || 'India',
-        return_pin: orderData.returnPin ? parseInt(orderData.returnPin) : (process.env.DELHIVERY_RETURN_PIN || process.env.DELHIVERY_WAREHOUSE_PIN ? parseInt(process.env.DELHIVERY_RETURN_PIN || process.env.DELHIVERY_WAREHOUSE_PIN || '110035') : 110035),
-        return_phone: returnPhones.length > 0 ? returnPhones : [process.env.DELHIVERY_RETURN_PHONE || process.env.DELHIVERY_WAREHOUSE_PHONE || ''],
-        fragile_shipment: orderData.fragile_shipment || false,
-        plastic_packaging: orderData.plastic_packaging || false,
-        dangerous_good: orderData.dangerous_good || false,
-        ewbn: orderData.ewbn || '',
+        quantity: orderData.quantity || '1',
+        waybill: '',
+        shipment_width: orderData.shipmentWidth || '10',
+        shipment_height: orderData.shipmentHeight || '10',
+        weight: orderData.weight ? String(Math.round(orderData.weight * 1000)) : '500',
+        shipping_mode: orderData.shippingMode || 'Surface',
+        address_type: 'home',
+        transport_speed: orderData.transportSpeed || 'D',
       };
 
       // Remove empty values but keep 0 and false
@@ -188,12 +184,29 @@ class DelhiveryService {
       // If we get here, shipment creation failed
       const errorMsg = response.data.rmk || response.data.message || 'Unknown error';
       console.error('Shipment creation failed:', errorMsg);
+      
+      // Check for specific Delhivery errors
+      if (errorMsg.includes('end_date')) {
+        console.error('⚠️ DELHIVERY CONFIGURATION ERROR:');
+        console.error('The warehouse is missing working days configuration.');
+        console.error('Fix: Log in to https://one.delhivery.com');
+        console.error('1. Go to Settings → Pickup Locations');
+        console.error('2. Edit "Agnishila Warehouse"');
+        console.error('3. Uncheck all working days, then check Monday-Saturday');
+        console.error('4. Select "Evening 14:00:00 - 18:00:00" pickup slot');
+        console.error('5. Save Changes');
+        console.error('6. Wait 15 minutes for Delhivery to sync');
+        console.error('See: DELHIVERY_FINAL_FIX_INSTRUCTIONS.md');
+      }
+      
       throw new Error(errorMsg);
     } catch (error: any) {
       console.error('Delhivery shipment creation error:', {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
+        warehouseName: process.env.DELHIVERY_WAREHOUSE_NAME,
+        environment: process.env.DELHIVERY_ENVIRONMENT,
       });
       throw new Error(error.response?.data?.message || error.message || 'Failed to create shipment with Delhivery');
     }
