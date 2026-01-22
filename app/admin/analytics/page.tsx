@@ -81,7 +81,21 @@ export default function AnalyticsPage() {
     }
   };
 
-  const formatPrice = (price: number) => {
+  const formatGrowth = (growth: number | undefined) => {
+    if (growth === undefined || growth === null) {
+      return <span className="text-gray-400">-</span>;
+    }
+    const isPositive = growth >= 0;
+    return (
+      <span className={`flex items-center gap-1 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+        {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+        {Math.abs(growth).toFixed(1)}%
+      </span>
+    );
+  };
+
+  const formatPrice = (price: number | undefined) => {
+    if (!price && price !== 0) return '₹0';
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
       currency: 'INR',
@@ -89,13 +103,16 @@ export default function AnalyticsPage() {
     }).format(price);
   };
 
-  const formatGrowth = (growth: number) => {
-    const isPositive = growth >= 0;
-    return (
-      <span className={`flex items-center gap-1 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
-        {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-        {Math.abs(growth).toFixed(1)}%
-      </span>
+  const isValidAnalytics = (data: AnalyticsData | null): boolean => {
+    if (!data) return false;
+    return !!(
+      data.revenue &&
+      data.orders &&
+      data.customers &&
+      data.avgOrderValue &&
+      Array.isArray(data.topProducts) &&
+      Array.isArray(data.salesByCategory) &&
+      Array.isArray(data.recentActivity)
     );
   };
 
@@ -113,7 +130,7 @@ export default function AnalyticsPage() {
     );
   }
 
-  if (!analytics) {
+  if (!analytics || !isValidAnalytics(analytics)) {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center">

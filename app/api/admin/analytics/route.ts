@@ -77,8 +77,8 @@ export async function GET(request: NextRequest) {
     });
 
     // Calculate revenue
-    const currentRevenue = currentOrders.reduce((sum, order) => sum + order.total, 0);
-    const previousRevenue = previousOrders.reduce((sum, order) => sum + order.total, 0);
+    const currentRevenue = currentOrders.reduce((sum, order) => sum + (order.total || 0), 0);
+    const previousRevenue = previousOrders.reduce((sum, order) => sum + (order.total || 0), 0);
     const revenueGrowth = previousRevenue > 0 
       ? ((currentRevenue - previousRevenue) / previousRevenue) * 100 
       : 0;
@@ -115,48 +115,59 @@ export async function GET(request: NextRequest) {
     // Top products
     const productSales: any = {};
     currentOrders.forEach(order => {
-      order.items.forEach((item: any) => {
-        const productId = item.productId?.toString() || item.name;
-        if (!productSales[productId]) {
-          productSales[productId] = {
-            name: item.name,
-            sales: 0,
-            revenue: 0
-          };
-        }
-        productSales[productId].sales += item.quantity;
-        productSales[productId].revenue += item.price * item.quantity;
-      });
+      if (order.items && Array.isArray(order.items)) {
+        order.items.forEach((item: any) => {
+          const productId = item.productId?.toString() || item.name;
+          if (!productSales[productId]) {
+            productSales[productId] = {
+              name: item.name || 'Unknown Product',
+              sales: 0,
+              revenue: 0
+            };
+          }
+          productSales[productId].sales += item.quantity || 0;
+          productSales[productId].revenue += (item.price || 0) * (item.quantity || 0);
+        });
+      }
     });
 
     const topProducts = Object.values(productSales)
       .sort((a: any, b: any) => b.revenue - a.revenue)
-      .slice(0, 5);
+      .slice(0, 5)
+      .map((p: any) => ({
+        name: p.name || 'Unknown',
+        sales: p.sales || 0,
+        revenue: p.revenue || 0
+      }));
 
     // Sales by category
     const products = await Product.find({});
     const categoryMap: any = {};
     products.forEach(product => {
-      categoryMap[product._id.toString()] = product.category;
+      categoryMap[product._id.toString()] = product.category || 'Other';
     });
 
     const categorySales: any = {};
     currentOrders.forEach(order => {
-      order.items.forEach((item: any) => {
-        const category = categoryMap[item.productId?.toString()] || 'Other';
-        if (!categorySales[category]) {
-          categorySales[category] = 0;
-        }
-        categorySales[category] += item.quantity;
-      });
+      if (order.items && Array.isArray(order.items)) {
+        order.items.forEach((item: any) => {
+          const category = categoryMap[item.productId?.toString()] || 'Other';
+          if (!categorySales[category]) {
+            categorySales[category] = 0;
+          }
+          categorySales[category] += item.quantity || 0;
+        });
+      }
     });
 
     const totalCategorySales = Object.values(categorySales).reduce((sum: any, count: any) => sum + count, 0) as number;
-    const salesByCategory = Object.entries(categorySales).map(([category, count]: any) => ({
-      category,
-      count,
-      percentage: totalCategorySales > 0 ? Math.round((count / totalCategorySales) * 100) : 0
-    }));
+    const salesByCategory = Object.entries(categorySales)
+      .map(([category, count]: any) => ({
+        category: category || 'Other',
+        count: count || 0,
+        percentage: totalCategorySales > 0 ? Math.round((count / totalCategorySales) * 100) : 0
+      }))
+      .filter(item => item.count > 0);
 
     // Recent activity
     const recentOrders = await Order.find({})
@@ -171,12 +182,12 @@ export async function GET(request: NextRequest) {
     const recentActivity = [
       ...recentOrders.slice(0, 2).map(order => ({
         type: 'order',
-        description: `New order ${order.orderNumber}`,
+        description: `New order ${order.orderNumber || 'N/A'}`,
         time: getTimeAgo(order.createdAt)
       })),
       ...recentCustomers.slice(0, 2).map(customer => ({
         type: 'customer',
-        description: `New customer: ${customer.name}`,
+        description: `New customer: ${customer.name || 'Unknown'}`,
         time: getTimeAgo(customer.createdAt)
       }))
     ].sort((a, b) => {
@@ -186,28 +197,34 @@ export async function GET(request: NextRequest) {
 
     const analytics = {
       revenue: {
-        current: currentRevenue,
-        previous: previousRevenue,
-        growth: revenueGrowth
+        current: currentRevenue || 0,
+        previous: previousRevenue || 0,
+        growth: revenueGrowth || 0
       },
       orders: {
-        current: currentOrders.length,
-        previous: previousOrders.length,
-        growth: ordersGrowth
+        current: currentOrders.length || 0,
+        previous: previousOrders.length || 0,
+        growth: ordersGrowth || 0
       },
       customers: {
-        current: currentCustomers,
-        previous: previousCustomers,
-        growth: customersGrowth
+        current: currentCustomers || 0,
+        previous: previousCustomers || 0,
+        growth: customersGrowth || 0
       },
       avgOrderValue: {
-        current: currentAvgOrderValue,
-        previous: previousAvgOrderValue,
-        growth: avgOrderValueGrowth
+        current: currentAvgOrderValue || 0,
+        previous: previousAvgOrderValue || 0,
+        growth: avgOrderValueGrowth || 0
       },
-      topProducts,
-      salesByCategory,
-      recentActivity
+      topProducts: topProducts.length > 0 ? topProducts : [
+        { name: 'No sales yet', sales: 0, revenue: 0 }
+      ],
+      salesByCategory: salesByCategory.length > 0 ? salesByCategory : [
+        { category: 'No sales yet', count: 0, percentage: 0 }
+      ],
+      recentActivity: recentActivity.length > 0 ? recentActivity : [
+        { type: 'info', description: 'No recent activity', time: 'N/A' }
+      ]
     };
 
     return NextResponse.json(analytics);

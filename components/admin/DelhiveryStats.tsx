@@ -183,7 +183,7 @@ export default function DelhiveryStats() {
               <span className="text-gray-400 text-xs font-bold uppercase tracking-wider">Rate</span>
             </div>
             <div className="text-2xl font-bold text-primary-400">
-              {stats.deliveryRate.toFixed(1)}%
+              {(stats.deliveryRate || 0).toFixed(1)}%
             </div>
           </motion.div>
 
@@ -199,7 +199,7 @@ export default function DelhiveryStats() {
               <span className="text-gray-400 text-xs font-bold uppercase tracking-wider">Avg Days</span>
             </div>
             <div className="text-2xl font-bold text-purple-400">
-              {stats.averageDeliveryTime.toFixed(1)}
+              {(stats.averageDeliveryTime || 0).toFixed(1)}
             </div>
           </motion.div>
         </div>
