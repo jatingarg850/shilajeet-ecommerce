@@ -65,10 +65,14 @@ export default function AnalyticsPage() {
 
   const fetchAnalytics = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`/api/admin/analytics?timeRange=${timeRange}`);
       if (response.ok) {
         const data = await response.json();
         setAnalytics(data);
+      } else {
+        const error = await response.json();
+        console.error('Analytics error:', error);
       }
     } catch (error) {
       console.error('Error fetching analytics:', error);
@@ -109,7 +113,21 @@ export default function AnalyticsPage() {
     );
   }
 
-  if (!analytics) return null;
+  if (!analytics) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <div className="text-gray-400 mb-4">No analytics data available</div>
+          <button
+            onClick={() => fetchAnalytics()}
+            className="px-4 py-2 bg-primary-400 text-black font-bold rounded hover:bg-primary-500 transition-all"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-5">

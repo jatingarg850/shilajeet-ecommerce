@@ -13,21 +13,26 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized - No session' }, { status: 401 });
+    }
+
+    if (!session.user.id) {
+      return NextResponse.json({ error: 'Unauthorized - No user ID' }, { status: 401 });
     }
 
     await dbConnect();
     const user = await User.findById(session.user.id);
     
-    if (!user || user.role !== 'admin') {
+    if (!user) {
+      return NextResponse.json({ 
+        error: 'Forbidden - User not found',
+      }, { status: 403 });
+    }
+
+    if (user.role !== 'admin') {
       return NextResponse.json({ 
         error: 'Forbidden - Admin access required',
-        debug: {
-          userFound: !!user,
-          userRole: user?.role,
-          sessionUserId: session.user.id
-        }
       }, { status: 403 });
     }
 
