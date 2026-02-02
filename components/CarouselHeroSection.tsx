@@ -11,12 +11,14 @@ interface Slide {
   subtitle: string;
   ctaText: string;
   ctaLink: string;
+  imageLink?: string;
 }
 
 interface CarouselSettings {
   slides: Slide[];
   autoPlayInterval: number;
   isActive: boolean;
+  carouselHeight?: number;
 }
 
 const defaultSettings: CarouselSettings = {
@@ -27,6 +29,7 @@ const defaultSettings: CarouselSettings = {
       subtitle: 'Pure Himalayan Shilajit',
       ctaText: 'Shop Now',
       ctaLink: '/products',
+      imageLink: '/products',
     },
     {
       url: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090443/agnishila/out12/3.png',
@@ -34,10 +37,12 @@ const defaultSettings: CarouselSettings = {
       subtitle: 'Stress Relief & Wellness',
       ctaText: 'Explore',
       ctaLink: '/products',
+      imageLink: '/products',
     },
   ],
   autoPlayInterval: 4000,
   isActive: true,
+  carouselHeight: 500,
 };
 
 export default function CarouselHeroSection() {
@@ -99,7 +104,7 @@ export default function CarouselHeroSection() {
   const currentSlideData = settings.slides[currentSlide];
 
   return (
-    <section className="relative w-full bg-black overflow-hidden pt-20">
+    <section className="relative w-full bg-black overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -108,17 +113,21 @@ export default function CarouselHeroSection() {
           exit={{ opacity: 0, x: direction > 0 ? -1000 : 1000 }}
           transition={{ duration: 0.8, ease: 'easeInOut' }}
           className="relative w-full"
-          style={{ aspectRatio: '16 / 9' }}
+          style={{ height: `${settings.carouselHeight || 500}px` }}
         >
           <div className="relative w-full h-full flex items-center justify-center">
-            {/* Background Image - Responsive */}
-            <div className="absolute inset-0">
+            {/* Background Image - Full Width, No Crop */}
+            <div className="absolute inset-0 cursor-pointer group" onClick={() => {
+              if (currentSlideData.imageLink) {
+                window.location.href = currentSlideData.imageLink;
+              }
+            }}>
               <img
                 src={currentSlideData.url}
                 alt={currentSlideData.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain bg-black group-hover:opacity-90 transition-opacity duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent group-hover:from-black/50 group-hover:via-black/30 transition-all duration-300" />
             </div>
 
             {/* Content */}

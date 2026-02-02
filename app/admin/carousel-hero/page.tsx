@@ -11,6 +11,7 @@ interface Slide {
   subtitle: string;
   ctaText: string;
   ctaLink: string;
+  imageLink?: string;
   order: number;
 }
 
@@ -18,6 +19,7 @@ interface CarouselSettings {
   slides: Slide[];
   autoPlayInterval: number;
   isActive: boolean;
+  carouselHeight?: number;
 }
 
 export default function CarouselHeroPage() {
@@ -98,6 +100,7 @@ export default function CarouselHeroPage() {
             subtitle: 'Add your subtitle',
             ctaText: 'Learn More',
             ctaLink: '/products',
+            imageLink: '/products',
             order: settings.slides.length,
           },
         ],
@@ -198,6 +201,26 @@ export default function CarouselHeroPage() {
           />
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Carousel Height (pixels)
+          </label>
+          <input
+            type="number"
+            min="200"
+            max="1000"
+            value={settings.carouselHeight || 500}
+            onChange={(e) =>
+              setSettings({
+                ...settings,
+                carouselHeight: parseInt(e.target.value) || 500,
+              })
+            }
+            className="w-full px-4 py-2 bg-jet-800 border border-jet-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
+          />
+          <p className="text-xs text-gray-500 mt-1">Range: 200px - 1000px</p>
+        </div>
+
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -219,13 +242,13 @@ export default function CarouselHeroPage() {
         <div className="bg-jet-900 border border-jet-800 rounded-lg p-6">
           <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <Eye size={20} />
-            Preview
+            Preview (Height: {settings.carouselHeight || 500}px)
           </h2>
-          <div className="relative w-full h-64 bg-black rounded-lg overflow-hidden">
+          <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ height: `${settings.carouselHeight || 500}px` }}>
             <img
               src={settings.slides[previewIndex].url}
               alt={settings.slides[previewIndex].title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent flex items-center">
               <div className="text-white p-6">
@@ -377,6 +400,20 @@ export default function CarouselHeroPage() {
                   onChange={(e) => handleUpdateSlide(index, 'ctaLink', e.target.value)}
                   className="w-full px-4 py-2 bg-jet-800 border border-jet-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Image Click Link
+                </label>
+                <input
+                  type="text"
+                  value={slide.imageLink || ''}
+                  onChange={(e) => handleUpdateSlide(index, 'imageLink', e.target.value)}
+                  placeholder="/products or /products/[slug]"
+                  className="w-full px-4 py-2 bg-jet-800 border border-jet-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
+                />
+                <p className="text-xs text-gray-500 mt-1">Route to navigate when image is clicked</p>
               </div>
             </div>
           </motion.div>

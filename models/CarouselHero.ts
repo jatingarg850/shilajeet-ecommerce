@@ -10,6 +10,7 @@ const carouselHeroSchema = new mongoose.Schema(
         subtitle: String,
         ctaText: String,
         ctaLink: String,
+        imageLink: String,
         order: Number,
       }
     ],
@@ -20,6 +21,11 @@ const carouselHeroSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    carouselHeight: {
+      type: Number,
+      default: 500,
+      description: 'Height in pixels'
     },
   },
   { timestamps: true }
