@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Save, X } from 'lucide-react';
+import { ArrowLeft, Save, X, Upload, Trash2, Plus } from 'lucide-react';
+import Image from 'next/image';
 
 interface Product {
   _id: string;
@@ -13,6 +14,7 @@ interface Product {
   price: number;
   originalPrice: number;
   image: string;
+  images?: string[];
   category: string;
   type: string;
   badge: string;
@@ -40,6 +42,7 @@ export default function EditProductPage() {
   const [ingredientInput, setIngredientInput] = useState('');
   const [benefitInput, setBenefitInput] = useState('');
   const [certificationInput, setCertificationInput] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
 
   useEffect(() => {
     fetchProduct();
@@ -51,6 +54,7 @@ export default function EditProductPage() {
       if (response.ok) {
         const data = await response.json();
         setProduct(data);
+        setImagePreview(data.image);
       } else {
         setError('Product not found');
       }
@@ -69,6 +73,32 @@ export default function EditProductPage() {
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     } : null);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && product) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageUrl = event.target?.result as string;
+        setProduct(prev => prev ? {
+          ...prev,
+          image: imageUrl,
+        } : null);
+        setImagePreview(imageUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    if (product) {
+      setProduct(prev => prev ? {
+        ...prev,
+        image: '',
+      } : null);
+      setImagePreview('');
+    }
   };
 
   const addFeature = () => {
@@ -277,6 +307,175 @@ export default function EditProductPage() {
               rows={5}
             />
           </div>
+        </div>
+
+        {/* Product Image */}
+        <div className="bg-gradient-to-br from-jet-900 to-jet-800 border border-white/20 p-6 rounded-lg space-y-4">
+          <h2 className="text-xl font-bold text-white uppercase tracking-wider">Product Image</h2>
+
+          {/* Image Preview */}
+          {imagePreview && (
+            <div className="relative w-full h-64 bg-black rounded-lg overflow-hidden border border-white/10">
+              <img
+                src={imagePreview}
+                alt="Product preview"
+                className="w-full h-full object-cover"
+              />
+              <button
+                onClick={handleRemoveImage}
+                className="absolute top-2 right-2 p-2 bg-red-500/80 hover:bg-red-600 rounded-lg text-white transition-colors"
+              >
+                <Trash2 size={18} />
+              </button>
+            </div>
+          )}
+
+          {/* Upload Button */}
+          <label className="flex items-center justify-center gap-2 px-4 py-3 bg-jet-800 hover:bg-jet-700 border border-jet-700 rounded-lg cursor-pointer text-gray-300 hover:text-white transition-colors">
+            <Upload size={20} />
+            <span className="font-semibold">Upload Image</span>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+          </label>
+
+          {/* URL Input Alternative */}
+          <div>
+            <label className="block text-gray-400 text-sm mb-2 font-bold uppercase tracking-wider">Or Paste Image URL</label>
+            <input
+              type="url"
+              value={product.image}
+              onChange={(e) => {
+                if (product) {
+                  setProduct({ ...product, image: e.target.value });
+                  setImagePreview(e.target.value);
+                }
+              }}
+              className="w-full bg-black border border-white/20 text-white px-4 py-3 rounded focus:border-primary-400 outline-none transition-colors"
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+        </div>
+
+        {/* Sub Images / Gallery */}
+        <div className="bg-gradient-to-br from-jet-900 to-jet-800 border border-white/20 p-6 rounded-lg space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-white uppercase tracking-wider">Product Gallery (Sub Images)</h2>
+            <button
+              onClick={() => {
+                if (product) {
+                  setProduct({
+                    ...product,
+                    images: [...(product.images || []), ''],
+                  });
+                }
+              }}
+              className="flex items-center gap-2 px-3 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-semibold transition-colors text-sm"
+            >
+              <Plus size={16} />
+              Add Image
+            </button>
+          </div>
+
+          {product.images && product.images.length > 0 ? (
+            <div className="space-y-4">
+              {product.images.map((img, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-black/50 border border-white/10 p-4 rounded-lg space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white font-semibold">Image {index + 1}</h3>
+                    <button
+                      onClick={() => {
+                        if (product) {
+                          setProduct({
+                            ...product,
+                            images: product.images?.filter((_, i) => i !== index),
+                          });
+                        }
+                      }}
+                      className="p-2 hover:bg-red-500/20 rounded-lg text-red-400 hover:text-red-300 transition-colors"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+
+                  {/* Image Preview */}
+                  {img && (
+                    <div className="relative w-full h-40 bg-black rounded-lg overflow-hidden border border-white/10">
+                      <img
+                        src={img}
+                        alt={`Product image ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+
+                  {/* Upload or URL */}
+                  <div className="space-y-2">
+                    <label className="flex items-center justify-center gap-2 px-4 py-2 bg-jet-800 hover:bg-jet-700 border border-jet-700 rounded-lg cursor-pointer text-gray-300 hover:text-white transition-colors text-sm">
+                      <Upload size={16} />
+                      <span>Upload Image</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file && product) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              const newImages = [...(product.images || [])];
+                              newImages[index] = event.target?.result as string;
+                              setProduct({ ...product, images: newImages });
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <input
+                      type="url"
+                      value={img}
+                      onChange={(e) => {
+                        if (product) {
+                          const newImages = [...(product.images || [])];
+                          newImages[index] = e.target.value;
+                          setProduct({ ...product, images: newImages });
+                        }
+                      }}
+                      className="w-full bg-black border border-white/20 text-white px-4 py-2 rounded focus:border-primary-400 outline-none transition-colors text-sm"
+                      placeholder="Or paste image URL"
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-gray-400">
+              <p className="mb-4">No sub-images added yet</p>
+              <button
+                onClick={() => {
+                  if (product) {
+                    setProduct({
+                      ...product,
+                      images: [''],
+                    });
+                  }
+                }}
+                className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-semibold transition-colors"
+              >
+                Add First Image
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Pricing */}

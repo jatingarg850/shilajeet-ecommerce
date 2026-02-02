@@ -36,6 +36,7 @@ const menuItems = [
   { href: '/admin/reviews', icon: Star, label: 'Reviews' },
   { href: '/admin/blogs', icon: BookOpen, label: 'Blog' },
   { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
+  { href: '/admin/carousel-hero', icon: ImageIcon, label: 'Carousel Hero' },
   { href: '/admin/hero-settings', icon: ImageIcon, label: 'Hero Section' },
   { href: '/admin/reports', icon: FileText, label: 'Reports' },
   { href: '/admin/shipping', icon: Truck, label: 'Shipping' },

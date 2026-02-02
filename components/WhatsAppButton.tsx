@@ -1,6 +1,6 @@
 'use client';
 
-import { MessageCircle } from 'lucide-react';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function WhatsAppButton() {
@@ -31,7 +31,13 @@ export default function WhatsAppButton() {
         
         {/* Main button */}
         <div className="relative w-14 h-14 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-110 cursor-pointer">
-          <MessageCircle className="w-7 h-7 text-white" />
+          <Image
+            src="/whatsapp.png"
+            alt="WhatsApp"
+            width={28}
+            height={28}
+            className="w-7 h-7"
+          />
         </div>
 
         {/* Tooltip */}

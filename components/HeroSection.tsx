@@ -37,11 +37,6 @@ const defaultSettings: HeroSettings = {
       title: 'KSM-66 AshwaGlow Gummies',
       subtitle: '',
     },
-    {
-      url: 'Untitleddesign.png',
-      title: 'Agnishila TruBlk Gold Resin',
-      subtitle: '',
-    },
   ],
   autoPlayInterval: 3500,
   isActive: true,
@@ -230,21 +225,7 @@ export default function HeroSection() {
             </div>
 
             {/* 2 Raisins Validation Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mt-8 lg:mt-12 flex items-center justify-center lg:justify-start gap-3 bg-gradient-to-r from-primary-400/10 to-primary-400/5 border border-primary-400/30 px-4 py-3 rounded-lg w-fit mx-auto lg:mx-0"
-            >
-              <div className="flex gap-1">
-                <span className="text-2xl">🍇</span>
-                <span className="text-2xl">🍇</span>
-              </div>
-              <div className="text-left">
-                <p className="text-primary-400 font-bold text-xs uppercase tracking-widest">2 Raisins Validated</p>
-                <p className="text-gray-400 text-[10px] uppercase tracking-wider">Premium Quality Certified</p>
-              </div>
-            </motion.div>
+       
           </motion.div>
 
           {/* Desktop Product Carousel */}

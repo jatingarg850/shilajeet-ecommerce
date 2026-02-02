@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import CarouselHeroSection from '@/components/CarouselHeroSection';
 import HeroSection from '@/components/HeroSection';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import InnovativeCarousel from '@/components/InnovativeCarousel';
@@ -29,6 +30,7 @@ export default function Home() {
       {/* Content */}
       <div className="relative z-10">
         <Navbar />
+        <CarouselHeroSection />
         <HeroSection />
         <FeaturedProducts />
         <HowItWorks />

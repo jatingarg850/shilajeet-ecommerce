@@ -171,15 +171,7 @@ export default function CertificateOfAnalysis() {
               <p className="text-gray-300 text-sm">
                 All Agnishila products undergo rigorous third-party testing to ensure purity, potency, and safety. Each batch is assigned a unique batch number for complete traceability. Find the batch number on your product packaging and enter it above to download your certificate.
               </p>
-              <div className="mt-4 pt-4 border-t border-primary-400/20">
-                <p className="text-primary-400 font-bold text-sm mb-2 flex items-center gap-2">
-                  <span className="text-xl">🍇🍇</span>
-                  2 Raisins Validation
-                </p>
-                <p className="text-gray-300 text-sm">
-                  Our premium products are certified with 2 Raisins Validation, indicating the highest standards of quality, purity, and efficacy. This certification ensures you're getting the best Himalayan Shilajit available.
-                </p>
-              </div>
+              
             </div>
           </div>
         </motion.div>

@@ -28,16 +28,8 @@ export default function TwoRaisinsValidation({
       transition={{ duration: 0.5 }}
       className={`flex items-center ${sizeClasses[size]} bg-gradient-to-r from-primary-400/15 to-primary-400/5 border border-primary-400/40 rounded-lg w-fit`}
     >
-      <div className="flex gap-1">
-        <span>🍇</span>
-        <span>🍇</span>
-      </div>
-      {showLabel && (
-        <div className="text-left">
-          <p className="text-primary-400 font-bold uppercase tracking-widest leading-tight">2 Raisins</p>
-          <p className="text-gray-400 uppercase tracking-wider leading-tight">Validated</p>
-        </div>
-      )}
+      
+      
     </motion.div>
   );
 }

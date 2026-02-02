@@ -9,9 +9,22 @@ export async function GET(
   try {
     await dbConnect();
 
-    const product = await Product.findOne({ id: params.id });
+    let product = null;
+
+    // Try to find by custom id field first (slug-based lookup)
+    product = await Product.findOne({ id: params.id });
+    
+    // If not found by custom id, try MongoDB _id
+    if (!product) {
+      try {
+        product = await Product.findById(params.id);
+      } catch (err) {
+        // Invalid ObjectId format, continue to 404
+      }
+    }
 
     if (!product) {
+      console.warn(`Product not found with id: ${params.id}`);
       return NextResponse.json(
         { error: 'Product not found' },
         { status: 404 }

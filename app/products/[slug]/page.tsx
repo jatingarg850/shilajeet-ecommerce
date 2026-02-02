@@ -31,6 +31,8 @@ import WhyChoose from '@/components/WhyChoose';
 import FAQSection from '@/components/FAQSection';
 import InnovativeCarousel from '@/components/InnovativeCarousel';
 import ProductImageSlider from '@/components/ProductImageSlider';
+import CertificateOfAnalysis from '@/components/CertificateOfAnalysis';
+import CustomerReviews from '@/components/CustomerReviews';
 
 interface Review {
     _id: string;
@@ -546,6 +548,8 @@ export default function ProductDetailPage() {
     const [loadingReviews, setLoadingReviews] = useState(true);
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [bundleProducts, setBundleProducts] = useState<any[]>([]);
+    const [currentReviewPage, setCurrentReviewPage] = useState(1);
+    const reviewsPerPage = 5;
     const [reviewForm, setReviewForm] = useState({
         rating: 5,
         title: '',
@@ -1240,47 +1244,111 @@ export default function ProductDetailPage() {
                                             </h3>
                                         </div>
 
-                                        {reviews.map((review) => (
-                                            <motion.div
-                                                key={review._id}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                className="bg-black border border-white/10 p-8"
-                                            >
-                                                <div className="flex items-start justify-between mb-6">
-                                                    <div className="flex items-center space-x-4">
-                                                        <div className="w-12 h-12 bg-primary-400 flex items-center justify-center">
-                                                            <span className="text-black font-bold text-lg">
-                                                                {review.userName.charAt(0).toUpperCase()}
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <div className="text-white font-bold text-lg">{review.userName}</div>
-                                                            <div className="text-gray-400">{formatDate(review.createdAt)}</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-center space-x-3">
-                                                        <div className="flex space-x-1">
-                                                            {[...Array(5)].map((_, i) => (
-                                                                <Star
-                                                                    key={i}
-                                                                    className={`w-5 h-5 ${i < review.rating ? 'text-primary-400 fill-current' : 'text-gray-600'
-                                                                        }`}
-                                                                />
-                                                            ))}
-                                                        </div>
-                                                        {review.verified && (
-                                                            <span className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wider border border-green-600/30">
-                                                                Verified Purchase
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
+                                        {/* Calculate pagination */}
+                                        {(() => {
+                                            const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+                                            const startIndex = (currentReviewPage - 1) * reviewsPerPage;
+                                            const endIndex = startIndex + reviewsPerPage;
+                                            const paginatedReviews = reviews.slice(startIndex, endIndex);
 
-                                                <h4 className="text-white font-bold text-xl mb-3">{review.title}</h4>
-                                                <p className="text-gray-300 leading-relaxed text-lg">{review.comment}</p>
-                                            </motion.div>
-                                        ))}
+                                            return (
+                                                <>
+                                                    {/* Reviews List */}
+                                                    <div className="space-y-8">
+                                                        {paginatedReviews.map((review) => (
+                                                            <motion.div
+                                                                key={review._id}
+                                                                initial={{ opacity: 0, y: 20 }}
+                                                                animate={{ opacity: 1, y: 0 }}
+                                                                className="bg-black border border-white/10 p-8"
+                                                            >
+                                                                <div className="flex items-start justify-between mb-6">
+                                                                    <div className="flex items-center space-x-4">
+                                                                        <div className="w-12 h-12 bg-primary-400 flex items-center justify-center">
+                                                                            <span className="text-black font-bold text-lg">
+                                                                                {review.userName.charAt(0).toUpperCase()}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <div className="text-white font-bold text-lg">{review.userName}</div>
+                                                                            <div className="text-gray-400">{formatDate(review.createdAt)}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="flex items-center space-x-3">
+                                                                        <div className="flex space-x-1">
+                                                                            {[...Array(5)].map((_, i) => (
+                                                                                <Star
+                                                                                    key={i}
+                                                                                    className={`w-5 h-5 ${i < review.rating ? 'text-primary-400 fill-current' : 'text-gray-600'
+                                                                                        }`}
+                                                                                />
+                                                                            ))}
+                                                                        </div>
+                                                                        {review.verified && (
+                                                                            <span className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wider border border-green-600/30">
+                                                                                Verified Purchase
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+
+                                                                <h4 className="text-white font-bold text-xl mb-3">{review.title}</h4>
+                                                                <p className="text-gray-300 leading-relaxed text-lg">{review.comment}</p>
+                                                            </motion.div>
+                                                        ))}
+                                                    </div>
+
+                                                    {/* Pagination Controls */}
+                                                    {totalPages > 1 && (
+                                                        <motion.div
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            className="flex items-center justify-center gap-2 mt-12 pt-8 border-t border-white/20"
+                                                        >
+                                                            {/* Previous Button */}
+                                                            <button
+                                                                onClick={() => setCurrentReviewPage(prev => Math.max(prev - 1, 1))}
+                                                                disabled={currentReviewPage === 1}
+                                                                className="px-4 py-2 bg-jet-800 hover:bg-jet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors font-semibold uppercase tracking-wider text-sm"
+                                                            >
+                                                                ← Previous
+                                                            </button>
+
+                                                            {/* Page Numbers */}
+                                                            <div className="flex gap-1">
+                                                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                                                    <button
+                                                                        key={page}
+                                                                        onClick={() => setCurrentReviewPage(page)}
+                                                                        className={`w-10 h-10 rounded transition-colors font-bold uppercase tracking-wider text-sm ${
+                                                                            currentReviewPage === page
+                                                                                ? 'bg-primary-400 text-black'
+                                                                                : 'bg-jet-800 hover:bg-jet-700 text-white'
+                                                                        }`}
+                                                                    >
+                                                                        {page}
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+
+                                                            {/* Next Button */}
+                                                            <button
+                                                                onClick={() => setCurrentReviewPage(prev => Math.min(prev + 1, totalPages))}
+                                                                disabled={currentReviewPage === totalPages}
+                                                                className="px-4 py-2 bg-jet-800 hover:bg-jet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors font-semibold uppercase tracking-wider text-sm"
+                                                            >
+                                                                Next →
+                                                            </button>
+
+                                                            {/* Page Info */}
+                                                            <div className="ml-4 text-gray-400 text-sm">
+                                                                Page {currentReviewPage} of {totalPages}
+                                                            </div>
+                                                        </motion.div>
+                                                    )}
+                                                </>
+                                            );
+                                        })()}
                                     </div>
                                 )}
                             </div>
@@ -1310,6 +1378,12 @@ export default function ProductDetailPage() {
 
                 {/* Why Choose Section */}
                
+
+                {/* Certificate of Analysis Section */}
+                <CertificateOfAnalysis />
+
+                {/* Premium Validation Section */}
+                <CustomerReviews />
 
                 {/* FAQ Section */}
                 <FAQSection 
