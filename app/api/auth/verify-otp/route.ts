@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import OTPSession from '@/models/OTPSession';
 import User from '@/models/User';
+import Coupon from '@/models/Coupon';
 import authKeySMS from '@/lib/authkey-sms';
 import { signIn } from 'next-auth/react';
 
@@ -104,6 +105,29 @@ export async function POST(request: NextRequest) {
 
       await user.save();
 
+      // Generate unique welcome coupon code for this user
+      const welcomeCouponCode = `WELCOME5${user._id.toString().slice(-6).toUpperCase()}`;
+      
+      // Create welcome coupon (5% discount)
+      const welcomeCoupon = new Coupon({
+        code: welcomeCouponCode,
+        description: `Welcome bonus - 5% off on your first order`,
+        discountType: 'percentage',
+        discountValue: 5,
+        minOrderAmount: 0,
+        maxDiscount: 500, // Max ₹500 discount
+        maxUses: 1, // Can only be used once
+        active: true,
+        createdBy: user._id,
+        expiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days expiry
+      });
+
+      await welcomeCoupon.save();
+
+      // Update user with signup discount code
+      user.signupDiscountCode = welcomeCouponCode;
+      await user.save();
+
       // Clean up OTP session
       await OTPSession.deleteOne({ _id: otpSession._id });
 
@@ -116,6 +140,7 @@ export async function POST(request: NextRequest) {
           email: user.email,
           phone: user.phone,
           role: user.role,
+          signupDiscountCode: welcomeCouponCode,
         },
       });
     }

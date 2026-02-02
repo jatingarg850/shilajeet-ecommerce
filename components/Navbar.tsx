@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, ShoppingCart, User, ChevronDown, Heart } from 'lucide-react';
 import AuthModal from './AuthModal';
+import SignupDiscountPopup from './SignupDiscountPopup';
 import UserProfileDropdown from './UserProfileDropdown';
 import FireCoinsDisplay from './FireCoinsDisplay';
 import { useAuth } from '@/contexts/AuthContext';
@@ -17,6 +18,19 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [signupDiscountPopupOpen, setSignupDiscountPopupOpen] = useState(false);
+  const [signupCouponCode, setSignupCouponCode] = useState('');
+
+  // Listen for signup modal event from promotion popup
+  useEffect(() => {
+    const handleOpenSignup = () => {
+      setAuthMode('signup');
+      setAuthModalOpen(true);
+    };
+
+    window.addEventListener('openSignupModal', handleOpenSignup);
+    return () => window.removeEventListener('openSignupModal', handleOpenSignup);
+  }, []);
 
   return (
     <nav className="bg-black text-white fixed w-full z-50 top-0 border-b border-white/20">
@@ -248,6 +262,17 @@ export default function Navbar() {
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
         initialMode={authMode}
+        onSignupComplete={(couponCode) => {
+          setSignupCouponCode(couponCode);
+          setSignupDiscountPopupOpen(true);
+        }}
+      />
+
+      {/* Signup Discount Popup */}
+      <SignupDiscountPopup
+        isOpen={signupDiscountPopupOpen}
+        onClose={() => setSignupDiscountPopupOpen(false)}
+        couponCode={signupCouponCode}
       />
     </nav>
   );

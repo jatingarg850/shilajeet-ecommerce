@@ -10,11 +10,12 @@ interface AuthModalProps {
   onClose: () => void;
   initialMode?: 'signin' | 'signup';
   onSuccess?: () => void;
+  onSignupComplete?: (couponCode: string) => void;
 }
 
 type AuthStep = 'phone' | 'otp' | 'signup-details' | 'success';
 
-export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onSuccess }: AuthModalProps) {
+export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onSuccess, onSignupComplete }: AuthModalProps) {
   const [mode, setMode] = useState<'signin' | 'signup'>(initialMode);
   const [step, setStep] = useState<AuthStep>('phone');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -229,6 +230,13 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
       setSuccess('Account created successfully!');
       setStep('success');
 
+      // Call onSignupComplete with coupon code
+      if (onSignupComplete && data.user.signupDiscountCode) {
+        setTimeout(() => {
+          onSignupComplete(data.user.signupDiscountCode);
+        }, 1500);
+      }
+
       setTimeout(() => {
         onClose();
         if (onSuccess) onSuccess();
@@ -290,7 +298,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
                 damping: 30,
                 duration: 0.5 
               }}
-              className="relative w-full max-w-4xl bg-jet-900 border border-white/20 overflow-hidden"
+              className="relative w-full max-w-4xl bg-jet-900 border border-white/20 overflow-hidden max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Sharp corner accents */}
@@ -307,9 +315,9 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
                 <X size={20} />
               </motion.button>
 
-              <div className="grid lg:grid-cols-2 min-h-[600px]">
-                {/* Left Side - Branding */}
-                <div className="relative bg-gradient-to-br from-black to-jet-800 p-12 flex flex-col justify-center overflow-hidden">
+              <div className="grid lg:grid-cols-2 min-h-screen lg:min-h-[600px]">
+                {/* Left Side - Branding (Hidden on mobile) */}
+                <div className="hidden lg:flex relative bg-gradient-to-br from-black to-jet-800 p-12 flex-col justify-center overflow-hidden">
                   {/* Background Pattern */}
                   <div className="absolute inset-0 opacity-10">
                     <div className="w-full h-full" style={{
@@ -421,7 +429,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
                 </div>
 
                 {/* Right Side - Form */}
-                <div className="p-12 flex flex-col justify-center bg-jet-950">
+                <div className="p-6 sm:p-8 lg:p-12 flex flex-col justify-center bg-jet-950 w-full">
                   <motion.div
                     key={mode + step}
                     initial={{ opacity: 0, x: 30 }}
@@ -429,8 +437,8 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
                     transition={{ duration: 0.5 }}
                   >
                     <div className="mb-8">
-                      <h3 className="text-2xl font-bold text-white mb-2 uppercase tracking-wider flex items-center space-x-2">
-                        <Phone className="w-6 h-6 text-primary-400" />
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 uppercase tracking-wider flex items-center space-x-2">
+                        <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-primary-400 flex-shrink-0" />
                         <span>
                           {step === 'phone' && (mode === 'signin' ? 'Sign In' : 'Sign Up')}
                           {step === 'otp' && 'Verify OTP'}
@@ -438,7 +446,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'signin', onS
                           {step === 'success' && 'Welcome!'}
                         </span>
                       </h3>
-                      <p className="text-gray-400 font-light">
+                      <p className="text-gray-400 font-light text-sm sm:text-base">
                         {step === 'phone' && 'Enter your phone number to continue'}
                         {step === 'otp' && 'Enter the OTP sent to your phone'}
                         {step === 'signup-details' && 'Tell us about yourself'}

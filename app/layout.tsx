@@ -6,6 +6,8 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import { CartProvider } from '@/contexts/CartContext'
 import { CartCoinsProvider } from '@/contexts/CartCoinsContext'
 import { WishlistProvider } from '@/contexts/WishlistContext'
+import WhatsAppButton from '@/components/WhatsAppButton'
+import SignupPromotionPopup from '@/components/SignupPromotionPopup'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,6 +35,8 @@ export default function RootLayout({
               <CartCoinsProvider>
                 <WishlistProvider>
                   {children}
+                  <WhatsAppButton />
+                  <SignupPromotionPopup />
                 </WishlistProvider>
               </CartCoinsProvider>
             </CartProvider>

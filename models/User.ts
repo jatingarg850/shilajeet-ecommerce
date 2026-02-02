@@ -50,6 +50,18 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     required: false,
   },
+  signupDiscountUsed: {
+    type: Boolean,
+    default: false,
+  },
+  signupDiscountCode: {
+    type: String,
+    required: false,
+  },
+  firstOrderCompleted: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });

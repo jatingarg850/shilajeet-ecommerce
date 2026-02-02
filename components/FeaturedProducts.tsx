@@ -218,6 +218,21 @@ const ProductCard = ({ product, index }: { product: any; index: number }) => {
             </motion.div>
           )}
 
+          {/* 2 Raisins Validation Badge */}
+          {product.twoRaisinsValidated && product.status !== 'coming-soon' && (
+            <motion.div
+              initial={{ scale: 0, y: -10 }}
+              animate={{ scale: 1, y: 0 }}
+              transition={{ delay: index * 0.15 + 0.7, type: "spring", stiffness: 200 }}
+              className="mb-4"
+            >
+              <div className="bg-gradient-to-r from-primary-400/20 to-primary-400/10 text-primary-400 px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 border border-primary-400/40 whitespace-nowrap w-fit">
+                <span>🍇🍇</span>
+                <span>2 Raisins Validated</span>
+              </div>
+            </motion.div>
+          )}
+
           {/* Rating and price */}
           {product.status !== 'coming-soon' && (
             <div className="flex items-center justify-between mb-4">

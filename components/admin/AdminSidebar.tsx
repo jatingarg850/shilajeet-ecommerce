@@ -16,7 +16,9 @@ import {
   FileText,
   Truck,
   Mail,
-  Tag
+  Tag,
+  Image as ImageIcon,
+  BookOpen
 } from 'lucide-react';
 
 interface AdminSidebarProps {
@@ -32,7 +34,9 @@ const menuItems = [
   { href: '/admin/coupons', icon: Tag, label: 'Coupons' },
   { href: '/admin/newsletter', icon: Mail, label: 'Newsletter' },
   { href: '/admin/reviews', icon: Star, label: 'Reviews' },
+  { href: '/admin/blogs', icon: BookOpen, label: 'Blog' },
   { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
+  { href: '/admin/hero-settings', icon: ImageIcon, label: 'Hero Section' },
   { href: '/admin/reports', icon: FileText, label: 'Reports' },
   { href: '/admin/shipping', icon: Truck, label: 'Shipping' },
   { href: '/admin/settings', icon: Settings, label: 'Settings' },

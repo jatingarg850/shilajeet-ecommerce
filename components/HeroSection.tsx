@@ -7,52 +7,88 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import SectionBlend from './SectionBlend';
 
-const productImages = [
-  {
-    src: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090441/agnishila/out12/2.png',
-    alt: "Shilajit ShilaBoost Gummies",
-    title: "Shilajit ShilaBoost Gummies",
-    subtitle: ""
-  },
-  {
-    src: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090443/agnishila/out12/3.png',
-    alt: "KSM-66 AshwaGlow Gummies",
-    title: "KSM-66 AshwaGlow Gummies",
-    subtitle: ""
-  },
-   {
-    src: 'Untitleddesign.png',
-    alt: "Agnishila TruBlk Gold Resin",
-    title: "Agnishila TruBlk Gold Resin",
-    subtitle: ""
-  },
+interface ForegroundImage {
+  url: string;
+  title: string;
+  subtitle: string;
+}
 
-];
+interface HeroSettings {
+  backgroundImage: {
+    url: string;
+  };
+  foregroundImages: ForegroundImage[];
+  autoPlayInterval: number;
+  isActive: boolean;
+}
+
+const defaultSettings: HeroSettings = {
+  backgroundImage: {
+    url: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090389/agnishila/bg/vd.jpg',
+  },
+  foregroundImages: [
+    {
+      url: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090441/agnishila/out12/2.png',
+      title: 'Shilajit ShilaBoost Gummies',
+      subtitle: '',
+    },
+    {
+      url: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090443/agnishila/out12/3.png',
+      title: 'KSM-66 AshwaGlow Gummies',
+      subtitle: '',
+    },
+    {
+      url: 'Untitleddesign.png',
+      title: 'Agnishila TruBlk Gold Resin',
+      subtitle: '',
+    },
+  ],
+  autoPlayInterval: 3500,
+  isActive: true,
+};
 
 export default function HeroSection() {
+  const [settings, setSettings] = useState<HeroSettings>(defaultSettings);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [direction, setDirection] = useState(1);
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    fetchSettings();
+  }, []);
+
+  const fetchSettings = async () => {
+    try {
+      const response = await fetch('/api/admin/hero-settings');
+      if (response.ok) {
+        const data = await response.json();
+        setSettings(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch hero settings:', error);
+      setSettings(defaultSettings);
+    }
+  };
+
+  useEffect(() => {
+    if (!isAutoPlaying || !settings.isActive) return;
 
     const interval = setInterval(() => {
       setDirection(1);
-      setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
-    }, 3500);
+      setCurrentImageIndex((prev) => (prev + 1) % settings.foregroundImages.length);
+    }, settings.autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, settings.autoPlayInterval, settings.foregroundImages.length, settings.isActive]);
 
   const nextImage = () => {
     setDirection(1);
-    setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
+    setCurrentImageIndex((prev) => (prev + 1) % settings.foregroundImages.length);
   };
 
   const prevImage = () => {
     setDirection(-1);
-    setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
+    setCurrentImageIndex((prev) => (prev - 1 + settings.foregroundImages.length) % settings.foregroundImages.length);
   };
 
   return (
@@ -60,7 +96,7 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src='https://res.cloudinary.com/dsejv31js/image/upload/v1767090389/agnishila/bg/vd.jpg'
+          src={settings.backgroundImage.url}
           alt="Hero Background"
           fill
           style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}
@@ -107,8 +143,8 @@ export default function HeroSection() {
                     className="relative w-full h-full"
                   >
                     <img
-                      src={productImages[currentImageIndex].src}
-                      alt={productImages[currentImageIndex].alt}
+                      src={settings.foregroundImages[currentImageIndex].url}
+                      alt={settings.foregroundImages[currentImageIndex].title}
                       className="w-full h-full object-contain drop-shadow-2xl"
                       loading="eager"
                     />
@@ -118,7 +154,7 @@ export default function HeroSection() {
 
               {/* Navigation dots */}
               <div className="flex justify-center gap-2 mt-6 z-20 relative">
-                {productImages.map((_, index) => (
+                {settings.foregroundImages.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => {
@@ -192,6 +228,23 @@ export default function HeroSection() {
                 <div className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Feet Source</div>
               </div>
             </div>
+
+            {/* 2 Raisins Validation Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="mt-8 lg:mt-12 flex items-center justify-center lg:justify-start gap-3 bg-gradient-to-r from-primary-400/10 to-primary-400/5 border border-primary-400/30 px-4 py-3 rounded-lg w-fit mx-auto lg:mx-0"
+            >
+              <div className="flex gap-1">
+                <span className="text-2xl">🍇</span>
+                <span className="text-2xl">🍇</span>
+              </div>
+              <div className="text-left">
+                <p className="text-primary-400 font-bold text-xs uppercase tracking-widest">2 Raisins Validated</p>
+                <p className="text-gray-400 text-[10px] uppercase tracking-wider">Premium Quality Certified</p>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* Desktop Product Carousel */}
@@ -234,8 +287,8 @@ export default function HeroSection() {
                       >
                         <div className="relative w-[450px] h-[450px]">
                           <img
-                            src={productImages[currentImageIndex].src}
-                            alt={productImages[currentImageIndex].alt}
+                            src={settings.foregroundImages[currentImageIndex].url}
+                            alt={settings.foregroundImages[currentImageIndex].title}
                             className="w-full h-full object-contain drop-shadow-2xl"
                             loading="eager"
                           />
@@ -270,10 +323,10 @@ export default function HeroSection() {
               >
                 <div className="bg-black/80 backdrop-blur-sm border border-primary-400/30 px-6 py-3">
                   <h3 className="text-white font-bold text-lg uppercase tracking-wider">
-                    {productImages[currentImageIndex].title}
+                    {settings.foregroundImages[currentImageIndex].title}
                   </h3>
                   <p className="text-primary-400 text-sm uppercase tracking-wider">
-                    {productImages[currentImageIndex].subtitle}
+                    {settings.foregroundImages[currentImageIndex].subtitle}
                   </p>
                 </div>
               </motion.div>
@@ -281,7 +334,7 @@ export default function HeroSection() {
               {/* Progress Indicator */}
               <div className="mt-6 z-30">
                 <div className="flex items-center gap-2">
-                  {productImages.map((_, index) => (
+                  {settings.foregroundImages.map((_, index) => (
                     <button
                       key={index}
                       onClick={() => {

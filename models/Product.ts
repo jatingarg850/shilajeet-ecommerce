@@ -91,6 +91,10 @@ const ProductSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  twoRaisinsValidated: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
 });

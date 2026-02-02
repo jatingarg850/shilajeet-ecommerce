@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { items, address, payment, couponCode, redeemedCoins, idempotencyKey } = await request.json();
+    let { items, address, payment, couponCode, redeemedCoins, idempotencyKey } = await request.json();
 
     if (!items || !address || !payment) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -53,6 +53,7 @@ export async function POST(request: NextRequest) {
     // Handle coupon if provided
     let discountAmount = 0;
     let appliedCoupon = null;
+    let signupDiscountApplied = false;
     
     if (couponCode) {
       appliedCoupon = await Coupon.findOne({ code: couponCode.toUpperCase(), active: true });
@@ -79,6 +80,47 @@ export async function POST(request: NextRequest) {
           }
         } else {
           discountAmount = appliedCoupon.discountValue;
+        }
+        
+        // Check if this is a signup discount coupon
+        if (appliedCoupon.code.startsWith('WELCOME5')) {
+          signupDiscountApplied = true;
+        }
+      }
+    } else {
+      // Auto-apply signup discount if user hasn't used it yet
+      const User = require('@/models/User').default;
+      const user = await User.findById(session.user.id);
+      
+      if (user && !user.signupDiscountUsed && user.signupDiscountCode) {
+        // Check if user's signup discount coupon exists and is valid
+        const signupCoupon = await Coupon.findOne({ 
+          code: user.signupDiscountCode, 
+          active: true 
+        });
+        
+        if (signupCoupon) {
+          // Check if coupon is still valid
+          if (!signupCoupon.expiryDate || new Date(signupCoupon.expiryDate) >= new Date()) {
+            // Check if coupon hasn't been used yet
+            if (!signupCoupon.usedBy || signupCoupon.usedBy.length === 0) {
+              // Auto-apply the signup discount
+              appliedCoupon = signupCoupon;
+              couponCode = user.signupDiscountCode;
+              
+              // Calculate discount
+              if (signupCoupon.discountType === 'percentage') {
+                discountAmount = (subtotal * signupCoupon.discountValue) / 100;
+                if (signupCoupon.maxDiscount) {
+                  discountAmount = Math.min(discountAmount, signupCoupon.maxDiscount);
+                }
+              } else {
+                discountAmount = signupCoupon.discountValue;
+              }
+              
+              signupDiscountApplied = true;
+            }
+          }
         }
       }
     }
@@ -270,6 +312,15 @@ export async function POST(request: NextRequest) {
           },
         }
       );
+      
+      // Mark signup discount as used if it was applied
+      if (signupDiscountApplied) {
+        const User = require('@/models/User').default;
+        await User.findByIdAndUpdate(
+          session.user.id,
+          { signupDiscountUsed: true }
+        );
+      }
     }
 
     // Clear user's cart after successful order
