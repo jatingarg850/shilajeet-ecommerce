@@ -8,6 +8,7 @@ import { CartCoinsProvider } from '@/contexts/CartCoinsContext'
 import { WishlistProvider } from '@/contexts/WishlistContext'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import SignupPromotionPopup from '@/components/SignupPromotionPopup'
+import SupportChatbot from '@/components/SupportChatbot'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,6 +37,7 @@ export default function RootLayout({
                 <WishlistProvider>
                   {children}
                   <WhatsAppButton />
+                  <SupportChatbot />
                   <SignupPromotionPopup />
                 </WishlistProvider>
               </CartCoinsProvider>

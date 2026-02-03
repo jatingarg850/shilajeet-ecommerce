@@ -201,26 +201,6 @@ export default function CarouselHeroPage() {
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Carousel Height (pixels)
-          </label>
-          <input
-            type="number"
-            min="200"
-            max="1000"
-            value={settings.carouselHeight || 500}
-            onChange={(e) =>
-              setSettings({
-                ...settings,
-                carouselHeight: parseInt(e.target.value) || 500,
-              })
-            }
-            className="w-full px-4 py-2 bg-jet-800 border border-jet-700 rounded-lg text-white focus:outline-none focus:border-primary-500"
-          />
-          <p className="text-xs text-gray-500 mt-1">Range: 200px - 1000px</p>
-        </div>
-
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -242,9 +222,9 @@ export default function CarouselHeroPage() {
         <div className="bg-jet-900 border border-jet-800 rounded-lg p-6">
           <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <Eye size={20} />
-            Preview (Height: {settings.carouselHeight || 500}px)
+            Preview (50% Screen Height)
           </h2>
-          <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ height: `${settings.carouselHeight || 500}px` }}>
+          <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ height: '400px' }}>
             <img
               src={settings.slides[previewIndex].url}
               alt={settings.slides[previewIndex].title}

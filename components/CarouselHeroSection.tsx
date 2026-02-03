@@ -21,35 +21,12 @@ interface CarouselSettings {
   carouselHeight?: number;
 }
 
-const defaultSettings: CarouselSettings = {
-  slides: [
-    {
-      url: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090441/agnishila/out12/2.png',
-      title: 'Premium Shilajit',
-      subtitle: 'Pure Himalayan Shilajit',
-      ctaText: 'Shop Now',
-      ctaLink: '/products',
-      imageLink: '/products',
-    },
-    {
-      url: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090443/agnishila/out12/3.png',
-      title: 'Ashwagandha Gummies',
-      subtitle: 'Stress Relief & Wellness',
-      ctaText: 'Explore',
-      ctaLink: '/products',
-      imageLink: '/products',
-    },
-  ],
-  autoPlayInterval: 4000,
-  isActive: true,
-  carouselHeight: 500,
-};
-
 export default function CarouselHeroSection() {
-  const [settings, setSettings] = useState<CarouselSettings>(defaultSettings);
+  const [settings, setSettings] = useState<CarouselSettings | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [direction, setDirection] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchSettings();
@@ -64,12 +41,13 @@ export default function CarouselHeroSection() {
       }
     } catch (error) {
       console.error('Failed to fetch carousel settings:', error);
-      setSettings(defaultSettings);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!isAutoPlaying || !settings.isActive || settings.slides.length === 0) return;
+    if (!isAutoPlaying || !settings?.isActive || !settings?.slides || settings.slides.length === 0) return;
 
     const interval = setInterval(() => {
       setDirection(1);
@@ -77,17 +55,17 @@ export default function CarouselHeroSection() {
     }, settings.autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, settings.autoPlayInterval, settings.slides.length, settings.isActive]);
+  }, [isAutoPlaying, settings?.autoPlayInterval, settings?.slides.length, settings?.isActive]);
 
   const nextSlide = () => {
     setDirection(1);
-    setCurrentSlide((prev) => (prev + 1) % settings.slides.length);
+    setCurrentSlide((prev) => (prev + 1) % (settings?.slides.length || 1));
     setIsAutoPlaying(false);
   };
 
   const prevSlide = () => {
     setDirection(-1);
-    setCurrentSlide((prev) => (prev - 1 + settings.slides.length) % settings.slides.length);
+    setCurrentSlide((prev) => (prev - 1 + (settings?.slides.length || 1)) % (settings?.slides.length || 1));
     setIsAutoPlaying(false);
   };
 
@@ -97,14 +75,15 @@ export default function CarouselHeroSection() {
     setIsAutoPlaying(false);
   };
 
-  if (!settings.isActive || settings.slides.length === 0) {
+  // Don't render until data is loaded
+  if (isLoading || !settings || !settings.isActive || !settings.slides || settings.slides.length === 0) {
     return null;
   }
 
   const currentSlideData = settings.slides[currentSlide];
 
   return (
-    <section className="relative w-full bg-black overflow-hidden">
+    <section className="relative w-full bg-black overflow-hidden pt-20">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -112,26 +91,27 @@ export default function CarouselHeroSection() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: direction > 0 ? -1000 : 1000 }}
           transition={{ duration: 0.8, ease: 'easeInOut' }}
-          className="relative w-full"
-          style={{ height: `${settings.carouselHeight || 500}px` }}
+          className="relative w-full h-[50vh]"
         >
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Background Image - Full Width, No Crop */}
-            <div className="absolute inset-0 cursor-pointer group" onClick={() => {
-              if (currentSlideData.imageLink) {
-                window.location.href = currentSlideData.imageLink;
-              }
-            }}>
+            <div className="absolute inset-0">
               <img
                 src={currentSlideData.url}
                 alt={currentSlideData.title}
-                className="w-full h-full object-contain bg-black group-hover:opacity-90 transition-opacity duration-300"
+                className="w-full h-full object-contain bg-black"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent group-hover:from-black/50 group-hover:via-black/30 transition-all duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
             </div>
 
+            {/* Clickable Image Overlay */}
+            <Link 
+              href={currentSlideData.imageLink || currentSlideData.ctaLink}
+              className="absolute inset-0 z-20 cursor-pointer group hover:opacity-90 transition-opacity duration-300"
+            />
+
             {/* Content */}
-            <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+            <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center pointer-events-none">
               <div className="max-w-2xl">
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
@@ -158,7 +138,7 @@ export default function CarouselHeroSection() {
                 >
                   <Link
                     href={currentSlideData.ctaLink}
-                    className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-lg transition-colors duration-300 text-sm sm:text-base"
+                    className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-lg transition-colors duration-300 text-sm sm:text-base pointer-events-auto"
                   >
                     {currentSlideData.ctaText}
                   </Link>
