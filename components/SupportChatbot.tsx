@@ -147,10 +147,10 @@ export default function SupportChatbot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-24 right-4 w-96 max-w-[calc(100vw-2rem)] bg-jet-900 border border-jet-800 rounded-lg shadow-2xl flex flex-col z-40 h-[600px]"
+            className="fixed bottom-20 right-0 w-full sm:w-96 bg-jet-900 border-l border-t border-jet-800 rounded-tl-lg shadow-2xl flex flex-col z-40 h-[600px] sm:rounded-lg"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white p-4 rounded-t-lg flex items-center justify-between">
+            <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white p-4 rounded-tl-lg sm:rounded-t-lg flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-lg">Agnishila Support</h3>
                 <p className="text-xs text-primary-100">We're here to help!</p>
@@ -205,7 +205,7 @@ export default function SupportChatbot() {
             )}
 
             {/* Input Area */}
-            <div className="border-t border-jet-800 p-3 bg-jet-900 rounded-b-lg">
+            <div className="border-t border-jet-800 p-3 bg-jet-900 rounded-bl-lg sm:rounded-b-lg">
               <div className="flex gap-2">
                 <input
                   type="text"

@@ -83,7 +83,7 @@ export default function CarouselHeroSection() {
   const currentSlideData = settings.slides[currentSlide];
 
   return (
-    <section className="relative w-full bg-black overflow-hidden pt-20">
+    <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-black overflow-hidden pt-20">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -99,7 +99,7 @@ export default function CarouselHeroSection() {
               <img
                 src={currentSlideData.url}
                 alt={currentSlideData.title}
-                className="w-full h-full object-contain bg-black"
+                className="w-full h-full object-cover bg-black"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
             </div>
