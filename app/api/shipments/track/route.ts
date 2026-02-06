@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import delhiveryService from '@/lib/delhivery';
+import shiprocketService from '@/lib/shiprocket';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
 
@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
       trackingWaybill = order.trackingNumber;
     }
 
-    // Fetch tracking from Delhivery
-    const trackingResult = await delhiveryService.trackShipment(trackingWaybill, orderId || '');
+    // Fetch tracking from Shiprocket
+    const trackingResult = await shiprocketService.trackShipment(trackingWaybill);
 
     if (!trackingResult.success) {
       return NextResponse.json(

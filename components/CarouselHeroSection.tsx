@@ -37,7 +37,14 @@ export default function CarouselHeroSection() {
       const response = await fetch('/api/admin/carousel-hero');
       if (response.ok) {
         const data = await response.json();
+        console.log('Carousel settings loaded:', {
+          isActive: data.isActive,
+          slidesCount: data.slides?.length || 0,
+          autoPlayInterval: data.autoPlayInterval,
+        });
         setSettings(data);
+      } else {
+        console.error('Failed to fetch carousel settings:', response.status);
       }
     } catch (error) {
       console.error('Failed to fetch carousel settings:', error);
@@ -76,7 +83,22 @@ export default function CarouselHeroSection() {
   };
 
   // Don't render until data is loaded
-  if (isLoading || !settings || !settings.isActive || !settings.slides || settings.slides.length === 0) {
+  if (isLoading) {
+    return null;
+  }
+
+  if (!settings) {
+    console.warn('Carousel: No settings available');
+    return null;
+  }
+
+  if (!settings.isActive) {
+    console.warn('Carousel: Not active');
+    return null;
+  }
+
+  if (!settings.slides || settings.slides.length === 0) {
+    console.warn('Carousel: No slides available');
     return null;
   }
 
@@ -136,12 +158,14 @@ export default function CarouselHeroSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6, duration: 0.6 }}
                 >
-                  <Link
-                    href={currentSlideData.ctaLink}
-                    className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-lg transition-colors duration-300 text-sm sm:text-base pointer-events-auto"
-                  >
-                    {currentSlideData.ctaText}
-                  </Link>
+                  {currentSlideData.ctaText && (
+                    <Link
+                      href={currentSlideData.ctaLink}
+                      className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-lg transition-colors duration-300 text-sm sm:text-base pointer-events-auto"
+                    >
+                      {currentSlideData.ctaText}
+                    </Link>
+                  )}
                 </motion.div>
               </div>
             </div>

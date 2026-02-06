@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import delhiveryService from '@/lib/delhivery';
+import shiprocketService from '@/lib/shiprocket';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Waybill is required' }, { status: 400 });
     }
 
-    const result = await delhiveryService.trackShipment(waybill, orderId || undefined);
+    const result = await shiprocketService.trackShipment(waybill);
 
     return NextResponse.json(result);
   } catch (error: any) {

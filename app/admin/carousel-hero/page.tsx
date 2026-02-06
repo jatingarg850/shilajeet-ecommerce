@@ -26,6 +26,7 @@ export default function CarouselHeroPage() {
   const [settings, setSettings] = useState<CarouselSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [previewIndex, setPreviewIndex] = useState(0);
@@ -74,17 +75,40 @@ export default function CarouselHeroPage() {
     }
   };
 
-  const handleSlideImageChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSlideImageChange = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && settings) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const newSlides = [...settings.slides];
-        newSlides[index].url = event.target?.result as string;
-        newSlides[index].publicId = file.name;
-        setSettings({ ...settings, slides: newSlides });
-      };
-      reader.readAsDataURL(file);
+      setError('');
+      setUploading(true);
+      
+      // Upload to Cloudinary via backend API
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      try {
+        const response = await fetch('/api/admin/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          const newSlides = [...settings.slides];
+          newSlides[index].url = data.secure_url;
+          newSlides[index].publicId = data.public_id;
+          setSettings({ ...settings, slides: newSlides });
+          setSuccess('Image uploaded successfully!');
+          setTimeout(() => setSuccess(''), 2000);
+        } else {
+          const errorData = await response.json();
+          setError(errorData.error || 'Failed to upload image');
+        }
+      } catch (err) {
+        setError('Error uploading image');
+        console.error(err);
+      } finally {
+        setUploading(false);
+      }
     }
   };
 
@@ -320,16 +344,18 @@ export default function CarouselHeroPage() {
                   />
                 </div>
               )}
-              <label className="flex items-center justify-center gap-2 px-4 py-2 bg-jet-800 hover:bg-jet-700 border border-jet-700 rounded-lg cursor-pointer text-gray-300 hover:text-white transition-colors">
+              <label className="flex items-center justify-center gap-2 px-4 py-2 bg-jet-800 hover:bg-jet-700 border border-jet-700 rounded-lg cursor-pointer text-gray-300 hover:text-white transition-colors disabled:opacity-50">
                 <Upload size={18} />
-                Upload Image
+                {uploading ? 'Uploading...' : 'Upload Image'}
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleSlideImageChange(index, e)}
+                  disabled={uploading}
                   className="hidden"
                 />
               </label>
+              <p className="text-xs text-gray-500 mt-1">Images are stored on Cloudinary CDN</p>
             </div>
 
             {/* Text Fields */}

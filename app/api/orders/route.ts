@@ -6,7 +6,7 @@ import Order from '@/models/Order';
 import Cart from '@/models/Cart';
 import FireCoins from '@/models/FireCoins';
 import Coupon from '@/models/Coupon';
-import delhiveryService from '@/lib/delhivery';
+import shiprocketService from '@/lib/shiprocket';
 import { calculateTotalFireCoins } from '@/lib/fireCoins';
 
 export async function POST(request: NextRequest) {
@@ -202,7 +202,9 @@ export async function POST(request: NextRequest) {
 
     await order.save();
 
-    // Create Delhivery shipment automatically
+    // Create Shiprocket shipment automatically
+    let shipmentError: string | null = null;
+    
     try {
       const shipmentData = {
         orderId: order.orderNumber,
@@ -222,59 +224,40 @@ export async function POST(request: NextRequest) {
         transportSpeed: 'D' as 'D' | 'F',
       };
 
-      console.log('Attempting to create Delhivery shipment with data:', shipmentData);
+      console.log('Attempting to create Shiprocket shipment with data:', shipmentData);
 
-      const shipmentResult = await delhiveryService.createShipment(shipmentData);
-      
-      console.log('Delhivery shipment result:', shipmentResult);
+      let shipmentResult: any = null;
 
-      if (shipmentResult.waybill) {
+      try {
+        shipmentResult = await shiprocketService.createShipment(shipmentData);
+        console.log('Shiprocket shipment result:', shipmentResult);
+      } catch (error: any) {
+        shipmentError = error.message;
+        console.error('Shiprocket shipment creation failed:', shipmentError);
+        // Continue with order creation even if Shiprocket fails
+      }
+
+      if (shipmentResult?.waybill) {
         order.trackingNumber = shipmentResult.waybill;
-        order.shippingProvider = 'delhivery';
+        order.shippingProvider = 'shiprocket';
         order.trackingStatus = 'pending';
-        order.delhiveryData = {
+        order.shiprocketData = {
           waybill: shipmentResult.waybill,
           shipmentId: shipmentResult.shipmentId,
+          orderId: shipmentResult.orderId,
           trackingUrl: shipmentResult.trackingUrl,
         };
 
-        // Fetch expected TAT from Delhivery
-        try {
-          const warehousePin = process.env.DELHIVERY_WAREHOUSE_PIN || '110035';
-          const tatResult = await delhiveryService.getExpectedTAT(
-            warehousePin,
-            address.zipCode,
-            'S', // Surface mode
-            new Date().toISOString().split('T')[0] + ' 10:00'
-          );
-
-          if (tatResult.success && tatResult.data) {
-            const tatData = tatResult.data;
-            const expectedDeliveryDays = tatData.tat || 5; // Default to 5 days
-            const expectedDeliveryDate = new Date();
-            expectedDeliveryDate.setDate(expectedDeliveryDate.getDate() + expectedDeliveryDays);
-
-            order.delhiveryData.expectedDeliveryDate = expectedDeliveryDate;
-            order.delhiveryData.expectedDeliveryDays = expectedDeliveryDays;
-            order.shippingStats = {
-              estimatedDelivery: expectedDeliveryDate,
-            };
-          }
-        } catch (tatError) {
-          console.error('Error fetching TAT:', tatError);
-          // Set default 5-day delivery
-          const defaultDeliveryDate = new Date();
-          defaultDeliveryDate.setDate(defaultDeliveryDate.getDate() + 5);
-          order.delhiveryData.expectedDeliveryDate = defaultDeliveryDate;
-          order.delhiveryData.expectedDeliveryDays = 5;
-          order.shippingStats = {
-            estimatedDelivery: defaultDeliveryDate,
-          };
-        }
+        // Set default delivery date
+        const defaultDeliveryDate = new Date();
+        defaultDeliveryDate.setDate(defaultDeliveryDate.getDate() + 5);
+        order.shippingStats = {
+          estimatedDelivery: defaultDeliveryDate,
+        };
 
         await order.save();
       } else {
-        console.warn('No waybill returned from Delhivery:', shipmentResult);
+        console.warn('No waybill returned from Shiprocket:', shipmentResult);
         // Set default delivery date even if no waybill
         const defaultDeliveryDate = new Date();
         defaultDeliveryDate.setDate(defaultDeliveryDate.getDate() + 5);
@@ -283,10 +266,10 @@ export async function POST(request: NextRequest) {
         };
         await order.save();
       }
-    } catch (shipmentError) {
-      console.error('Error creating Delhivery shipment:', shipmentError);
+    } catch (error) {
+      console.error('Error creating Shiprocket shipment:', error);
       // Don't fail the order if shipment creation fails - just set default delivery date
-      // This allows orders to be created even if Delhivery API has issues
+      // This allows orders to be created even if Shiprocket API has issues
       const defaultDeliveryDate = new Date();
       defaultDeliveryDate.setDate(defaultDeliveryDate.getDate() + 5);
       order.shippingStats = {
@@ -295,7 +278,7 @@ export async function POST(request: NextRequest) {
       order.status = 'confirmed'; // Still mark as confirmed even if shipment creation fails
       await order.save();
       
-      console.warn('Order created successfully but Delhivery shipment creation failed. Order will need manual shipment creation.');
+      console.warn('Order created successfully but Shiprocket shipment creation failed. Order will need manual shipment creation.');
     }
 
     // Update coupon usage if applied
@@ -377,7 +360,8 @@ export async function POST(request: NextRequest) {
         estimatedDelivery: order.shippingStats?.estimatedDelivery || new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
         delhiveryData: order.delhiveryData,
         shippingStats: order.shippingStats,
-      }
+      },
+      ...(shipmentError && { shipmentError })
     });
 
   } catch (error) {

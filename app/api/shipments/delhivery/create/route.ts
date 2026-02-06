@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
-import delhiveryService from '@/lib/delhivery';
+import shiprocketService from '@/lib/shiprocket';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,12 +35,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         waybill: order.trackingNumber,
-        trackingUrl: `https://track.delhivery.com/tracking/${order.trackingNumber}`,
+        trackingUrl: `https://track.shiprocket.in/tracking/${order.trackingNumber}`,
         message: 'Shipment already created'
       });
     }
 
-    // Prepare shipment data according to Delhivery API spec
+    // Prepare shipment data according to Shiprocket API spec
     const shipmentData = {
       orderId: order.orderNumber,
       customerName: `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}`,
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       deliveryState: order.shippingAddress.state,
       deliveryPin: order.shippingAddress.zipCode,
       
-      // Weight in grams (default 500g for wellness products)
+      // Weight in kg (default 0.5kg for wellness products)
       weight: 0.5,
       
       // Payment mode based on payment method
@@ -63,30 +63,9 @@ export async function POST(request: NextRequest) {
       // Product information
       productsDesc: order.items.map((item: any) => `${item.quantity}x ${item.name}`).join(', '),
       quantity: order.items.reduce((sum: number, item: any) => sum + item.quantity, 0).toString(),
-      
-      // Shipping preferences
-      shippingMode: 'Surface' as 'Surface' | 'Express',
-      transportSpeed: 'D' as 'D' | 'F', // Standard delivery
-      // Shipment dimensions (in cm)
-      shipmentHeight: 15,
-      shipmentWidth: 15,
-      shipmentLength: 20,
-      
-      // Return address (for reverse logistics if needed)
-      returnName: process.env.SELLER_NAME || 'Agnishila',
-      returnAddress: process.env.SELLER_ADDRESS || '',
-      returnCity: process.env.SELLER_CITY || '',
-      returnState: process.env.SELLER_STATE || '',
-      returnPin: process.env.SELLER_PIN || '',
-      returnPhone: process.env.SELLER_PHONE || '',
-      
-      // Special handling
-      fragile_shipment: false,
-      plastic_packaging: false,
-      dangerous_good: false,
     };
 
-    const result = await delhiveryService.createShipment(shipmentData);
+    const result = await shiprocketService.createShipment(shipmentData);
 
     if (!result.success) {
       return NextResponse.json({
@@ -96,7 +75,7 @@ export async function POST(request: NextRequest) {
 
     // Save waybill to order
     order.trackingNumber = result.waybill;
-    order.shippingProvider = 'delhivery';
+    order.shippingProvider = 'shiprocket';
     order.trackingStatus = 'pending';
     await order.save();
 

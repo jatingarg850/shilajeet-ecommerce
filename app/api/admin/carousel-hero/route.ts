@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
     let carousel = await CarouselHero.findOne();
     
     if (!carousel) {
+      console.log('No carousel found, creating default...');
       carousel = await CarouselHero.create({
         slides: [
           {
@@ -28,6 +29,7 @@ export async function GET(request: NextRequest) {
             subtitle: 'Pure Himalayan Shilajit',
             ctaText: 'Shop Now',
             ctaLink: '/products',
+            imageLink: '/products',
             order: 0,
           },
           {
@@ -36,11 +38,41 @@ export async function GET(request: NextRequest) {
             subtitle: 'Stress Relief & Wellness',
             ctaText: 'Explore',
             ctaLink: '/products',
+            imageLink: '/products',
             order: 1,
           },
         ],
+        autoPlayInterval: 4000,
+        isActive: true,
       });
     }
+
+    // Ensure isActive is true and slides exist
+    if (!carousel.isActive) {
+      carousel.isActive = true;
+      await carousel.save();
+    }
+
+    if (!carousel.slides || carousel.slides.length === 0) {
+      carousel.slides = [
+        {
+          url: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090441/agnishila/out12/2.png',
+          title: 'Premium Shilajit',
+          subtitle: 'Pure Himalayan Shilajit',
+          ctaText: 'Shop Now',
+          ctaLink: '/products',
+          imageLink: '/products',
+          order: 0,
+        },
+      ];
+      await carousel.save();
+    }
+
+    console.log('Carousel data:', {
+      isActive: carousel.isActive,
+      slidesCount: carousel.slides?.length || 0,
+      autoPlayInterval: carousel.autoPlayInterval,
+    });
 
     return NextResponse.json(carousel);
   } catch (error) {

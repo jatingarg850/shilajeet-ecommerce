@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import dbConnect from '@/lib/mongodb';
 import Order from '@/models/Order';
-import delhiveryService from '@/lib/delhivery';
+import shiprocketService from '@/lib/shiprocket';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
     await dbConnect();
 
-    const result = await delhiveryService.cancelShipment(waybill);
+    const result = await shiprocketService.cancelShipment(waybill);
 
     // Update order status if needed
     const order = await Order.findOne({ trackingNumber: waybill });

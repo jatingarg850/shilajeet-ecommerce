@@ -165,7 +165,7 @@ const OrderSchema = new mongoose.Schema({
   },
   shippingProvider: {
     type: String,
-    enum: ['delhivery', 'other'],
+    enum: ['delhivery', 'shiprocket', 'other'],
     default: 'delhivery',
   },
   trackingStatus: {
@@ -188,6 +188,13 @@ const OrderSchema = new mongoose.Schema({
       timestamp: Date,
       remarks: String,
     }],
+  },
+  // Shiprocket tracking data
+  shiprocketData: {
+    waybill: String,
+    shipmentId: String,
+    orderId: String,
+    trackingUrl: String,
   },
   // Shipping stats
   shippingStats: {

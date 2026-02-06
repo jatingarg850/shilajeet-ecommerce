@@ -94,6 +94,7 @@ class DelhiveryService {
         : [];
 
       const shipmentPayload: any = {
+        client: process.env.DELHIVERY_CLIENT_NAME || 'NK INTERNATIONAL',
         name: orderData.customerName,
         add: orderData.deliveryAddress,
         pin: orderData.deliveryPin,
@@ -151,6 +152,14 @@ class DelhiveryService {
         format: 'json',
         data: dataPayload,
       });
+
+      console.log('📤 Full Request Details:');
+      console.log('URL:', `${this.config.baseUrl}/api/cmu/create.json`);
+      console.log('Headers:', {
+        'Authorization': `Token ${this.config.apiToken.substring(0, 10)}...`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      });
+      console.log('Body:', formData.toString());
 
       const response = await axios.post(
         `${this.config.baseUrl}/api/cmu/create.json`,
