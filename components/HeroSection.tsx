@@ -36,6 +36,10 @@ const defaultSettings: HeroSettings = {
       url: 'https://res.cloudinary.com/dsejv31js/image/upload/v1767090443/agnishila/out12/3.png',
       title: 'KSM-66 AshwaGlow Gummies',
       subtitle: '',
+    }, {
+      url: 'Untitleddesign.png',
+      title: 'Agnishila TruBlk Gold Resin',
+      subtitle: '',
     },
   ],
   autoPlayInterval: 3500,
