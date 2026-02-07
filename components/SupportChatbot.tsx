@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { MessageCircle, X, Send, Loader } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Message {
@@ -72,6 +72,7 @@ export default function SupportChatbot() {
   ]);
   const [questions, setQuestions] = useState<QuickQuestion[]>(defaultQuestions);
   const [userInput, setUserInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -104,7 +105,7 @@ export default function SupportChatbot() {
     }, 500);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!userInput.trim()) return;
 
     // Add user message
@@ -116,16 +117,26 @@ export default function SupportChatbot() {
     };
     setMessages((prev) => [...prev, userMessage]);
     setUserInput('');
+    setIsLoading(true);
 
-    // Try to find a matching question
-    setTimeout(() => {
-      const matchedQuestion = questions.find((q) =>
-        q.question.toLowerCase().includes(userInput.toLowerCase()) ||
-        userInput.toLowerCase().includes(q.question.toLowerCase())
-      );
+    try {
+      const response = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userInput,
+          context: 'You are a helpful support assistant for Agnishila, a premium health supplement brand. Answer questions about our products, shipping, returns, and general wellness. Keep responses concise and friendly.',
+        }),
+      });
 
-      let botResponse = matchedQuestion?.answer || 
-        'Thanks for your question! For more detailed support, please contact us via WhatsApp or email. Our team will be happy to help!';
+      if (!response.ok) {
+        throw new Error('Failed to get response');
+      }
+
+      const data = await response.json();
+      const botResponse = data.response || 'Thanks for your question! For more detailed support, please contact us via WhatsApp or email.';
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -134,7 +145,18 @@ export default function SupportChatbot() {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, botMessage]);
-    }, 500);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        type: 'bot',
+        text: 'Sorry, I encountered an error. Please try again or contact our support team via WhatsApp.',
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -211,15 +233,17 @@ export default function SupportChatbot() {
                   type="text"
                   value={userInput}
                   onChange={(e) => setUserInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSendMessage()}
                   placeholder="Type your question..."
-                  className="flex-1 bg-jet-800 border border-jet-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary-500"
+                  disabled={isLoading}
+                  className="flex-1 bg-jet-800 border border-jet-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 disabled:opacity-50"
                 />
                 <button
                   onClick={handleSendMessage}
-                  className="bg-primary-500 hover:bg-primary-600 text-white p-2 rounded-lg transition-colors"
+                  disabled={isLoading}
+                  className="bg-primary-500 hover:bg-primary-600 text-white p-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send size={18} />
+                  {isLoading ? <Loader size={18} className="animate-spin" /> : <Send size={18} />}
                 </button>
               </div>
             </div>
