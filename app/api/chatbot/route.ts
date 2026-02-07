@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { AGNISHILA_KNOWLEDGE_BASE } from '@/lib/agnishila-knowledge-base';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GEMINI_MODEL = 'gemma-3-4b-it';
@@ -12,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { message, context } = await request.json();
+    const { message } = await request.json();
 
     if (!message) {
       return NextResponse.json(
@@ -21,8 +22,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const systemPrompt = context || 
-      'You are a helpful support assistant for Agnishila, a premium health supplement brand. Answer questions about our products, shipping, returns, and general wellness. Keep responses concise and friendly.';
+    const systemPrompt = `You are Agnishila's premium customer support assistant. You have comprehensive knowledge about Agnishila's products, policies, and services.
+
+IMPORTANT GUIDELINES:
+1. Always be helpful, friendly, and professional
+2. Provide accurate information based on the knowledge base below
+3. Keep responses concise but informative (2-3 sentences typically)
+4. If asked about something not in the knowledge base, say "I don't have specific information about that, but our support team can help. Contact us at info@agnishila.in or WhatsApp 8448893545"
+5. Always encourage customers to contact support for complex issues
+6. Be enthusiastic about Agnishila's products and values
+7. Mention Fire Coins loyalty program when relevant
+8. Provide specific product details when asked
+
+AGNISHILA KNOWLEDGE BASE:
+${AGNISHILA_KNOWLEDGE_BASE}
+
+USER QUESTION: ${message}`;
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
@@ -37,7 +52,7 @@ export async function POST(request: NextRequest) {
               role: 'user',
               parts: [
                 {
-                  text: `${systemPrompt}\n\nUser question: ${message}`,
+                  text: systemPrompt,
                 },
               ],
             },
@@ -46,7 +61,7 @@ export async function POST(request: NextRequest) {
             temperature: 0.7,
             topK: 40,
             topP: 0.95,
-            maxOutputTokens: 1024,
+            maxOutputTokens: 512,
           },
         }),
       }

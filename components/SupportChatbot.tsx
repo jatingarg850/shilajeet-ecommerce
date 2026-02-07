@@ -84,25 +84,7 @@ export default function SupportChatbot() {
   }, [messages]);
 
   const handleQuestionClick = (question: QuickQuestion) => {
-    // Add user message
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      type: 'user',
-      text: question.question,
-      timestamp: new Date(),
-    };
-    setMessages((prev) => [...prev, userMessage]);
-
-    // Add bot response after a short delay
-    setTimeout(() => {
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        type: 'bot',
-        text: question.answer,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, botMessage]);
-    }, 500);
+    setUserInput(question.question);
   };
 
   const handleSendMessage = async () => {
@@ -208,20 +190,29 @@ export default function SupportChatbot() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Quick Questions */}
+            {/* Quick Questions - Hidden since AI handles all questions */}
             {messages.length <= 1 && (
               <div className="px-4 py-3 border-t border-jet-800 bg-jet-900 max-h-40 overflow-y-auto">
-                <p className="text-xs text-gray-400 mb-2 font-semibold">Quick Questions:</p>
+                <p className="text-xs text-gray-400 mb-2 font-semibold">Ask me anything about:</p>
                 <div className="space-y-2">
-                  {questions.slice(0, 3).map((question) => (
-                    <button
-                      key={question.id}
-                      onClick={() => handleQuestionClick(question)}
-                      className="w-full text-left text-xs bg-jet-800 hover:bg-jet-700 text-gray-300 hover:text-white p-2 rounded transition-colors"
-                    >
-                      {question.question}
-                    </button>
-                  ))}
+                  <button
+                    onClick={() => handleQuestionClick({ id: '1', question: 'What are your products?', answer: '' })}
+                    className="w-full text-left text-xs bg-jet-800 hover:bg-jet-700 text-gray-300 hover:text-white p-2 rounded transition-colors"
+                  >
+                    Products & Benefits
+                  </button>
+                  <button
+                    onClick={() => handleQuestionClick({ id: '2', question: 'What is your shipping policy?', answer: '' })}
+                    className="w-full text-left text-xs bg-jet-800 hover:bg-jet-700 text-gray-300 hover:text-white p-2 rounded transition-colors"
+                  >
+                    Shipping & Delivery
+                  </button>
+                  <button
+                    onClick={() => handleQuestionClick({ id: '3', question: 'How do I return a product?', answer: '' })}
+                    className="w-full text-left text-xs bg-jet-800 hover:bg-jet-700 text-gray-300 hover:text-white p-2 rounded transition-colors"
+                  >
+                    Returns & Refunds
+                  </button>
                 </div>
               </div>
             )}

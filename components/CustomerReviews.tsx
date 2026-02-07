@@ -48,23 +48,23 @@ const reviews = [
   },
   {
     id: 5,
-    name: 'Vikram Singh',
-    title: 'Gym Trainer',
+    name: 'Arjun Nair',
+    title: 'Athlete & Sports Nutritionist',
     rating: 5,
-    comment: 'KSM-66 AshwaGlow Gummies are the real deal! They help me manage stress and improve my sleep quality significantly. Recovery time has improved and I feel more energetic throughout the day. Highly recommend for anyone seeking natural wellness.',
-    date: 'December 2025',
+    comment: 'TruBlk Gold Resin is exceptional! The combination of Shilajit with KSM-66 Ashwagandha and Safed Musli is scientifically brilliant. My performance metrics have improved dramatically - better endurance, faster recovery, and enhanced mental focus. This is the premium product I\'ve been searching for.',
+    date: 'January 2026',
     verified: true,
-    location: 'Pune, India'
+    location: 'Chennai, India'
   },
   {
     id: 6,
-    name: 'Kavita Desai',
-    title: 'Corporate Executive',
+    name: 'Deepika Sharma',
+    title: 'Wellness Coach',
     rating: 5,
-    comment: 'The Shilajit Gummies with Gokhru and Ginger Extract are amazing! Easy to carry, no mess, and the results are fantastic. My energy levels stay consistent throughout long meetings. The FSSAI approval gives me confidence in the quality.',
-    date: 'December 2025',
+    comment: 'TruBlk Gold Resin has revolutionized my wellness practice! The lab certifications and purity are unmatched. My clients report significant improvements in energy, stamina, and hormonal balance within weeks. The Swarna Bhasma addition makes it truly premium. Highly recommend to serious wellness enthusiasts.',
+    date: 'January 2026',
     verified: true,
-    location: 'Ahmedabad, India'
+    location: 'Pune, India'
   }
 ];
 
